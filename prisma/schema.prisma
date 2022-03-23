@@ -1,0 +1,49 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Admin{
+    id  String @id @default(uuid())
+    name    String
+    username    String  @unique
+    email   String  @unique
+    password    String
+    createdAt   DateTime    @default(now())
+    ticketHeaders TicketHeader[]
+}
+model TicketHeader{
+    id  String  @id @default(uuid())
+    adminId String
+    admin Admin @relation(fields: [adminId], references: [id])
+    creatorEmail    String
+    creatorName String
+    ticketStatusId String
+    ticketStatus TicketStatus @relation(fields: [ticketStatusId], references: [id])
+    createdAt   DateTime    @default(now())
+    solveDetail String
+    ticketDetails TicketDetail[]
+}
+model TicketDetail{
+    id  String @id @default(uuid())
+    creatorEmail    String
+    creatorName String
+    ticketHeaderId  String
+    ticketHeader TicketHeader   @relation(fields: [ticketHeaderId], references: [id])
+    title   String
+    content String
+    createdAt   DateTime    @default(now())
+    emailMessageId  String
+}
+model TicketStatus{
+    id  String @id @default(uuid())
+    name    String
+    ticketHeaders TicketHeader[]
+}
