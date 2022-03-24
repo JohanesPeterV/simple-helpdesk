@@ -10,7 +10,7 @@ import {withIronSessionApiRoute} from 'iron-session/next'
 import {sessionOptions} from "../../../lib/session";
 import axios, {AxiosResponse} from "axios";
 
-export default withIronSessionApiRoute(loginHandler, sessionOptions);
+export default withIronSessionApiRoute(handleLogin, sessionOptions);
 
 
 function login(req: NextApiRequest, user: User) {
@@ -30,7 +30,7 @@ async function findAdmin(username: string) {
 }
 
 
-async function loginHandler(
+async function handleLogin(
     req: NextApiRequest,
     res: NextApiResponse
 ) {

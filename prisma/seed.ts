@@ -16,6 +16,18 @@ const userDataList: UserData[] = [
         name: 'Johanes Peter Vincentius',
         username: 'JP20-2',
         password: 'passcode99',
+    },
+    {
+        email: 'ga@gmail.com',
+        name: 'Skolastika Golbok',
+        username: 'GA20-2',
+        password: 'bypass',
+    },
+    {
+        email: 'vn@gmail.com',
+        name: 'Vincent lawak',
+        username: 'VN20-2',
+        password: 'gwlucubanget',
     }
 ]
 
