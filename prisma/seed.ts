@@ -19,7 +19,7 @@ const userDataList: UserData[] = [
     },
     {
         email: 'ga@gmail.com',
-        name: 'Skolastika Golbok',
+        name: 'Skolastika Gabriella Theresendia Prasetyo',
         username: 'GA20-2',
         password: 'bypass',
     },

@@ -1,15 +1,12 @@
 import type {NextPage} from 'next'
-import Head from 'next/head'
 import Image from 'next/image'
-import Card from "../components/card";
-import Container from "../components/container";
-import Button from "../components/button";
-import Input from "../components/input";
-import Link from 'next/link';
 import {FormEventHandler, FunctionComponent, useState} from "react";
-import {redirect} from "next/dist/server/api-utils";
 import Router from "next/router";
 import axios from "axios";
+import Container from "../../components/container";
+import Card from "../../components/card";
+import Input from "../../components/input";
+import Button from "../../components/button";
 
 const Login: NextPage = ({}) => {
     const [username, setUsername] = useState('');
@@ -19,22 +16,15 @@ const Login: NextPage = ({}) => {
         const userCredential={
             username: username,
             password: password
-        }
-
+        };
         const temp=await axios.post('/api/auth/login',userCredential);
-        await Router.push('/')
+        await Router.push('/');
     };
     return (
         <Container className='mx-auto flex h-screen flex-col items-center justify-center space-y-3'>
-            <Card className='w-full max-w-sm'>
                 <form
                     onSubmit={onSubmit}
                     className='grid grid-cols-1 gap-4'>
-                    <div className='flex flex-col items-start justify-center pl-8'>
-                        <div className='w-2/3'>
-                            <Image src="/images/binus.png" layout='responsive' width={177} height={121}/>
-                        </div>
-                    </div>
                     <Input
                         onChange={e => setUsername(e.target.value)}
                         type='text'
@@ -53,7 +43,6 @@ const Login: NextPage = ({}) => {
                         Login
                     </Button>
                 </form>
-            </Card>
 
         </Container>
     )

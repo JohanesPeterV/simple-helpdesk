@@ -14,6 +14,6 @@ import axios, {AxiosResponse} from "axios";
 export default withIronSessionApiRoute(handleLogout, sessionOptions)
 
 function handleLogout(req: NextApiRequest, res: NextApiResponse<User>) {
-    req.session.destroy()
+    req.session.destroy();
     res.json(new User());
 }

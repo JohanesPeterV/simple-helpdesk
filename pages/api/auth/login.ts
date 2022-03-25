@@ -50,7 +50,6 @@ async function handleLogin(
             'password': password
         }).then(async (response: AxiosResponse<any>) => {
             const binusian = response.data;
-            console.log(binusian.name)
             if (binusian !== null) {
                 const user = new User(binusian.id, binusian.name, binusian.username, binusian.email, 'user');
                 res.status(200).json(await login(req, user));

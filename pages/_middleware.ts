@@ -12,15 +12,15 @@ function redirectToPage(req: NextRequest, route: string) {
 export async function middleware(req: NextRequest) {
 
     let hasToken = req.cookies[process.env.COOKIE_NAME ?? 'login'];
-    const isBypassPath = ['login', 'register'].some(path =>
+
+    const isGuestPath = ['login', 'register'].some(path =>
         req.nextUrl.href.includes(path)
     );
-    if (isBypassPath && !hasToken) return NextResponse.next();
+    if (isGuestPath && !hasToken) return NextResponse.next();
 
-    const isGuestOnly = isBypassPath && hasToken;
+    const isGuestOnly = isGuestPath && hasToken;
     if (isGuestOnly) return redirectToPage(req, '/');
 
     return hasToken ? NextResponse.next() : redirectToPage(req, '/login');
-
 }
 
