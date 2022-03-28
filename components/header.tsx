@@ -17,7 +17,7 @@ const ticketLinks = [
 ];
 const Header: FunctionComponent<HTMLAttributes<HTMLDivElement>> =
     () => {
-        const router=useRouter();
+        const router = useRouter();
         return <div>
             <div className="relative bg-white">
                 <div
@@ -49,7 +49,9 @@ const Header: FunctionComponent<HTMLAttributes<HTMLDivElement>> =
                         </nav>
                         <div className="flex items-center md:ml-12">
                             <a onClick={() => {
-                                AuthService.logOut(router);
+                                AuthService.logOut().then(() => {
+                                    router.reload();
+                                })
                             }}
                                className="text-base font-medium text-gray-700 hover:text-red-500">
                                 Log Out
@@ -104,7 +106,9 @@ const Header: FunctionComponent<HTMLAttributes<HTMLDivElement>> =
                                 <a
                                     className="w-full flex items-center justify-center px-4 py-2 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-red-600 hover:bg-red-700"
                                     onClick={() => {
-                                        AuthService.logOut(router);
+                                        AuthService.logOut().then(() => {
+                                            router.reload();
+                                        })
                                     }}
                                 >
                                     Log Out

@@ -10,6 +10,7 @@ import {FormEventHandler, FunctionComponent, useState} from "react";
 import {redirect} from "next/dist/server/api-utils";
 import Router from "next/router";
 import axios from "axios";
+import AuthService from "../services/AuthService";
 
 const Login: NextPage = ({}) => {
     const [username, setUsername] = useState('');
@@ -20,9 +21,8 @@ const Login: NextPage = ({}) => {
             username: username,
             password: password
         }
-
-        const temp=await axios.post('/api/auth/login',userCredential);
-        await Router.push('/')
+        const temp=await AuthService.logIn(userCredential);
+        await Router.push('/');
     };
     return (
         <Container className='mx-auto flex h-screen flex-col items-center justify-center space-y-3'>
