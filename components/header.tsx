@@ -9,10 +9,10 @@ import {useRouter} from "next/router";
 const ticketLinks = [
     {
         label: 'Create',
-        path: '/create'
+        path: '/ticket/create'
     }, {
         label: 'History',
-        path: '/history'
+        path: '/ticket/history'
     },
 ];
 const Header: FunctionComponent<HTMLAttributes<HTMLDivElement>> =
@@ -51,7 +51,7 @@ const Header: FunctionComponent<HTMLAttributes<HTMLDivElement>> =
                             <a onClick={() => {
                                 AuthService.logOut().then(() => {
                                     router.reload();
-                                })
+                                });
                             }}
                                className="text-base font-medium text-gray-700 hover:text-red-500">
                                 Log Out
@@ -108,7 +108,7 @@ const Header: FunctionComponent<HTMLAttributes<HTMLDivElement>> =
                                     onClick={() => {
                                         AuthService.logOut().then(() => {
                                             router.reload();
-                                        })
+                                        });
                                     }}
                                 >
                                     Log Out

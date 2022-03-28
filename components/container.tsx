@@ -7,7 +7,7 @@ const Container: FunctionComponent<HTMLAttributes<HTMLDivElement>> =
          ...rest
      }) => {
         return (
-            <div {...rest} className={`max-w-7xl px-2 md:px-4 ${className}`}>
+            <div {...rest} className={`max-w-7xl py-8 px-12 md:px-16 ${className}`}>
                 {children}
             </div>
         );

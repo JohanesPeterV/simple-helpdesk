@@ -37,7 +37,7 @@ const Button: FunctionComponent<ButtonHTMLAttributes<HTMLButtonElement> & Props>
                     'cursor-pointer',
                     'outline-0',
                     'border',
-                    'rounded',
+                    'rounded-md',
                     'px-4',
                     'py-2',
                     'shadow',
