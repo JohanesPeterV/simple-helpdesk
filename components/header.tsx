@@ -2,6 +2,9 @@ import {Fragment, FunctionComponent, HTMLAttributes} from "react";
 import {ChevronDownIcon} from "@heroicons/react/solid";
 import {Menu, Transition} from '@headlessui/react'
 import Dropdown from "./dropdown";
+import Link from 'next/link'
+import AuthService from "../services/AuthService";
+import {useRouter} from "next/router";
 
 const ticketLinks = [
     {
@@ -12,10 +15,10 @@ const ticketLinks = [
         path: '/history'
     },
 ];
-
 const Header: FunctionComponent<HTMLAttributes<HTMLDivElement>> =
-    () => (
-        <div>
+    () => {
+        const router=useRouter();
+        return <div>
             <div className="relative bg-white">
                 <div
                     className="flex justify-between items-center px-4 py-6 sm:px-6 md:justify-start md:space-x-10 shadow top-0 z-10">
@@ -45,8 +48,12 @@ const Header: FunctionComponent<HTMLAttributes<HTMLDivElement>> =
                             <Dropdown links={ticketLinks} className={''}/>
                         </nav>
                         <div className="flex items-center md:ml-12">
-                            <a href="#" className="text-base font-medium text-gray-700 hover:text-red-500">
+                            <a onClick={() => {
+                                AuthService.logOut(router);
+                            }}
+                               className="text-base font-medium text-gray-700 hover:text-red-500">
                                 Log Out
+
                             </a>
                         </div>
                     </div>
@@ -95,8 +102,10 @@ const Header: FunctionComponent<HTMLAttributes<HTMLDivElement>> =
                             </div>
                             <div className="mt-6">
                                 <a
-                                    href="#"
                                     className="w-full flex items-center justify-center px-4 py-2 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-red-600 hover:bg-red-700"
+                                    onClick={() => {
+                                        AuthService.logOut();
+                                    }}
                                 >
                                     Log Out
                                 </a>
@@ -106,6 +115,6 @@ const Header: FunctionComponent<HTMLAttributes<HTMLDivElement>> =
                 </div>
             </div>
         </div>
-    );
+    };
 
 export default Header;
