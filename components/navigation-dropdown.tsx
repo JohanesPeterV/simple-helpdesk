@@ -2,19 +2,12 @@ import {Menu, Transition} from "@headlessui/react";
 import {ChevronDownIcon} from "@heroicons/react/solid";
 import {Fragment, FunctionComponent, HTMLAttributes} from "react";
 import Router from "next/router";
+import {DropdownProps} from "../models/dropdown/dropdown-props";
 
-interface Link {
-    label: string,
-    path: string
-}
 
-interface DropdownProps {
-    links: Link[],
-    className: string
-}
-
-const Dropdown: FunctionComponent<DropdownProps> =
+const NavigationDropdown: FunctionComponent<DropdownProps> =
     ({
+         label,
          links,
          className
 
@@ -25,7 +18,7 @@ const Dropdown: FunctionComponent<DropdownProps> =
             <Menu.Button type="button"
                          className="text-gray-500 group bg-white rounded-md inline-flex items-center text-base font-medium hover:text-gray-900 focus:outline-none "
                          aria-expanded="false">
-                <span>Ticket</span>
+                <span>{label}</span>
                 <ChevronDownIcon
                     className="w-5 h-5 ml-2 -mr-1 text-violet-200 hover:text-sky-200"
                     aria-hidden="true"
@@ -71,4 +64,4 @@ const Dropdown: FunctionComponent<DropdownProps> =
 
     };
 
-export default Dropdown;
+export default NavigationDropdown;
