@@ -104,7 +104,7 @@ const Header: FunctionComponent<HTMLAttributes<HTMLDivElement>> =
                                 <a
                                     className="w-full flex items-center justify-center px-4 py-2 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-red-600 hover:bg-red-700"
                                     onClick={() => {
-                                        AuthService.logOut();
+                                        AuthService.logOut(router);
                                     }}
                                 >
                                     Log Out
