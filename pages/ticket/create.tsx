@@ -33,7 +33,6 @@ const Create: NextPage = ({}) => {
     };
     return (
         <Container className='py-2 w-full min-w-full'>
-            <ToastContainer/>
             <form
                 onSubmit={onSubmit}
                 className='space-y-8 divide-y divide-gray-200 '>
