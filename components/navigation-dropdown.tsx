@@ -13,7 +13,6 @@ const NavigationDropdown: FunctionComponent<DropdownProps> =
 
      }) => {
 
-
         return <Menu as="div" className={`relative ${className}`}>
             <Menu.Button type="button"
                          className="text-gray-500 group bg-white rounded-md inline-flex items-center text-base font-medium hover:text-gray-900 focus:outline-none "

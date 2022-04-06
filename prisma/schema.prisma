@@ -21,14 +21,14 @@ model Admin{
 }
 model TicketHeader{
     id  String  @id @default(uuid())
-    adminId String
-    admin Admin @relation(fields: [adminId], references: [id])
+    adminId String?
+    admin Admin? @relation(fields: [adminId], references: [id])
     creatorEmail    String
     creatorName String
     ticketStatusId String
     ticketStatus TicketStatus @relation(fields: [ticketStatusId], references: [id])
     createdAt   DateTime    @default(now())
-    solveDetail String
+    solveDetail String?
     ticketDetails TicketDetail[]
 }
 model TicketDetail{
@@ -40,10 +40,10 @@ model TicketDetail{
     title   String
     content String
     createdAt   DateTime    @default(now())
-    emailMessageId  String
+    emailMessageId  String?
 }
 model TicketStatus{
     id  String @id @default(uuid())
-    name    String
+    name    String  @unique
     ticketHeaders TicketHeader[]
 }

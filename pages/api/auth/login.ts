@@ -12,7 +12,6 @@ import axios, {AxiosResponse} from "axios";
 
 export default withIronSessionApiRoute(handleLogin, sessionOptions);
 
-
 function login(req: NextApiRequest, user: User) {
     return new Promise(async resolve => {
         req.session.user = user;
@@ -30,6 +29,13 @@ async function findAdmin(username: string) {
 }
 
 
+async function logOnBinusian(username: string, password: string) {
+    return await axios.post('https://bluejack.binus.ac.id/lapi/api/Account/LogOnBinusian', {
+        'username': username,
+        'password': password
+    });
+}
+
 async function handleLogin(
     req: NextApiRequest,
     res: NextApiResponse
@@ -40,28 +46,18 @@ async function handleLogin(
         if (await argon2.verify(admin.password, password)) {
             const user = new User(admin.id, admin.name, admin.username, admin.email, 'admin');
             res.status(200).json(await login(req, user));
-        }
-        else {
+        } else {
             res.status(401).json({message: 'Wrong password'})
         }
     } else {
-        axios.post('https://bluejack.binus.ac.id/lapi/api/Account/LogOnBinusian', {
-            'username': username,
-            'password': password
-        }).then(async (response: AxiosResponse<any>) => {
-            const binusian = response.data;
-            if (binusian !== null) {
-                const user = new User(binusian.id, binusian.name, binusian.username, binusian.email, 'user');
-                res.status(200).json(await login(req, user));
-            } else {
-                res.status(401).end('User not found');
-            }
-        }).catch((error) => {
+        const response = await logOnBinusian(username, password);
+        const binusian = response.data;
+        if (binusian !== null) {
+            const user = new User(binusian.User.UserId, binusian.User.Name, binusian.User.UserName, binusian.User.Emails ? binusian.User.Emails[0].Email : '', 'user');
+            res.status(200).json(await login(req, user));
+        } else {
             res.status(401).end('User not found');
-        });
-
-
+        }
     }
-
 }
 

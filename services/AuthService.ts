@@ -9,7 +9,7 @@ export default class AuthService {
     }
 
     static logIn(userCredential: UserCredential) {
-        return axios.post('/api/auth/login', userCredential);
+        return axios.post('/api/' + SERVICE_NAME + '/login', userCredential);
     }
 }
 
