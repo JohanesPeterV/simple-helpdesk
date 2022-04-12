@@ -7,6 +7,7 @@ import {sessionOptions} from "../../../lib/session";
 import TicketHeaderRepository from "../../../repositories/TicketHeaderRepository";
 import TicketStatusRepository from "../../../repositories/TicketStatusRepository";
 import TicketDetailRepository from "../../../repositories/TicketDetailRepository";
+import {TicketDTO} from "../../../models/ticket-dto";
 
 const prisma = new PrismaClient();
 const argon2 = require('argon2');
@@ -19,12 +20,21 @@ function create(req: NextApiRequest, user: User) {
     })
 }
 
-
-async function createTicket(user: User) {
+async function getPendingStatusId() {
     const pendingStatus = await TicketStatusRepository.getByName('Pending');
     const statusId = (pendingStatus ? pendingStatus.id : '');
-    const ticketHeader = await TicketHeaderRepository.create(user, statusId);
-    await TicketDetailRepository.create(user, ticketHeader.id);
+    return statusId;
+}
+
+async function createTicket(user: User, ticket: TicketDTO) {
+    const ticketHeader = await TicketHeaderRepository.create(user, await getPendingStatusId());
+    await TicketDetailRepository.create(user,
+        {
+            title: ticket.title,
+            content: ticket.content,
+            headerId: ticketHeader.id
+        }
+    );
     return ticketHeader;
 }
 
@@ -34,10 +44,11 @@ async function handleCreateTicket(
     req: NextApiRequest,
     res: NextApiResponse
 ) {
-    const {title, description} = await req.body;
+    const ticket: TicketDTO = await req.body;
+
     const user = req.session.user;
     if (user) {
-        const ticketHeader = await createTicket(user);
+        const ticketHeader = await createTicket(user, ticket);
         res.json(ticketHeader);
     }
 

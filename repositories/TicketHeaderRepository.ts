@@ -16,7 +16,7 @@ export default class TicketHeaderRepository {
                 creatorName: user.name,
                 ticketStatus: {
                     connect: {
-                        id: ticketStatusId
+                        id: ticketStatusId,
                     }
                 },
                 solveDetail: '',

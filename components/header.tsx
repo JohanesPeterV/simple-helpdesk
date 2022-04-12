@@ -7,15 +7,6 @@ import AuthService from "../services/AuthService";
 import {useRouter} from "next/router";
 import MobileNavigationDropdown from "./mobile-navigation-dropdown";
 
-const ticketLinks = [
-    {
-        label: 'Create',
-        path: '/tickets/create'
-    }, {
-        label: 'History',
-        path: '/tickets/history'
-    },
-];
 const navigations = [
     {
         label: 'Home',
@@ -26,10 +17,10 @@ const navigations = [
         child: [
             {
                 label: 'Create Ticket',
-                path: '/tickets/create'
+                path: '/ticket/create'
             }, {
                 label: 'Ticket History',
-                path: '/tickets/history'
+                path: '/ticket/history'
             },
         ]
     }

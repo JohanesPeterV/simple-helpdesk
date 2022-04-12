@@ -1,7 +1,7 @@
 import axios from "axios";
 import {NextRouter} from "next/router";
 import {UserCredential} from "../models/auth/user-credential";
-import {Ticket} from "../models/ticket";
+import {Ticket} from "../models/ticket-dto";
 
 const SERVICE_NAME = 'tickets';
 export default class TicketService {

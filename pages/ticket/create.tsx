@@ -10,16 +10,17 @@ import Button from "../../components/button";
 import {toast} from 'react-hot-toast';
 import TicketService from "../../services/TicketService";
 import {ToastContainer} from "react-toastify";
+import {TicketDTO} from "../../models/ticket-dto";
 
 const Create: NextPage = ({}) => {
     const [title, setTitle] = useState('');
-    const [description, setDescription] = useState('');
+    const [content, setContent] = useState('');
 
     const onSubmit: FormEventHandler = async e => {
         e.preventDefault();
-        const ticket = {
+        const ticket: TicketDTO = {
             title: title,
-            description: description
+            content: content
         };
         await toast.promise(
             TicketService.create(ticket),
@@ -46,15 +47,18 @@ const Create: NextPage = ({}) => {
                     <div className="mt-6 sm:mt-5 space-y-6 sm:space-y-5">
                         <div
                             className="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:border-t sm:border-gray-200 sm:pt-5">
-                            <label htmlFor="first_name"
+                            <label htmlFor="title"
                                    className="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2">
                                 Title
                             </label>
                             <div className="mt-1 sm:mt-0 sm:col-span-2">
-                                <input
+                                <Input
                                     type="text"
-                                    name="first_name"
-                                    id="first_name"
+                                    name="title"
+                                    id="title"
+                                    onChange={(e) => {
+                                        setTitle(e.target.value)
+                                    }}
                                     autoComplete="given-name"
                                     className="max-w-lg border-2 block w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:max-w-xs sm:text-sm border-gray-300 rounded-md py-2 px-2"
                                 />
@@ -62,15 +66,18 @@ const Create: NextPage = ({}) => {
                         </div>
                         <div
                             className="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:border-t sm:border-gray-200 sm:pt-5">
-                            <label htmlFor="description"
+                            <label htmlFor="content"
                                    className="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2">
                                 Description
                             </label>
                             <div className="mt-1 sm:mt-0 sm:col-span-2">
                 <textarea
-                    id="description"
-                    name="description"
+                    id="content"
+                    name="content"
                     rows={3}
+                    onChange={(e) => {
+                        setContent(e.target.value)
+                    }}
                     className="max-w-lg border-2 shadow-sm block w-full focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm border-gray-300 rounded-md py-2 px-2"
                     defaultValue={''}
                 />
