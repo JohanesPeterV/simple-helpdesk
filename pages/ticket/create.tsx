@@ -25,14 +25,14 @@ const Create: NextPage = ({}) => {
             TicketService.create(ticket),
             {
                 loading: 'Creating Ticket...',
-                success: 'Create ticket success',
-                error: 'Create ticket failed. Please try again.',
+                success: 'Create tickets success',
+                error: 'Create tickets failed. Please try again.',
             }
         )
         await Router.push('/');
     };
     return (
-        <Container className='py-2 w-full min-w-full'>
+        <Container>
             <form
                 onSubmit={onSubmit}
                 className='space-y-8 divide-y divide-gray-200 '>

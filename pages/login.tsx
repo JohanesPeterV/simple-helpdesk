@@ -19,7 +19,7 @@ const Login: NextPage = ({}) => {
         e.preventDefault();
         const userCredential={
             username: username,
-            password: password
+            password: password,
         }
         const temp=await AuthService.logIn(userCredential);
         await Router.push('/');

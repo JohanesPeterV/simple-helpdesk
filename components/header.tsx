@@ -10,10 +10,10 @@ import MobileNavigationDropdown from "./mobile-navigation-dropdown";
 const ticketLinks = [
     {
         label: 'Create',
-        path: '/ticket/create'
+        path: '/tickets/create'
     }, {
         label: 'History',
-        path: '/ticket/history'
+        path: '/tickets/history'
     },
 ];
 const navigations = [
@@ -26,10 +26,10 @@ const navigations = [
         child: [
             {
                 label: 'Create Ticket',
-                path: '/ticket/create'
+                path: '/tickets/create'
             }, {
                 label: 'Ticket History',
-                path: '/ticket/history'
+                path: '/tickets/history'
             },
         ]
     }

@@ -3,14 +3,39 @@ import Head from 'next/head'
 import Image from 'next/image'
 import styles from '../styles/Home.module.css'
 import Layout from '../components/layout'
-import {ReactElement} from "react";
+import {ReactElement, useEffect, useState} from "react";
 import Container from "../components/container";
+import TicketService from "../services/TicketService";
 
 const Home: NextPage = () => {
+    const [tickets, setTickets] = useState(null);
+    const [isLoading, setLoading]=useState(false);
+    useEffect(()=> {
+        setLoading(true);
+        // TicketService.getAllTickets().then((tickets)=>{
+           // setTickets(tickets);
+           // setLoading(false);
+        // })
+    },[]);
     return (
         <Container className=''>
-            <div className="max-w-screen-2xl w-full  mt-4 sm:mt-6 lg:mt-8 ">
-                <div className="rounded-lg bg-white shadow overflow-hidden">
+            <div className="flex flex-col md:flex-row md:space-x-8 space-y-8 md:space-y-0 justify-start">
+                <div className="rounded-lg md:w-1/2 bg-white shadow overflow-hidden">
+                    <div className="bg-gray-200 font-bold sm:text-lg px-4 py-2 flex items-center">
+                        Pending Tickets
+
+
+                    </div>
+                    <div className="text-center py-3">
+                        <h3 className="sm:text-lg font-bold"> You have no pending
+                            tickets
+                        </h3>
+                    </div>
+                    <div className='bg-red-100 p-3'>
+                        uwu
+                    </div>
+                </div>
+                <div className="rounded-lg bg-white md:w-1/2 shadow overflow-hidden">
                     <div className="bg-gray-200 font-bold sm:text-lg px-4 py-2 flex items-center">
                         <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="chalkboard-teacher"
                              className="svg-inline--fa fa-chalkboard-teacher fa-w-20 h-4 w-4 sm:h-5 sm:w-5 mr-2"
@@ -27,6 +52,7 @@ const Home: NextPage = () => {
                         </h3>
                     </div>
                 </div>
+
             </div>
         </Container>
     )
