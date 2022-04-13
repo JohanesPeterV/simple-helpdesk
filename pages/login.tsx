@@ -10,7 +10,7 @@ import {FormEventHandler, FunctionComponent, useState} from "react";
 import {redirect} from "next/dist/server/api-utils";
 import Router from "next/router";
 import axios from "axios";
-import AuthService from "../services/AuthService";
+import AuthService from "../services/auth-service";
 
 const Login: NextPage = ({}) => {
     const [username, setUsername] = useState('');
@@ -58,26 +58,5 @@ const Login: NextPage = ({}) => {
         </Container>
     )
 }
-
-// export async function getStaticProps() {
-//     // const res = await fetch('https://.../posts')
-//     // const posts = await res.json()
-//
-//     const auth = await import("../services/auth-service")
-//     const login = auth.default.login
-//     // .then(e => {
-//
-//     // e.default.login(userName, password).then(e => {
-//     //     console.log(e);
-//     // });
-//     // });
-//
-//
-//     return {
-//         props: {
-//             login,
-//         },
-//     }
-// }
 
 export default Login

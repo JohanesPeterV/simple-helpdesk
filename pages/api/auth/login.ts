@@ -7,10 +7,10 @@ const prisma = new PrismaClient();
 const argon2 = require('argon2');
 
 import {withIronSessionApiRoute} from 'iron-session/next'
-import {sessionOptions} from "../../../lib/session";
+import {ironSessionOptions} from "../../../lib/session";
 import axios, {AxiosResponse} from "axios";
 
-export default withIronSessionApiRoute(handleLogin, sessionOptions);
+export default withIronSessionApiRoute(handleLogin, ironSessionOptions);
 
 function login(req: NextApiRequest, user: User) {
     return new Promise(async resolve => {

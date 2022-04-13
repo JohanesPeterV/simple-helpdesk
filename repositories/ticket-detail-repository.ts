@@ -3,14 +3,15 @@ import {NextRouter} from "next/router";
 import {UserCredential} from "../models/auth/user-credential";
 import User from "../models/auth/user";
 import {PrismaClient} from "@prisma/client";
-import {TicketDetailParameter} from "../models/ticket-detail-parameter";
+import {TicketDetailParameter} from "../models/ticket/ticket-detail-parameter";
+import header from "../components/header";
 
 const prisma = new PrismaClient();
 
-const SCHEMA= prisma.ticketDetail;
+const SCHEMA = prisma.ticketDetail;
 export default class TicketDetailRepository {
-    static create = async (user: User, ticketDetailParameter: TicketDetailParameter) => {
-        return await SCHEMA.create({
+    static create = (user: User, ticketDetailParameter: TicketDetailParameter) => {
+        return SCHEMA.create({
             data: {
                 creatorEmail: user.email,
                 creatorName: user.name,
@@ -22,6 +23,13 @@ export default class TicketDetailRepository {
                 }
             },
         });
+    }
+    static getByHeader = (ticketHeaderId: string) => {
+        return SCHEMA.findFirst({
+            where: {
+                ticketHeaderId: ticketHeaderId
+            },
+        })
     }
 
 }

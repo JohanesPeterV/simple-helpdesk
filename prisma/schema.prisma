@@ -25,8 +25,7 @@ model TicketHeader{
     admin Admin? @relation(fields: [adminId], references: [id])
     creatorEmail    String
     creatorName String
-    ticketStatusId String
-    ticketStatus TicketStatus @relation(fields: [ticketStatusId], references: [id])
+    ticketStatus TicketStatus   @default(PENDING)
     createdAt   DateTime    @default(now())
     solveDetail String?
     ticketDetails TicketDetail[]
@@ -42,8 +41,8 @@ model TicketDetail{
     createdAt   DateTime    @default(now())
     emailMessageId  String?
 }
-model TicketStatus{
-    id  String @id @default(uuid())
-    name    String  @unique
-    ticketHeaders TicketHeader[]
+enum TicketStatus{
+    PENDING
+    ONGOING
+    CLOSED
 }

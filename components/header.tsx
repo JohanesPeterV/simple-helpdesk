@@ -3,7 +3,7 @@ import {ChevronDownIcon, MenuIcon, XIcon} from "@heroicons/react/solid";
 import {Transition, Popover} from '@headlessui/react'
 import NavigationDropdown from "./navigation-dropdown";
 import Link from 'next/link'
-import AuthService from "../services/AuthService";
+import AuthService from "../services/auth-service";
 import {useRouter} from "next/router";
 import MobileNavigationDropdown from "./mobile-navigation-dropdown";
 

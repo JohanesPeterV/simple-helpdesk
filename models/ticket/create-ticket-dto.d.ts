@@ -1,4 +1,4 @@
-export type TicketDTO = {
+export type CreateTicketDTO = {
     title: string,
     content: string
 }

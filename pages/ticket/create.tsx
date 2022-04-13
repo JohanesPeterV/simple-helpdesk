@@ -1,16 +1,12 @@
 import type {NextPage} from 'next'
-import Image from 'next/image'
-import {FormEventHandler, FunctionComponent, useState} from "react";
+import {FormEventHandler, useState} from "react";
 import Router from "next/router";
-import axios from "axios";
 import Container from "../../components/container";
-import Card from "../../components/card";
 import Input from "../../components/input";
 import Button from "../../components/button";
 import {toast} from 'react-hot-toast';
-import TicketService from "../../services/TicketService";
-import {ToastContainer} from "react-toastify";
-import {TicketDTO} from "../../models/ticket-dto";
+import TicketService from "../../services/ticket-service";
+import {CreateTicketDTO} from "../../models/ticket/create-ticket-dto";
 
 const Create: NextPage = ({}) => {
     const [title, setTitle] = useState('');
@@ -18,7 +14,7 @@ const Create: NextPage = ({}) => {
 
     const onSubmit: FormEventHandler = async e => {
         e.preventDefault();
-        const ticket: TicketDTO = {
+        const ticket: CreateTicketDTO = {
             title: title,
             content: content
         };
