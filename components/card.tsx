@@ -1,6 +1,5 @@
 import {FunctionComponent, HTMLAttributes} from 'react';
 
-
 const Card: FunctionComponent<HTMLAttributes<HTMLDivElement>> =
     ({
          className,

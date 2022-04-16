@@ -1,6 +1,4 @@
 import {NextRequest, NextResponse} from 'next/server'
-import axios from "axios";
-import {redirect} from "next/dist/server/api-utils";
 
 
 function redirectToPage(req: NextRequest, route: string) {

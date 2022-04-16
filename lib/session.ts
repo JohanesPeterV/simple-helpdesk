@@ -1,4 +1,3 @@
-// this file is a wrapper with defaults to be used in both API routes and `getServerSideProps` functions
 import type { IronSessionOptions } from 'iron-session'
 import User from "../models/auth/user";
 import {SessionOptions} from "next-iron-session";

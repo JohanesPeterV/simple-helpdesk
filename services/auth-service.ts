@@ -1,7 +1,5 @@
-import axios, {AxiosResponse} from "axios";
-import {NextRouter} from "next/router";
+import axios from "axios";
 import {UserCredential} from "../models/auth/user-credential";
-import User from "../models/auth/user";
 
 const SERVICE_NAME = 'auth';
 export default class AuthService {

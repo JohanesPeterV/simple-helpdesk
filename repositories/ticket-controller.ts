@@ -1,9 +1,7 @@
 import User from "../models/auth/user";
-import {TicketDetail, TicketHeader, TicketStatus} from "@prisma/client";
 import TicketRepository from "./ticket-repository";
 import superjson from "superjson";
 import {Ticket} from "../models/ticket/ticket";
-
 
 export default class TicketController {
     static async get(user: User, id: string) {

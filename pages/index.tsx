@@ -1,12 +1,11 @@
 import type {NextPage} from 'next'
-
-import {PropsWithChildren, useEffect, useState} from "react";
+import {useEffect, useState} from "react";
 import Container from "../components/container";
-import {ironSessionOptions, sessionOptions} from "../lib/session";
+import {ironSessionOptions} from "../lib/session";
 import {withIronSessionSsr} from "iron-session/next";
 import {TicketGrouping} from "../models/ticket/ticket-grouping";
 import TicketController from "../repositories/ticket-controller";
-import TicketStack from "../components/ticket-stack";
+import TicketStack from "../components/ticket/ticket-stack";
 
 interface HomeProps {
     ticketGrouping: TicketGrouping

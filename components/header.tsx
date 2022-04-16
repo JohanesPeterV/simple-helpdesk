@@ -1,8 +1,7 @@
 import {Fragment, FunctionComponent, HTMLAttributes} from "react";
-import {ChevronDownIcon, MenuIcon, XIcon} from "@heroicons/react/solid";
+import {MenuIcon, XIcon} from "@heroicons/react/solid";
 import {Transition, Popover} from '@headlessui/react'
 import NavigationDropdown from "./navigation-dropdown";
-import Link from 'next/link'
 import AuthService from "../services/auth-service";
 import {useRouter} from "next/router";
 import MobileNavigationDropdown from "./mobile-navigation-dropdown";
@@ -18,10 +17,7 @@ const navigations = [
             {
                 label: 'Create Ticket',
                 path: '/ticket/create'
-            }, {
-                label: 'Ticket History',
-                path: '/ticket/history'
-            },
+            }
         ]
     }
 ]

@@ -1,15 +1,11 @@
 import type {NextPage} from 'next'
-import Head from 'next/head'
 import Image from 'next/image'
 import Card from "../components/card";
 import Container from "../components/container";
 import Button from "../components/button";
 import Input from "../components/input";
-import Link from 'next/link';
-import {FormEventHandler, FunctionComponent, useState} from "react";
-import {redirect} from "next/dist/server/api-utils";
+import {FormEventHandler, useState} from "react";
 import Router from "next/router";
-import axios from "axios";
 import AuthService from "../services/auth-service";
 
 const Login: NextPage = ({}) => {
@@ -17,11 +13,11 @@ const Login: NextPage = ({}) => {
     const [password, setPassword] = useState('');
     const onSubmit: FormEventHandler = async e => {
         e.preventDefault();
-        const userCredential={
+        const userCredential = {
             username: username,
             password: password,
         }
-        const temp=await AuthService.logIn(userCredential);
+        const temp = await AuthService.logIn(userCredential);
         await Router.push('/');
     };
     return (

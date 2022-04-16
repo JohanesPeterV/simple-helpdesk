@@ -1,8 +1,5 @@
-import axios from "axios";
-import {NextRouter} from "next/router";
-import {UserCredential} from "../models/auth/user-credential";
 import User from "../models/auth/user";
-import {PrismaClient, TicketStatus, TicketHeader} from "@prisma/client";
+import {PrismaClient} from "@prisma/client";
 
 const prisma = new PrismaClient();
 const SCHEMA = prisma.ticketHeader;

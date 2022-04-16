@@ -1,15 +1,14 @@
-import {Fragment, FunctionComponent, HTMLAttributes} from "react";
+import {FunctionComponent} from "react";
 import DisclosureCard from "../disclosure-card";
-import {Ticket} from "../../models/ticket/ticket";
 import {TicketDetail} from "@prisma/client";
-import {TicketDetailsProp} from "../../models/props/ticket-prop";
+import {TicketDetailsProp} from "../../models/props/ticket-details-prop";
 
 const TicketDetail: FunctionComponent<TicketDetailsProp> =
     ({
          ticketDetails,
      }) => {
         return <DisclosureCard title={'Ticket Detail'} content={getTicketDetailComponent(ticketDetails)}
-                               defaultOpen={true}/>
+                               defaultOpen={true} className={''}/>
     };
 
 export default TicketDetail;

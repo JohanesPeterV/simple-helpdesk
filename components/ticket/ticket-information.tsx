@@ -1,4 +1,4 @@
-import {Fragment, FunctionComponent, HTMLAttributes} from "react";
+import {FunctionComponent} from "react";
 import DisclosureCard from "../disclosure-card";
 import {Ticket} from "../../models/ticket/ticket";
 import {TicketProp} from "../../models/props/ticket-prop";
@@ -8,7 +8,8 @@ const TicketInformation: FunctionComponent<TicketProp> =
          ticket,
 
      }) => {
-        return <DisclosureCard title={'Ticket Information'} content={getTicketInformationComponent(ticket)} defaultOpen={true}/>
+        return <DisclosureCard title={'Ticket Information'} content={getTicketInformationComponent(ticket)}
+                               defaultOpen={true} className={''}/>
     };
 
 export default TicketInformation;

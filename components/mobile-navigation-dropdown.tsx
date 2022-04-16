@@ -10,9 +10,8 @@ const NavigationDropdown: FunctionComponent<DropdownProps> =
          links,
          className
 
-     }) => {
-
-        return <Menu as="div" className={`-m-3 flex flex-col rounded-lg hover:bg-gray-50 ${className}`}>
+     }) => (
+        <Menu as="div" className={`-m-3 flex flex-col rounded-lg hover:bg-gray-50 ${className}`}>
             <Menu.Button type="button"
                          className="flex ml-4 p-3 text-base font-medium text-gray-900"
                          aria-expanded="false">
@@ -22,7 +21,6 @@ const NavigationDropdown: FunctionComponent<DropdownProps> =
                     aria-hidden="true"
                 />
             </Menu.Button>
-
             <Transition
                 as={Fragment}
                 enter="transition ease-out duration-100"
@@ -33,9 +31,7 @@ const NavigationDropdown: FunctionComponent<DropdownProps> =
                 leaveTo="transform opacity-0 scale-95"
             >
                 <Menu.Items
-                    // className="absolute right-0 w-32 mt-2 origin-top-right bg-white divide-y divide-gray-100 rounded-md shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
                 >
-                    {/*<div className="px-1 py-1 ">*/}
                     {
                         links.map(
                             link => (
@@ -60,7 +56,6 @@ const NavigationDropdown: FunctionComponent<DropdownProps> =
                 </Menu.Items>
             </Transition>
         </Menu>
-
-    };
+    );
 
 export default NavigationDropdown;

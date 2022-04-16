@@ -1,6 +1,4 @@
-import {FunctionComponent, HTMLAttributes, ReactElement} from 'react';
-import {Ticket} from "../models/ticket/ticket";
-
+import {FunctionComponent, ReactElement} from 'react';
 import {Disclosure, Transition} from '@headlessui/react';
 import {Else, If, Then} from "react-if";
 import {ChevronDownIcon, ChevronRightIcon} from "@heroicons/react/solid";
@@ -9,16 +7,18 @@ import Card from "./card";
 interface DisclosureProp {
     title: string,
     content: ReactElement,
-    defaultOpen: boolean
+    defaultOpen: boolean,
+    className: string
 }
 
 const Container: FunctionComponent<DisclosureProp> =
     ({
          title,
          content,
-         defaultOpen
+         defaultOpen,
+         className
      }) => (
-        <Card>
+        <Card className={className}>
             <Disclosure defaultOpen={defaultOpen}>
                 {({open}) => (
                     <>

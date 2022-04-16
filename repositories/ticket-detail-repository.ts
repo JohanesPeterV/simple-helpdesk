@@ -1,10 +1,6 @@
-import axios from "axios";
-import {NextRouter} from "next/router";
-import {UserCredential} from "../models/auth/user-credential";
 import User from "../models/auth/user";
 import {PrismaClient} from "@prisma/client";
 import {TicketDetailParameter} from "../models/ticket/ticket-detail-parameter";
-import header from "../components/header";
 
 const prisma = new PrismaClient();
 

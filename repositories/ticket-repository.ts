@@ -1,10 +1,9 @@
-import axios from "axios";
-import {NextRouter} from "next/router";
-import {UserCredential} from "../models/auth/user-credential";
 import User from "../models/auth/user";
 import {PrismaClient, TicketStatus} from "@prisma/client";
-import {TicketDetailParameter} from "../models/ticket/ticket-detail-parameter";
-import header from "../components/header";
+import TicketHeaderRepository from "./ticket-header-repository";
+import TicketDetailRepository from "./ticket-detail-repository";
+import {CreateTicketDTO} from "../models/ticket/create-ticket-dto";
+import {Ticket} from "../models/ticket/ticket";
 
 const prisma = new PrismaClient();
 
@@ -26,8 +25,22 @@ export default class TicketRepository {
             },
         });
     }
-
-
+    static create = async (user: User, ticketDTO: CreateTicketDTO) => {
+        const ticketHeader = await TicketHeaderRepository.create(user);
+        const ticketDetail = await TicketDetailRepository.create(user,
+            {
+                title: ticketDTO.title,
+                content: ticketDTO.content,
+                headerId: ticketHeader.id
+            }
+        );
+        const ticket: Ticket = {
+            ...ticketHeader,
+            admin: null,
+            ticketDetails: [ticketDetail]
+        }
+        return ticket;
+    }
     private static getAll = async (user: User, conditions: Object) => {
         return user.role === 'Admin' ?
             await SCHEMA.findMany({

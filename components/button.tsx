@@ -1,18 +1,9 @@
-// import { IconName } from '../../types/hero-icon-name';
-import LoadingIcon from './loading-icon';
-import dynamic from 'next/dynamic';
 import {
     ButtonHTMLAttributes,
     ComponentProps,
     ComponentType,
     FunctionComponent,
 } from 'react';
-import {Else, If, Then} from 'react-if';
-
-interface Props {
-    isLoading?: boolean;
-    iconType?: 'solid' | 'outline';
-}
 
 const Button: FunctionComponent<ButtonHTMLAttributes<HTMLButtonElement> & Props> =
     ({
@@ -59,3 +50,8 @@ const Button: FunctionComponent<ButtonHTMLAttributes<HTMLButtonElement> & Props>
     };
 
 export default Button;
+
+interface Props {
+    isLoading?: boolean;
+    iconType?: 'solid' | 'outline';
+}
