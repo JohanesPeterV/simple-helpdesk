@@ -1,6 +1,5 @@
-import {TicketDetail} from "@prisma/client";
-
+import { TicketDetail } from '@prisma/client'
 
 interface TicketDetailsProp {
-    ticketDetails: TicketDetail[]
+  ticketDetails: TicketDetail[]
 }

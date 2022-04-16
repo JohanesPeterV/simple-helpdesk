@@ -1,14 +1,13 @@
-import {FunctionComponent, HTMLAttributes} from 'react';
-import Header from "./header";
+import { FunctionComponent, HTMLAttributes } from 'react'
+import Header from './header'
 
-const Layout: FunctionComponent<HTMLAttributes<HTMLDivElement>> =
-    ({
-         children,
-     }) => (
-        <>
-            <Header/>
-            {children}
-        </>
-    );
+const Layout: FunctionComponent<HTMLAttributes<HTMLDivElement>> = ({
+  children,
+}) => (
+  <>
+    <Header />
+    {children}
+  </>
+)
 
-export default Layout;
+export default Layout

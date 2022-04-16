@@ -2,7 +2,7 @@ import User from "../models/auth/user";
 import { prisma } from '../db/prisma'
 import {TicketDetailParameter} from "../models/ticket/ticket-detail-parameter";
 
-const SCHEMA = prisma.ticketDetail;
+const SCHEMA = prisma.ticketDetail
 export default class TicketDetailRepository {
     static create = (user: User, ticketDetailParameter: TicketDetailParameter) => {
         return SCHEMA.create({
