@@ -11,6 +11,22 @@ const prisma = new PrismaClient();
 const SCHEMA = prisma.ticketHeader;
 export default class TicketRepository {
 
+    static get = async (user: User, id: string) => {
+        return await SCHEMA.findUnique({
+            where: {
+                id: id
+            },
+            include: {
+                ticketDetails: {
+                    orderBy: {
+                        createdAt: 'asc'
+                    }
+                },
+                admin: true
+            },
+        });
+    }
+
 
     private static getAll = async (user: User, conditions: Object) => {
         return user.role === 'Admin' ?

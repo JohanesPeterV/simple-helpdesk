@@ -1,6 +1,7 @@
 import {TicketDetail, TicketHeader} from "@prisma/client";
+import {Ticket} from "./ticket";
 
 export type TicketGrouping = {
-    ongoingTickets: (TicketHeader & { ticketDetails: TicketDetail[] })[],
-    pendingTickets: (TicketHeader & { ticketDetails: TicketDetail[] })[]
+    ongoingTickets: Ticket[],
+    pendingTickets: Ticket[]
 }

@@ -2,19 +2,28 @@ import User from "../models/auth/user";
 import {TicketDetail, TicketHeader, TicketStatus} from "@prisma/client";
 import TicketRepository from "./ticket-repository";
 import superjson from "superjson";
+import {Ticket} from "../models/ticket/ticket";
 
 
 export default class TicketController {
+    static async get(user: User, id: string) {
+        const ticket = await TicketRepository.get(user, id);
+        const existOrAuthorized = user.role === 'Admin' || (ticket && ticket.creatorEmail === user.email);
+        if (!existOrAuthorized) {
+            return null;
+        }
+        return ticket;
+    }
 
     static async getPendingTickets(user: User) {
         const pendingTicketsString = superjson.stringify(await TicketRepository.getPending(user));
-        const pendingTickets = superjson.parse<(TicketHeader & { ticketDetails: TicketDetail[] })[]>(pendingTicketsString);
+        const pendingTickets = superjson.parse<Ticket[]>(pendingTicketsString);
         return pendingTickets;
     }
 
     static async getOngoingTickets(user: User) {
         const pendingTicketsString = superjson.stringify(await TicketRepository.getOnGoing(user));
-        const pendingTickets = superjson.parse<(TicketHeader & { ticketDetails: TicketDetail[] })[]>(pendingTicketsString);
+        const pendingTickets = superjson.parse<Ticket[]>(pendingTicketsString);
         return pendingTickets;
     }
 
@@ -24,4 +33,5 @@ export default class TicketController {
             ongoingTickets: await TicketController.getOngoingTickets(user)
         };
     }
+
 }
