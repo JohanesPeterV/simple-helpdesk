@@ -1,7 +1,6 @@
-import {PrismaClient} from "@prisma/client";
+import { prisma } from '../../db/prisma'
 
 const argon2 = require('argon2');
-const prisma = new PrismaClient();
 
 interface Admin {
     email: string,

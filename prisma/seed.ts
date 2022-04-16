@@ -1,6 +1,5 @@
-import {PrismaClient} from '@prisma/client'
 import seedAdmin from "./seeders/admin-seeder";
-const prisma = new PrismaClient();
+import { prisma } from '../db/prisma'
 
 async function seed() {
     seedAdmin();

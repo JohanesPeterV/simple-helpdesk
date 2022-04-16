@@ -1,8 +1,6 @@
 import User from "../models/auth/user";
-import {PrismaClient} from "@prisma/client";
+import { prisma } from '../db/prisma'
 import {TicketDetailParameter} from "../models/ticket/ticket-detail-parameter";
-
-const prisma = new PrismaClient();
 
 const SCHEMA = prisma.ticketDetail;
 export default class TicketDetailRepository {

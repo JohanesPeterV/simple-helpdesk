@@ -4,8 +4,8 @@ import {Admin, PrismaClient} from "@prisma/client";
 import {withIronSessionApiRoute} from 'iron-session/next'
 import {ironSessionOptions} from "../../../lib/session";
 import axios from "axios";
+import { prisma } from '../../../db/prisma'
 
-const prisma = new PrismaClient();
 const argon2 = require('argon2');
 
 export default withIronSessionApiRoute(handleLogin, ironSessionOptions);

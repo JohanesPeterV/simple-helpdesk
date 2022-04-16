@@ -3,9 +3,7 @@ import User from "../../../models/auth/user";
 import {PrismaClient} from "@prisma/client";
 import {withIronSessionApiRoute} from 'iron-session/next'
 import {ironSessionOptions} from "../../../lib/session";
-
-const prisma = new PrismaClient();
-const argon2 = require('argon2');
+import { prisma } from '../../../db/prisma'
 
 export default withIronSessionApiRoute(handleLogout, ironSessionOptions)
 

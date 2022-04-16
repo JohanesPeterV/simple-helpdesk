@@ -4,8 +4,7 @@ import TicketHeaderRepository from "./ticket-header-repository";
 import TicketDetailRepository from "./ticket-detail-repository";
 import {CreateTicketDTO} from "../models/ticket/create-ticket-dto";
 import {Ticket} from "../models/ticket/ticket";
-
-const prisma = new PrismaClient();
+import { prisma } from '../db/prisma'
 
 const SCHEMA = prisma.ticketHeader;
 export default class TicketRepository {

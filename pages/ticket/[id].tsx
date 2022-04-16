@@ -2,7 +2,7 @@ import type {NextPage} from 'next'
 import Container from "../../components/container";
 import {useRouter} from "next/router";
 import {withIronSessionSsr} from "iron-session/next";
-import TicketController from "../../repositories/ticket-controller";
+import TicketController from "../../controllers/ticket-controller";
 import {ironSessionOptions} from "../../lib/session";
 import {TicketProp} from "../../models/props/ticket-prop";
 import TicketInformation from "../../components/ticket/ticket-information";

@@ -1,5 +1,5 @@
 import User from "../models/auth/user";
-import TicketRepository from "./ticket-repository";
+import TicketRepository from "../repositories/ticket-repository";
 import superjson from "superjson";
 import {Ticket} from "../models/ticket/ticket";
 

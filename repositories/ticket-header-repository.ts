@@ -1,7 +1,6 @@
 import User from "../models/auth/user";
-import {PrismaClient} from "@prisma/client";
+import {prisma} from '../db/prisma'
 
-const prisma = new PrismaClient();
 const SCHEMA = prisma.ticketHeader;
 export default class TicketHeaderRepository {
     static create = async (user: User) => {
