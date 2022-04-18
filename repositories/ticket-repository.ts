@@ -23,7 +23,6 @@ export default class TicketRepository {
       },
     })
   }
-
   static create = async (user: User, ticketDTO: CreateTicketDTO) => {
     const ticketHeader = await TicketHeaderRepository.create(user)
     const ticketDetail = await TicketDetailRepository.create(user, {
@@ -38,36 +37,48 @@ export default class TicketRepository {
     }
     return ticket
   }
-
-  private static getAll = async (conditions: Object) => {
-    return await SCHEMA.findMany({
-      where: conditions,
-      include: {
-        ticketDetails: true,
-      },
-      orderBy: {
-        createdAt: 'asc',
-      },
-    })
+  private static getAll = async (user: User, conditions: Object) => {
+    return user.role === 'Admin'
+      ? await SCHEMA.findMany({
+          where: conditions,
+          include: {
+            ticketDetails: true,
+          },
+          orderBy: {
+            createdAt: 'asc',
+          },
+        })
+      : await SCHEMA.findMany({
+          where: {
+            ...{
+              creatorEmail: user.email,
+            },
+            ...conditions,
+          },
+          include: {
+            ticketDetails: true,
+          },
+          orderBy: {
+            createdAt: 'asc',
+          },
+        })
   }
 
-  static getPending = async (conditions: Object) => {
-    return TicketRepository.getAll({
+  static getPending = async (user: User) => {
+    return TicketRepository.getAll(user, {
       ticketStatus: TicketStatus.PENDING,
-      ...conditions,
     })
   }
 
-  static getOnGoing = async (conditions: Object) => {
-    return TicketRepository.getAll({
+  static getOnGoing = async (user: User) => {
+    return TicketRepository.getAll(user, {
       ticketStatus: TicketStatus.ONGOING,
-      ...conditions,
     })
   }
-  static getHistory = async (conditions: Object) => {
-    return TicketRepository.getAll({
-      ticketStatus: TicketStatus.CLOSED,
-      ...conditions,
+
+  static getClosed = async (user: User) => {
+    return TicketRepository.getAll(user, {
+      ticketStatus: TicketStatus.PENDING,
     })
   }
 }

@@ -14,13 +14,9 @@ export default class TicketController {
     return ticket
   }
 
-  private static async adminCondition(user: User) {
-    return user.role === 'admin' ? {} : { creatorEmail: user.email }
-  }
-
   static async getPendingTickets(user: User) {
     const pendingTicketsString = superjson.stringify(
-      await TicketRepository.getPending(this.adminCondition(user))
+      await TicketRepository.getPending(user)
     )
     const pendingTickets = superjson.parse<Ticket[]>(pendingTicketsString)
     return pendingTickets
@@ -28,7 +24,7 @@ export default class TicketController {
 
   static async getOngoingTickets(user: User) {
     const pendingTicketsString = superjson.stringify(
-      await TicketRepository.getOnGoing(this.adminCondition(user))
+      await TicketRepository.getOnGoing(user)
     )
     const pendingTickets = superjson.parse<Ticket[]>(pendingTicketsString)
     return pendingTickets

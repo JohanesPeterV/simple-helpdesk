@@ -5,7 +5,6 @@ import { ironSessionOptions } from '../../lib/session'
 import { withIronSessionSsr } from 'iron-session/next'
 import { TicketGrouping } from '../../models/ticket/ticket-grouping'
 import TicketController from '../../controllers/ticket-controller'
-import TicketStack from '../../components/ticket/ticket-stack'
 
 interface HomeProps {
   ticketGrouping: TicketGrouping
