@@ -49,6 +49,16 @@ async function loginBinusian(
   }
 }
 
+async function logOnBinusian(username: string, password: string) {
+  return await axios.post(
+    'https://bluejack.binus.ac.id/lapi/api/Account/LogOnBinusian',
+    {
+      username: username,
+      password: password,
+    }
+  )
+}
+
 async function adminLogin(
   admin: Admin,
   password: string,
@@ -67,16 +77,6 @@ async function adminLogin(
   } else {
     res.status(401).json({ message: 'Wrong password' })
   }
-}
-
-async function logOnBinusian(username: string, password: string) {
-  return await axios.post(
-    'https://bluejack.binus.ac.id/lapi/api/Account/LogOnBinusian',
-    {
-      username: username,
-      password: password,
-    }
-  )
 }
 
 function login(req: NextApiRequest, user: User) {
