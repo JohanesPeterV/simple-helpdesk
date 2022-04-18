@@ -46,7 +46,9 @@ export default class TicketRepository {
       ? await SCHEMA.findMany({
           where: conditions,
           include: {
-            ticketDetails: true,
+            ticketDetails:  {
+              take: 1,
+            },
           },
           orderBy: {
             createdAt: 'asc',
