@@ -1,7 +1,7 @@
-import { FunctionComponent, HTMLAttributes } from 'react'
+import { FunctionComponent, HTMLAttributes } from 'react';
 
 const GuestLayout: FunctionComponent<HTMLAttributes<HTMLDivElement>> = ({
   children,
-}) => <>{children}</>
+}) => <>{children}</>;
 
-export default GuestLayout
+export default GuestLayout;

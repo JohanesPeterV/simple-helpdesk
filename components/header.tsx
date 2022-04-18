@@ -1,10 +1,10 @@
-import { Fragment, FunctionComponent, HTMLAttributes } from 'react'
-import { MenuIcon, XIcon } from '@heroicons/react/solid'
-import { Transition, Popover } from '@headlessui/react'
-import NavigationDropdown from './navigation-dropdown'
-import AuthService from '../services/auth-service'
-import { useRouter } from 'next/router'
-import MobileNavigationDropdown from './mobile-navigation-dropdown'
+import { Fragment, FunctionComponent, HTMLAttributes } from 'react';
+import { MenuIcon, XIcon } from '@heroicons/react/solid';
+import { Transition, Popover } from '@headlessui/react';
+import NavigationDropdown from './navigation-dropdown';
+import AuthService from '../services/auth-service';
+import { useRouter } from 'next/router';
+import MobileNavigationDropdown from './mobile-navigation-dropdown';
 
 const navigations = [
   {
@@ -24,9 +24,9 @@ const navigations = [
       },
     ],
   },
-]
+];
 const Header: FunctionComponent<HTMLAttributes<HTMLDivElement>> = () => {
-  const router = useRouter()
+  const router = useRouter();
   return (
     <Popover className="relative bg-white">
       {({ open }) => (
@@ -65,8 +65,8 @@ const Header: FunctionComponent<HTMLAttributes<HTMLDivElement>> = () => {
                     <a
                       onClick={() => {
                         AuthService.logOut().then(() => {
-                          router.reload()
-                        })
+                          router.reload();
+                        });
                       }}
                       className="text-base font-medium text-gray-700 hover:text-red-500"
                     >
@@ -145,7 +145,7 @@ const Header: FunctionComponent<HTMLAttributes<HTMLDivElement>> = () => {
         </>
       )}
     </Popover>
-  )
-}
+  );
+};
 
-export default Header
+export default Header;

@@ -1,7 +1,7 @@
-import { FunctionComponent } from 'react'
-import DisclosureCard from '../disclosure-card'
-import { TicketDetail } from '@prisma/client'
-import { TicketDetailsProp } from '../../models/props/ticket-details-prop'
+import { FunctionComponent } from 'react';
+import DisclosureCard from '../disclosure-card';
+import { TicketDetail } from '@prisma/client';
+import { TicketDetailsProp } from '../../models/props/ticket-details-prop';
 
 const TicketDetail: FunctionComponent<TicketDetailsProp> = ({
   ticketDetails,
@@ -13,10 +13,10 @@ const TicketDetail: FunctionComponent<TicketDetailsProp> = ({
       defaultOpen={true}
       className={''}
     />
-  )
-}
+  );
+};
 
-export default TicketDetail
+export default TicketDetail;
 
 function getTicketDetailComponent(ticketDetails: TicketDetail[]) {
   return (
@@ -46,5 +46,5 @@ function getTicketDetailComponent(ticketDetails: TicketDetail[]) {
         ))}
       </ul>
     </div>
-  )
+  );
 }

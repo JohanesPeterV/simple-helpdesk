@@ -1,14 +1,14 @@
-import { FunctionComponent, ReactElement } from 'react'
-import { Disclosure, Transition } from '@headlessui/react'
-import { Else, If, Then } from 'react-if'
-import { ChevronDownIcon, ChevronRightIcon } from '@heroicons/react/solid'
-import Card from './card'
+import { FunctionComponent, ReactElement } from 'react';
+import { Disclosure, Transition } from '@headlessui/react';
+import { Else, If, Then } from 'react-if';
+import { ChevronDownIcon, ChevronRightIcon } from '@heroicons/react/solid';
+import Card from './card';
 
 interface DisclosureProp {
-  title: string
-  content: ReactElement
-  defaultOpen: boolean
-  className: string
+  title: string;
+  content: ReactElement;
+  defaultOpen: boolean;
+  className: string;
 }
 
 const Container: FunctionComponent<DisclosureProp> = ({
@@ -52,7 +52,6 @@ const Container: FunctionComponent<DisclosureProp> = ({
       )}
     </Disclosure>
   </Card>
-)
-
+);
 
 export default Container;

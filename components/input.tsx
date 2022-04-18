@@ -1,4 +1,4 @@
-import { FunctionComponent, InputHTMLAttributes } from 'react'
+import { FunctionComponent, InputHTMLAttributes } from 'react';
 
 const Input: FunctionComponent<
   InputHTMLAttributes<
@@ -21,9 +21,9 @@ const Input: FunctionComponent<
     'focus:outline-none',
     'py-2',
     'px-2',
-  ].join(' ')
+  ].join(' ');
 
-  const { children, className, type, value, ...rest } = props
+  const { children, className, type, value, ...rest } = props;
 
   switch (type) {
     case 'select':
@@ -31,17 +31,17 @@ const Input: FunctionComponent<
         <select {...props} className={`${classNames} ${className}`}>
           {children}
         </select>
-      )
+      );
 
     case 'textarea':
       return (
         <textarea {...props} rows={7} className={`${classNames} ${className}`}>
           {value}
         </textarea>
-      )
+      );
   }
 
-  return <input {...props} className={`${classNames} ${className}`} />
-}
+  return <input {...props} className={`${classNames} ${className}`} />;
+};
 
 export default Input;

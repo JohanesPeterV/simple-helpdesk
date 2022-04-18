@@ -1,8 +1,8 @@
-import { Menu, Transition } from '@headlessui/react'
-import { ChevronDownIcon } from '@heroicons/react/solid'
-import { Fragment, FunctionComponent, HTMLAttributes } from 'react'
-import Router from 'next/router'
-import { DropdownProps } from '../models/dropdown/dropdown-props'
+import { Menu, Transition } from '@headlessui/react';
+import { ChevronDownIcon } from '@heroicons/react/solid';
+import { Fragment, FunctionComponent, HTMLAttributes } from 'react';
+import Router from 'next/router';
+import { DropdownProps } from '../models/dropdown/dropdown-props';
 
 const NavigationDropdown: FunctionComponent<DropdownProps> = ({
   label,
@@ -42,7 +42,7 @@ const NavigationDropdown: FunctionComponent<DropdownProps> = ({
                   active ? 'bg-violet-500 text-white' : 'text-gray-900'
                 } group flex rounded-md items-center w-full px-12 py-2 text-sm`}
                 onClick={() => {
-                  Router.push(link.path)
+                  Router.push(link.path);
                 }}
               >
                 {link.label}
@@ -54,6 +54,6 @@ const NavigationDropdown: FunctionComponent<DropdownProps> = ({
       </Menu.Items>
     </Transition>
   </Menu>
-)
+);
 
 export default NavigationDropdown;

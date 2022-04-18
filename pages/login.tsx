@@ -1,25 +1,25 @@
-import type { NextPage } from 'next'
-import Image from 'next/image'
-import Card from '../components/card'
-import Container from '../components/container'
-import Button from '../components/button'
-import Input from '../components/input'
-import { FormEventHandler, useState } from 'react'
-import Router from 'next/router'
-import AuthService from '../services/auth-service'
+import type { NextPage } from 'next';
+import Image from 'next/image';
+import Card from '../components/card';
+import Container from '../components/container';
+import Button from '../components/button';
+import Input from '../components/input';
+import { FormEventHandler, useState } from 'react';
+import Router from 'next/router';
+import AuthService from '../services/auth-service';
 
 const Login: NextPage = ({}) => {
-  const [username, setUsername] = useState('')
-  const [password, setPassword] = useState('')
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
   const onSubmit: FormEventHandler = async (e) => {
-    e.preventDefault()
+    e.preventDefault();
     const userCredential = {
       username: username,
       password: password,
-    }
-    const temp = await AuthService.logIn(userCredential)
-    await Router.push('/')
-  }
+    };
+    const temp = await AuthService.logIn(userCredential);
+    await Router.push('/');
+  };
   return (
     <Container className="mx-auto flex h-screen flex-col items-center justify-center space-y-3">
       <Card className="w-full max-w-sm">
@@ -57,7 +57,7 @@ const Login: NextPage = ({}) => {
         </form>
       </Card>
     </Container>
-  )
-}
+  );
+};
 
-export default Login
+export default Login;

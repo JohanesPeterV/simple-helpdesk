@@ -1,30 +1,30 @@
-import type { NextPage } from 'next'
-import { FormEventHandler, useState } from 'react'
-import Router from 'next/router'
-import Container from '../../components/container'
-import Input from '../../components/input'
-import Button from '../../components/button'
-import { toast } from 'react-hot-toast'
-import TicketService from '../../services/ticket-service'
-import { CreateTicketDTO } from '../../models/ticket/create-ticket-dto'
+import type { NextPage } from 'next';
+import { FormEventHandler, useState } from 'react';
+import Router from 'next/router';
+import Container from '../../components/container';
+import Input from '../../components/input';
+import Button from '../../components/button';
+import { toast } from 'react-hot-toast';
+import TicketService from '../../services/ticket-service';
+import { CreateTicketDTO } from '../../models/ticket/create-ticket-dto';
 
 const Create: NextPage = ({}) => {
-  const [title, setTitle] = useState('')
-  const [content, setContent] = useState('')
+  const [title, setTitle] = useState('');
+  const [content, setContent] = useState('');
 
   const onSubmit: FormEventHandler = async (e) => {
-    e.preventDefault()
+    e.preventDefault();
     const ticket: CreateTicketDTO = {
       title: title,
       content: content,
-    }
+    };
     await toast.promise(TicketService.create(ticket), {
       loading: 'Creating Ticket...',
       success: 'Create tickets success',
       error: 'Create tickets failed. Please try again.',
-    })
-    await Router.push('/')
-  }
+    });
+    await Router.push('/');
+  };
   return (
     <Container>
       <form onSubmit={onSubmit} className="space-y-8 divide-y divide-gray-200 ">
@@ -51,7 +51,7 @@ const Create: NextPage = ({}) => {
                   name="title"
                   id="title"
                   onChange={(e) => {
-                    setTitle(e.target.value)
+                    setTitle(e.target.value);
                   }}
                   autoComplete="given-name"
                   className="max-w-lg border-2 block w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:max-w-xs sm:text-sm border-gray-300 rounded-md py-2 px-2"
@@ -71,7 +71,7 @@ const Create: NextPage = ({}) => {
                   name="content"
                   rows={3}
                   onChange={(e) => {
-                    setContent(e.target.value)
+                    setContent(e.target.value);
                   }}
                   className="max-w-lg border-2 shadow-sm block w-full focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm border-gray-300 rounded-md py-2 px-2"
                   defaultValue={''}
@@ -92,7 +92,7 @@ const Create: NextPage = ({}) => {
         </Button>
       </form>
     </Container>
-  )
-}
+  );
+};
 
-export default Create
+export default Create;

@@ -6,7 +6,8 @@ export default class User {
     public email: string = '',
     public role: string = ''
   ) {}
+
   isLoggedIn() {
-    return this.username === ''
+    return this.username === '';
   }
 }

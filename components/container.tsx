@@ -1,4 +1,4 @@
-import { FunctionComponent, HTMLAttributes } from 'react'
+import { FunctionComponent, HTMLAttributes } from 'react';
 
 const Container: FunctionComponent<HTMLAttributes<HTMLDivElement>> = ({
   className,
@@ -11,6 +11,6 @@ const Container: FunctionComponent<HTMLAttributes<HTMLDivElement>> = ({
   >
     {children}
   </div>
-)
+);
 
-export default Container
+export default Container;

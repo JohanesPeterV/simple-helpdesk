@@ -1,16 +1,16 @@
-import { FunctionComponent } from 'react'
-import { TicketStatus } from '@prisma/client'
+import { FunctionComponent } from 'react';
+import { TicketStatus } from '@prisma/client';
 import {
   CheckCircleIcon,
   ChevronRightIcon,
   DotsCircleHorizontalIcon,
   MailIcon,
-} from '@heroicons/react/solid'
-import { Ticket } from '../../models/ticket/ticket'
-import { Else, If, Then } from 'react-if'
+} from '@heroicons/react/solid';
+import { Ticket } from '../../models/ticket/ticket';
+import { Else, If, Then } from 'react-if';
 
 export interface TicketProp {
-  ticket: Ticket
+  ticket: Ticket;
 }
 
 const TicketCard: FunctionComponent<TicketProp> = ({ ticket }) => {
@@ -85,7 +85,7 @@ const TicketCard: FunctionComponent<TicketProp> = ({ ticket }) => {
         </div>
       </a>
     </li>
-  )
-}
+  );
+};
 
 export default TicketCard;

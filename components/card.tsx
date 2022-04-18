@@ -1,4 +1,4 @@
-import { FunctionComponent, HTMLAttributes } from 'react'
+import { FunctionComponent, HTMLAttributes } from 'react';
 
 const Card: FunctionComponent<HTMLAttributes<HTMLDivElement>> = ({
   className,
@@ -15,13 +15,13 @@ const Card: FunctionComponent<HTMLAttributes<HTMLDivElement>> = ({
     'rounded-2xl',
     'p-6',
     'shadow hover:shadow-md',
-  ].join(' ')
+  ].join(' ');
 
   return (
     <div {...rest} className={`${classNames} ${className}`}>
       {children}
     </div>
-  )
-}
+  );
+};
 
 export default Card;

@@ -1,25 +1,25 @@
-import type { NextPage } from 'next'
-import { useEffect, useState } from 'react'
-import Container from '../components/container'
-import { ironSessionOptions } from '../lib/session'
-import { withIronSessionSsr } from 'iron-session/next'
-import { TicketGrouping } from '../models/ticket/ticket-grouping'
-import TicketController from '../controllers/ticket-controller'
-import TicketStack from '../components/ticket/ticket-stack'
-import { If } from 'react-if'
+import type { NextPage } from 'next';
+import { useEffect, useState } from 'react';
+import Container from '../components/container';
+import { ironSessionOptions } from '../lib/session';
+import { withIronSessionSsr } from 'iron-session/next';
+import { TicketGrouping } from '../models/ticket/ticket-grouping';
+import TicketController from '../controllers/ticket-controller';
+import TicketStack from '../components/ticket/ticket-stack';
+import { If } from 'react-if';
 
 interface HomeProps {
-  ticketGrouping: TicketGrouping
+  ticketGrouping: TicketGrouping;
 }
 
 const Home: NextPage<HomeProps> = (props) => {
-  const [ticketGrouping, setTicketGrouping] = useState<TicketGrouping>()
-  const [isLoading, setLoading] = useState(true)
+  const [ticketGrouping, setTicketGrouping] = useState<TicketGrouping>();
+  const [isLoading, setLoading] = useState(true);
 
   useEffect(() => {
-    setTicketGrouping(props.ticketGrouping)
-    setLoading(false)
-  }, [])
+    setTicketGrouping(props.ticketGrouping);
+    setLoading(false);
+  }, []);
 
   return (
     <Container className="">
@@ -35,9 +35,9 @@ const Home: NextPage<HomeProps> = (props) => {
         />
       </div>
     </Container>
-  )
-}
-export default Home
+  );
+};
+export default Home;
 
 export const getServerSideProps = withIronSessionSsr(
   async function getServerSideProps({ req }) {
@@ -49,7 +49,7 @@ export const getServerSideProps = withIronSessionSsr(
             ),
           }
         : {},
-    }
+    };
   },
   ironSessionOptions
-)
+);

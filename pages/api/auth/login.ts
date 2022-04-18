@@ -1,21 +1,21 @@
-import type { NextApiRequest, NextApiResponse } from 'next'
-import User from '../../../models/auth/user'
-import { Admin, PrismaClient } from '@prisma/client'
-import { withIronSessionApiRoute } from 'iron-session/next'
-import { ironSessionOptions } from '../../../lib/session'
-import axios from 'axios'
-import { prisma } from '../../../db/prisma'
+import type { NextApiRequest, NextApiResponse } from 'next';
+import User from '../../../models/auth/user';
+import { Admin, PrismaClient } from '@prisma/client';
+import { withIronSessionApiRoute } from 'iron-session/next';
+import { ironSessionOptions } from '../../../lib/session';
+import axios from 'axios';
+import { prisma } from '../../../db/prisma';
 
-const argon2 = require('argon2')
+const argon2 = require('argon2');
 
-export default withIronSessionApiRoute(handleLogin, ironSessionOptions)
+export default withIronSessionApiRoute(handleLogin, ironSessionOptions);
 
 async function handleLogin(req: NextApiRequest, res: NextApiResponse) {
-  const { username, password } = await req.body
-  const admin = await findAdmin(await username)
+  const { username, password } = await req.body;
+  const admin = await findAdmin(await username);
   admin
     ? await adminLogin(admin, password, res, req)
-    : await loginBinusian(username, password, res, req)
+    : await loginBinusian(username, password, res, req);
 }
 
 async function findAdmin(username: string) {
@@ -24,7 +24,7 @@ async function findAdmin(username: string) {
       //admin usernames are always uppercase
       username: username.toUpperCase(),
     },
-  })
+  });
 }
 
 async function loginBinusian(
@@ -33,8 +33,8 @@ async function loginBinusian(
   res: NextApiResponse,
   req: NextApiRequest
 ) {
-  const response = await logOnBinusian(username, password)
-  const binusian = response.data
+  const response = await logOnBinusian(username, password);
+  const binusian = response.data;
   if (binusian !== null) {
     const user = new User(
       binusian.User.UserId,
@@ -42,10 +42,10 @@ async function loginBinusian(
       binusian.User.UserName,
       binusian.User.Emails ? binusian.User.Emails[0].Email : '',
       'user'
-    )
-    res.status(200).json(await login(req, user))
+    );
+    res.status(200).json(await login(req, user));
   } else {
-    res.status(401).end('User not found')
+    res.status(401).end('User not found');
   }
 }
 
@@ -56,7 +56,7 @@ async function logOnBinusian(username: string, password: string) {
       username: username,
       password: password,
     }
-  )
+  );
 }
 
 async function adminLogin(
@@ -72,17 +72,17 @@ async function adminLogin(
       admin.username,
       admin.email,
       'admin'
-    )
-    res.status(200).json(await login(req, user))
+    );
+    res.status(200).json(await login(req, user));
   } else {
-    res.status(401).json({ message: 'Wrong password' })
+    res.status(401).json({ message: 'Wrong password' });
   }
 }
 
 function login(req: NextApiRequest, user: User) {
   return new Promise(async (resolve) => {
-    req.session.user = user
-    await req.session.save()
-    resolve(user)
-  })
+    req.session.user = user;
+    await req.session.save();
+    resolve(user);
+  });
 }

@@ -1,7 +1,7 @@
-import { ChevronDownIcon } from '@heroicons/react/solid'
-import { FunctionComponent, HTMLAttributes } from 'react'
-import Router from 'next/router'
-import { DropdownProps } from '../models/dropdown/dropdown-props'
+import { ChevronDownIcon } from '@heroicons/react/solid';
+import { FunctionComponent, HTMLAttributes } from 'react';
+import Router from 'next/router';
+import { DropdownProps } from '../models/dropdown/dropdown-props';
 
 const NavigationDropdown: FunctionComponent<DropdownProps> = ({
   label,
@@ -24,7 +24,7 @@ const NavigationDropdown: FunctionComponent<DropdownProps> = ({
               <button
                 className="hover:bg-gray-200 font-medium text-gray-900 group flex rounded-md items-center w-full px-2 py-2 text-sm"
                 onClick={() => {
-                  Router.push(link.path)
+                  Router.push(link.path);
                 }}
               >
                 {link.label}
@@ -35,6 +35,6 @@ const NavigationDropdown: FunctionComponent<DropdownProps> = ({
       </div>
     </div>
   </div>
-)
+);
 
 export default NavigationDropdown;

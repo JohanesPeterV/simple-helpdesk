@@ -1,7 +1,7 @@
-import { Link } from './link'
+import { Link } from './link';
 
 export type DropdownProps = {
-  label: string
-  links: Link[]
-  className: string
-}
+  label: string;
+  links: Link[];
+  className: string;
+};

@@ -1,7 +1,7 @@
-import { FunctionComponent } from 'react'
-import TicketCard from './ticket-card'
-import { Ticket } from '../../models/ticket/ticket'
-import DisclosureCard from '../disclosure-card'
+import { FunctionComponent } from 'react';
+import TicketCard from './ticket-card';
+import { Ticket } from '../../models/ticket/ticket';
+import DisclosureCard from '../disclosure-card';
 
 const TicketStack: FunctionComponent<TicketStackProps> = ({
   title,
@@ -13,9 +13,9 @@ const TicketStack: FunctionComponent<TicketStackProps> = ({
     defaultOpen={true}
     className={'md:w-1/2 h-fit'}
   />
-)
+);
 
-export default TicketStack
+export default TicketStack;
 
 function getTicketStack(tickets: Ticket[]) {
   {
@@ -29,11 +29,11 @@ function getTicketStack(tickets: Ticket[]) {
       <h3 className="sm:text-lg font-bold text-center py-6">
         You have no ongoing tickets
       </h3>
-    )
+    );
   }
 }
 
 export interface TicketStackProps {
-  title: string
-  tickets: Ticket[]
+  title: string;
+  tickets: Ticket[];
 }

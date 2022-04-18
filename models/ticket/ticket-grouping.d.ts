@@ -1,6 +1,6 @@
-import { Ticket } from './ticket'
+import { Ticket } from './ticket';
 
 export type TicketGrouping = {
-  ongoingTickets: Ticket[]
-  pendingTickets: Ticket[]
-}
+  ongoingTickets: Ticket[];
+  pendingTickets: Ticket[];
+};

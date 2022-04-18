@@ -1,15 +1,15 @@
-import seedAdmin from './seeders/admin-seeder'
-import { prisma } from '../db/prisma'
+import seedAdmin from './seeders/admin-seeder';
+import { prisma } from '../db/prisma';
 
 async function seed() {
-  seedAdmin()
+  seedAdmin();
 }
 
 seed()
   .catch((e) => {
-    console.error(e)
-    process.exit(1)
+    console.error(e);
+    process.exit(1);
   })
   .finally(async () => {
-    await prisma.$disconnect()
-  })
+    await prisma.$disconnect();
+  });
