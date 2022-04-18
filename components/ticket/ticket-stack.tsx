@@ -6,18 +6,23 @@ import DisclosureCard from '../disclosure-card';
 const TicketStack: FunctionComponent<TicketStackProps> = ({
   title,
   tickets,
-}) => (
-  <DisclosureCard
-    title={title}
-    content={getTicketStack(tickets)}
-    defaultOpen={true}
-    className={'md:w-1/2 h-fit'}
-  />
-);
+  className,
+  useDisclosure,
+}) =>
+  useDisclosure ? (
+    <DisclosureCard
+      title={title}
+      content={getTicketStack(title, tickets)}
+      defaultOpen={true}
+      className={'h-fit ' + className}
+    />
+  ) : (
+    getTicketStack(title, tickets)
+  );
 
 export default TicketStack;
 
-function getTicketStack(tickets: Ticket[]) {
+function getTicketStack(title: string, tickets: Ticket[]) {
   {
     return tickets.length > 0 ? (
       <ul className="divide-y divide-gray-200">
@@ -27,7 +32,7 @@ function getTicketStack(tickets: Ticket[]) {
       </ul>
     ) : (
       <h3 className="sm:text-lg font-bold text-center py-6">
-        You have no ongoing tickets
+        You have no {title.toLowerCase()}
       </h3>
     );
   }
@@ -36,4 +41,6 @@ function getTicketStack(tickets: Ticket[]) {
 export interface TicketStackProps {
   title: string;
   tickets: Ticket[];
+  className: string;
+  useDisclosure?: boolean;
 }

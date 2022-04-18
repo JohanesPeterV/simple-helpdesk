@@ -37,8 +37,12 @@ export default class TicketRepository {
     };
     return ticket;
   };
-  private static getAll = async (user: User, conditions: Object) => {
-    return user.role === 'Admin'
+
+  private static getAllWithOneDetail = async (
+    user: User,
+    conditions: Object
+  ) => {
+    return user.role === 'admin'
       ? await SCHEMA.findMany({
           where: conditions,
           include: {
@@ -56,7 +60,9 @@ export default class TicketRepository {
             ...conditions,
           },
           include: {
-            ticketDetails: true,
+            ticketDetails: {
+              take: 1,
+            },
           },
           orderBy: {
             createdAt: 'asc',
@@ -65,19 +71,19 @@ export default class TicketRepository {
   };
 
   static getPending = async (user: User) => {
-    return TicketRepository.getAll(user, {
+    return TicketRepository.getAllWithOneDetail(user, {
       ticketStatus: TicketStatus.PENDING,
     });
   };
 
   static getOnGoing = async (user: User) => {
-    return TicketRepository.getAll(user, {
+    return TicketRepository.getAllWithOneDetail(user, {
       ticketStatus: TicketStatus.ONGOING,
     });
   };
 
   static getClosed = async (user: User) => {
-    return TicketRepository.getAll(user, {
+    return TicketRepository.getAllWithOneDetail(user, {
       ticketStatus: TicketStatus.PENDING,
     });
   };

@@ -14,26 +14,31 @@ interface HomeProps {
 
 const Home: NextPage<HomeProps> = (props) => {
   const [ticketGrouping, setTicketGrouping] = useState<TicketGrouping>();
-  const [isLoading, setLoading] = useState(true);
 
   useEffect(() => {
     setTicketGrouping(props.ticketGrouping);
-    setLoading(false);
   }, []);
 
   return (
     <Container className="">
-      <If condition={isLoading}>loading bro masihhhhh</If>
-      <div className="flex flex-col md:flex-row md:space-x-8 space-y-8 md:space-y-0 justify-start">
-        <TicketStack
-          title={'Ongoing Tickets'}
-          tickets={props.ticketGrouping.ongoingTickets}
-        />
-        <TicketStack
-          title={'Pending Tickets'}
-          tickets={props.ticketGrouping.pendingTickets}
-        />
-      </div>
+      {ticketGrouping ? (
+        <div className="flex flex-col md:flex-row md:space-x-8 space-y-8 md:space-y-0 justify-start">
+          <TicketStack
+            title={'Ongoing Tickets'}
+            tickets={ticketGrouping.ongoingTickets}
+            className={'md:w-1/2'}
+            useDisclosure={true}
+          />
+          <TicketStack
+            title={'Pending Tickets'}
+            tickets={ticketGrouping.pendingTickets}
+            className={'md:w-1/2'}
+            useDisclosure={true}
+          />
+        </div>
+      ) : (
+        <></>
+      )}
     </Container>
   );
 };

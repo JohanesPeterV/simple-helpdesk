@@ -5,22 +5,33 @@ import { ironSessionOptions } from '../../lib/session';
 import { withIronSessionSsr } from 'iron-session/next';
 import { TicketGrouping } from '../../models/ticket/ticket-grouping';
 import TicketController from '../../controllers/ticket-controller';
+import { Ticket } from '../../models/ticket/ticket';
+import TicketStack from '../../components/ticket/ticket-stack';
 
-interface HomeProps {
-  ticketGrouping: TicketGrouping;
+interface HistoryProps {
+  closedTickets: Ticket[];
 }
 
-const History: NextPage<HomeProps> = (props) => {
-  const [ticketHistory, setTicketHistory] = useState<TicketGrouping>();
-  const [isLoading, setLoading] = useState(false);
+const History: NextPage<HistoryProps> = (props) => {
+  const [closedTickets, setClosedTickets] = useState<Ticket[]>();
 
   useEffect(() => {
-    // setTicketGrouping(props.ticketGrouping)
+    setClosedTickets(props.closedTickets);
   }, []);
 
   return (
     <Container className="">
-      <div className="flex flex-col md:flex-row md:space-x-8 space-y-8 md:space-y-0 justify-start"></div>
+      {closedTickets ? (
+        <div className="flex flex-col md:flex-row md:space-x-8 space-y-8 justify-center">
+          <TicketStack
+            title={'Ticket History'}
+            tickets={closedTickets}
+            className={'w-full'}
+          />
+        </div>
+      ) : (
+        <></>
+      )}
     </Container>
   );
 };
@@ -31,7 +42,7 @@ export const getServerSideProps = withIronSessionSsr(
     return {
       props: req.session.user
         ? {
-            ticketGrouping: await TicketController.getTicketsGroup(
+            closedTickets: await TicketController.getClosedTickets(
               req.session.user
             ),
           }
