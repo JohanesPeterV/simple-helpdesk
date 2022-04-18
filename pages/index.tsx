@@ -6,6 +6,7 @@ import { withIronSessionSsr } from 'iron-session/next'
 import { TicketGrouping } from '../models/ticket/ticket-grouping'
 import TicketController from '../controllers/ticket-controller'
 import TicketStack from '../components/ticket/ticket-stack'
+import { If } from 'react-if'
 
 interface HomeProps {
   ticketGrouping: TicketGrouping
@@ -13,14 +14,16 @@ interface HomeProps {
 
 const Home: NextPage<HomeProps> = (props) => {
   const [ticketGrouping, setTicketGrouping] = useState<TicketGrouping>()
-  const [isLoading, setLoading] = useState(false)
+  const [isLoading, setLoading] = useState(true)
 
   useEffect(() => {
     setTicketGrouping(props.ticketGrouping)
+    setLoading(false)
   }, [])
 
   return (
     <Container className="">
+      <If condition={isLoading}>loading bro masihhhhh</If>
       <div className="flex flex-col md:flex-row md:space-x-8 space-y-8 md:space-y-0 justify-start">
         <TicketStack
           title={'Ongoing Tickets'}

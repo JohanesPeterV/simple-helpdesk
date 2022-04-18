@@ -18,6 +18,10 @@ const navigations = [
         label: 'Create Ticket',
         path: '/ticket/create',
       },
+      {
+        label: 'Ticket History',
+        path: '/ticket/history',
+      },
     ],
   },
 ]
