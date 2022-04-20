@@ -84,7 +84,7 @@ export default class TicketRepository {
 
   static getClosed = async (user: User) => {
     return TicketRepository.getAllWithOneDetail(user, {
-      ticketStatus: TicketStatus.PENDING,
+      ticketStatus: TicketStatus.CLOSED,
     });
   };
 }

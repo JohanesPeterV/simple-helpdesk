@@ -32,7 +32,7 @@ export default class TicketController {
 
   static async getClosedTickets(user: User) {
     const pendingTicketsString = superjson.stringify(
-      await TicketRepository.getOnGoing(user)
+      await TicketRepository.getClosed(user)
     );
     const pendingTickets = superjson.parse<Ticket[]>(pendingTicketsString);
     return pendingTickets;
