@@ -35,8 +35,8 @@ function getTicketStack(title: string, tickets: Ticket[], className?: string) {
       <ul
         className={
           className
-            ? 'divide-y divide-gray-200 ' + className
-            : 'divide-y divide-gray-200'
+            ? 'divide-y divide-gray-300 ' + className
+            : 'divide-y divide-gray-300'
         }
       >
         {tickets.map((ticket) => (

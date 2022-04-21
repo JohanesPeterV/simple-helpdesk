@@ -45,7 +45,7 @@ const Create: NextPage = ({}) => {
               >
                 Title
               </label>
-              <div className="mt-1 sm:mt-0 sm:col-span-2">
+              <div className="mt-1 sm:mt-0 sm:col-span-2 ">
                 <Input
                   type="text"
                   name="title"
@@ -54,7 +54,7 @@ const Create: NextPage = ({}) => {
                     setTitle(e.target.value);
                   }}
                   autoComplete="given-name"
-                  className="max-w-lg border-2 block w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:max-w-xs sm:text-sm border-gray-300 rounded-md py-2 px-2"
+                  className="max-w-lg border-2 block w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:max-w-xs sm:text-sm border-gray-300 rounded-md py-2 px-2 text-white bg-white"
                 />
               </div>
             </div>

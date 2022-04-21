@@ -5,6 +5,7 @@ import {
   ChevronRightIcon,
   DotsCircleHorizontalIcon,
   MailIcon,
+  UserIcon,
 } from '@heroicons/react/solid';
 import { Ticket } from '../../models/ticket/ticket';
 import { Else, If, Then } from 'react-if';
@@ -16,7 +17,7 @@ export interface TicketProp {
 const TicketCard: FunctionComponent<TicketProp> = ({ ticket }) => {
   return (
     <li>
-      <a href={'ticket/' + ticket.id} className="block hover:bg-gray-50">
+      <a href={'ticket/' + ticket.id} className="block hover:bg-gray-200 bg-gray-100">
         <div className="flex items-center px-4 py-4 sm:px-6">
           <div className="min-w-0 flex-1 flex items-center">
             <div className="min-w-0 flex-1 px-4 md:grid md:grid-cols-2 md:gap-4">
@@ -24,15 +25,21 @@ const TicketCard: FunctionComponent<TicketProp> = ({ ticket }) => {
                 <p className="text-m font-medium text-sky-600 truncate">
                   {ticket.ticketDetails[0].title}
                 </p>
-                <p className="mt-2 flex items-center text-sm text-gray-500">
+                <div className="mt-2 flex items-center text-sm text-gray-500">
                   <MailIcon
                     className="flex-shrink-0 mr-1.5 h-5 w-5 text-gray-400"
                     aria-hidden="true"
                   />
                   <span className="truncate">{ticket.creatorEmail}</span>
-                </p>
+                </div>
+                <div className="mt-2 flex items-center text-sm text-gray-500">
+                  <UserIcon
+                    className="flex-shrink-0 mr-1.5 h-5 w-5 text-gray-400"
+                    aria-hidden="true"
+                  />
+                  <span className="truncate">{ticket.admin?.username ?? "-"}</span>
+                </div>
               </div>
-
               <div className="hidden md:block">
                 <div>
                   <p className="text-sm text-gray-900">

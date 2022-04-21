@@ -49,6 +49,8 @@ export default class TicketRepository {
             ticketDetails:  {
               take: 1,
             },
+            admin:{
+            }
           },
           orderBy: {
             createdAt: 'asc',
@@ -65,6 +67,8 @@ export default class TicketRepository {
             ticketDetails: {
               take: 1,
             },
+            admin:{
+            }
           },
           orderBy: {
             createdAt: 'asc',
