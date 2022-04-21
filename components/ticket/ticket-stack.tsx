@@ -17,15 +17,28 @@ const TicketStack: FunctionComponent<TicketStackProps> = ({
       className={'h-fit ' + className}
     />
   ) : (
-    getTicketStack(title, tickets)
+    getTicketStack(title, tickets, className)
   );
 
 export default TicketStack;
 
-function getTicketStack(title: string, tickets: Ticket[]) {
+export interface TicketStackProps {
+  title: string;
+  tickets: Ticket[];
+  className: string;
+  useDisclosure?: boolean;
+}
+
+function getTicketStack(title: string, tickets: Ticket[], className?: string) {
   {
     return tickets.length > 0 ? (
-      <ul className="divide-y divide-gray-200">
+      <ul
+        className={
+          className
+            ? 'divide-y divide-gray-200 ' + className
+            : 'divide-y divide-gray-200'
+        }
+      >
         {tickets.map((ticket) => (
           <TicketCard ticket={ticket} key={ticket.id} />
         ))}
@@ -36,11 +49,4 @@ function getTicketStack(title: string, tickets: Ticket[]) {
       </h3>
     );
   }
-}
-
-export interface TicketStackProps {
-  title: string;
-  tickets: Ticket[];
-  className: string;
-  useDisclosure?: boolean;
 }
