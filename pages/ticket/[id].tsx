@@ -7,6 +7,7 @@ import { ironSessionOptions } from '../../lib/session';
 import { TicketProp } from '../../models/props/ticket-prop';
 import TicketInformation from '../../components/ticket/ticket-information';
 import TicketDetail from '../../components/ticket/ticket-detail';
+import { Else, If, Then } from 'react-if';
 
 const Id: NextPage<TicketProp> = ({ ticket }) => {
   const router = useRouter();
@@ -14,12 +15,22 @@ const Id: NextPage<TicketProp> = ({ ticket }) => {
 
   return (
     <Container className="space-y-4">
-      <section aria-labelledby="applicant-information-title">
-        <TicketInformation ticket={ticket} />
-      </section>
-      <section aria-labelledby="notes-title">
-        <TicketDetail ticketDetails={ticket.ticketDetails} />
-      </section>
+      {ticket ? (
+        <>
+          <section aria-labelledby="applicant-information-title">
+            <TicketInformation ticket={ticket} />
+          </section>
+          <section aria-labelledby="notes-title">
+            <TicketDetail ticketDetails={ticket.ticketDetails} />
+          </section>
+        </>
+      ) : (
+        <div className="flex justify-center items-center">
+          <h1 className="lg:text-2xl md:text-xl sm:text-lg">
+            Ticket doesn't exist or you don't have the permission.
+          </h1>
+        </div>
+      )}
     </Container>
   );
 };
@@ -27,17 +38,14 @@ const Id: NextPage<TicketProp> = ({ ticket }) => {
 export default Id;
 
 export const getServerSideProps = withIronSessionSsr(
-  async function getServerSideProps({ req, query }) {
+  async function getServerSideProps({ req, query, res }) {
     return {
-      props:
-        req.session.user && query.id
-          ? {
-              ticket: await TicketController.get(
-                req.session.user,
-                query.id.toString()
-              ),
-            }
-          : {},
+      props: {
+        ticket:
+          req.session.user && query.id
+            ? await TicketController.get(req.session.user, query.id.toString())
+            : null,
+      },
     };
   },
   ironSessionOptions

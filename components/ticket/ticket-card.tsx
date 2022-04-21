@@ -17,7 +17,7 @@ export interface TicketProp {
 const TicketCard: FunctionComponent<TicketProp> = ({ ticket }) => {
   return (
     <li>
-      <a href={'ticket/' + ticket.id} className="block hover:bg-gray-200 bg-gray-100">
+      <a href={'/ticket/' + ticket.id} className="block hover:bg-gray-200 bg-gray-100">
         <div className="flex items-center px-4 py-4 sm:px-6">
           <div className="min-w-0 flex-1 flex items-center">
             <div className="min-w-0 flex-1 px-4 md:grid md:grid-cols-2 md:gap-4">

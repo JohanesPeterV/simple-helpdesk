@@ -9,19 +9,34 @@ import { prisma } from '../db/prisma';
 const SCHEMA = prisma.ticketHeader;
 export default class TicketRepository {
   static get = async (user: User, id: string) => {
-    return await SCHEMA.findUnique({
-      where: {
-        id: id,
-      },
-      include: {
-        ticketDetails: {
-          orderBy: {
-            createdAt: 'asc',
+    return user.role === 'admin'
+      ? await SCHEMA.findUnique({
+          where: {
+            id: id,
           },
-        },
-        admin: true,
-      },
-    });
+          include: {
+            ticketDetails: {
+              orderBy: {
+                createdAt: 'asc',
+              },
+            },
+            admin: true,
+          },
+        })
+      : await SCHEMA.findFirst({
+          where: {
+            id: id,
+            creatorEmail: user.email,
+          },
+          include: {
+            ticketDetails: {
+              orderBy: {
+                createdAt: 'asc',
+              },
+            },
+            admin: true,
+          },
+        });
   };
   static create = async (user: User, ticketDTO: CreateTicketDTO) => {
     const ticketHeader = await TicketHeaderRepository.create(user);
@@ -46,7 +61,7 @@ export default class TicketRepository {
       ? await SCHEMA.findMany({
           where: conditions,
           include: {
-            ticketDetails:  {
+            ticketDetails: {
               take: 1,
             },
             admin:{
