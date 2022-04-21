@@ -68,6 +68,96 @@ const ticketList: TicketSeed[] = [
       },
     ],
   },
+  {
+    ticketStatus: TicketStatus.CLOSED,
+    solveDetail: 'Closed Ticket 1.',
+    creatorEmail: 'johanes.vincentius@binus.ac.id',
+    creatorName: 'Johanes Peter Vincentius',
+    ticketDetails: [
+      {
+        title: 'Closed Ticket 1',
+        content: 'Closed Ticket Dummy Data',
+        creatorName: 'rdt',
+        creatorEmail: 'rdt@gmail.com',
+        emailMessageId: null,
+      },
+    ],
+  },
+  {
+    ticketStatus: TicketStatus.CLOSED,
+    solveDetail: 'Closed Ticket 2.',
+    creatorEmail: 'johanes.vincentius@binus.ac.id',
+    creatorName: 'Johanes Peter Vincentius',
+    ticketDetails: [
+      {
+        title: 'Closed Ticket 2',
+        content: 'Closed Ticket Dummy Data',
+        creatorName: 'rdt',
+        creatorEmail: 'rdt@gmail.com',
+        emailMessageId: null,
+      },
+    ],
+  },
+  {
+    ticketStatus: TicketStatus.CLOSED,
+    solveDetail: 'Closed Ticket 3.',
+    creatorEmail: 'johanes.vincentius@binus.ac.id',
+    creatorName: 'Johanes Peter Vincentius',
+    ticketDetails: [
+      {
+        title: 'Closed Ticket 3',
+        content: 'Closed Ticket Dummy Data',
+        creatorName: 'rdt',
+        creatorEmail: 'rdt@gmail.com',
+        emailMessageId: null,
+      },
+    ],
+  },
+  {
+    ticketStatus: TicketStatus.CLOSED,
+    solveDetail: 'Closed Ticket 4.',
+    creatorEmail: 'johanes.vincentius@binus.ac.id',
+    creatorName: 'Johanes Peter Vincentius',
+    ticketDetails: [
+      {
+        title: 'Closed Ticket 4',
+        content: 'Closed Ticket Dummy Data',
+        creatorName: 'rdt',
+        creatorEmail: 'rdt@gmail.com',
+        emailMessageId: null,
+      },
+    ],
+  },
+  {
+    ticketStatus: TicketStatus.CLOSED,
+    solveDetail: 'Closed Ticket 5.',
+    creatorEmail: 'johanes.vincentius@binus.ac.id',
+    creatorName: 'Johanes Peter Vincentius',
+    ticketDetails: [
+      {
+        title: 'Closed Ticket 5',
+        content: 'Closed Ticket Dummy Data',
+        creatorName: 'rdt',
+        creatorEmail: 'rdt@gmail.com',
+        emailMessageId: null,
+      },
+    ],
+  },
+  {
+    ticketStatus: TicketStatus.CLOSED,
+    solveDetail: 'Closed Ticket 6.',
+    creatorEmail: 'johanes.vincentius@binus.ac.id',
+    creatorName: 'Johanes Peter Vincentius',
+    ticketDetails: [
+      {
+        title: 'Closed Ticket 6',
+        content: 'Closed Ticket Dummy Data',
+        creatorName: 'rdt',
+        creatorEmail: 'rdt@gmail.com',
+        emailMessageId: null,
+      },
+    ],
+  },
 ];
 
 async function insertHeader(ticket: TicketSeed) {
