@@ -11,7 +11,7 @@ interface DisclosureProp {
   className: string;
 }
 
-const Container: FunctionComponent<DisclosureProp> = ({
+const DisclosureCard: FunctionComponent<DisclosureProp> = ({
   title,
   content,
   defaultOpen,
@@ -54,4 +54,4 @@ const Container: FunctionComponent<DisclosureProp> = ({
   </Card>
 );
 
-export default Container;
+export default DisclosureCard;
