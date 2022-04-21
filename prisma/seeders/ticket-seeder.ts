@@ -91,16 +91,18 @@ async function insertDetails(
   ticketDetails: TicketDetailSeed[]
 ) {
   ticketDetails.forEach((ticketDetailSeed) => {
-    prisma.ticketDetail.create({
-      data: {
-        ticketHeaderId: ticketHeader.id,
-        creatorName: ticketDetailSeed.creatorName,
-        creatorEmail: ticketDetailSeed.creatorEmail,
-        title: ticketDetailSeed.title,
-        content: ticketDetailSeed.content,
-        emailMessageId: null,
-      },
-    });
+    prisma.ticketDetail
+      .create({
+        data: {
+          ticketHeaderId: ticketHeader.id,
+          creatorName: ticketDetailSeed.creatorName,
+          creatorEmail: ticketDetailSeed.creatorEmail,
+          title: ticketDetailSeed.title,
+          content: ticketDetailSeed.content,
+          emailMessageId: null,
+        },
+      })
+      .then();
   });
 }
 
