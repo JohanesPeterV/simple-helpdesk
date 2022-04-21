@@ -7,7 +7,7 @@ export default class TicketController {
   static async get(user: User, id: string) {
     const ticket = await TicketRepository.get(user, id);
     const existOrAuthorized =
-      user.role === 'Admin' || (ticket && ticket.creatorEmail === user.email);
+      user.role === 'admin' || (ticket && ticket.creatorEmail === user.email);
     if (!existOrAuthorized) {
       return null;
     }
