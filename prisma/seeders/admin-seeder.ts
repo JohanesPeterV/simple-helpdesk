@@ -1,15 +1,16 @@
 import { prisma } from '../../db/prisma';
+import { Admin } from '@prisma/client';
 
 const argon2 = require('argon2');
 
-interface Admin {
+interface AdminSeed {
   email: string;
   name: string;
   username: string;
   password: string;
 }
 
-const adminList: Admin[] = [
+const adminSeedList: AdminSeed[] = [
   {
     email: 'jp@gmail.com',
     name: 'Johanes Peter Vincentius',
@@ -30,27 +31,31 @@ const adminList: Admin[] = [
   },
 ];
 
-async function upsertAdmin(admin: Admin) {
-  const currPassword = await argon2.hash(admin.password);
-  await prisma.admin.upsert({
+let adminIdList: string[] = [];
+
+async function upsertAdmin(adminSeed: AdminSeed) {
+  const currPassword = await argon2.hash(adminSeed.password);
+  const admin = await prisma.admin.upsert({
     where: {
-      email: admin.email,
+      email: adminSeed.email,
     },
     update: {
-      email: admin.email,
-      name: admin.name,
-      username: admin.username,
+      email: adminSeed.email,
+      name: adminSeed.name,
+      username: adminSeed.username,
       password: currPassword,
     },
     create: {
-      email: admin.email,
-      name: admin.name,
-      username: admin.username,
+      email: adminSeed.email,
+      name: adminSeed.name,
+      username: adminSeed.username,
       password: currPassword,
     },
   });
+  adminIdList.push(admin.id);
 }
 
-export default function seedAdmin() {
-  adminList.forEach(upsertAdmin);
+export default function seedAdmins() {
+  adminSeedList.forEach(upsertAdmin);
+  return adminIdList;
 }

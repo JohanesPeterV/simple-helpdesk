@@ -1,8 +1,10 @@
-import seedAdmin from './seeders/admin-seeder';
+import seedAdmins from './seeders/admin-seeder';
 import { prisma } from '../db/prisma';
+import seedTicket from './seeders/ticket-seeder';
 
 async function seed() {
-  seedAdmin();
+  const admins = seedAdmins();
+  await seedTicket(admins);
 }
 
 seed()
