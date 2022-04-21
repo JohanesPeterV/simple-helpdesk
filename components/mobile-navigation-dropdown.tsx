@@ -39,7 +39,7 @@ const NavigationDropdown: FunctionComponent<DropdownProps> = ({
             {({ active }) => (
               <button
                 className={`${
-                  active ? 'bg-violet-500 text-white' : 'text-gray-900'
+                  active ? 'bg-sky-500 text-white' : 'text-gray-900'
                 } group flex rounded-md items-center w-full px-12 py-2 text-sm`}
                 onClick={() => {
                   Router.push(link.path);
