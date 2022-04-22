@@ -1,5 +1,5 @@
 import User from '../models/auth/user';
-import { prisma } from '../db/prisma';
+import { prisma } from '../lib/prisma';
 
 const SCHEMA = prisma.ticketHeader;
 export default class TicketHeaderRepository {

@@ -1,4 +1,4 @@
-import { prisma } from '../../db/prisma';
+import { prisma } from '../../lib/prisma';
 import { Admin, TicketHeader, TicketStatus } from '@prisma/client';
 
 const argon2 = require('argon2');

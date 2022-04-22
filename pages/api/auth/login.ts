@@ -4,7 +4,7 @@ import { Admin, PrismaClient } from '@prisma/client';
 import { withIronSessionApiRoute } from 'iron-session/next';
 import { ironSessionOptions } from '../../../lib/session';
 import axios from 'axios';
-import { prisma } from '../../../db/prisma';
+import { prisma } from '../../../lib/prisma';
 
 const argon2 = require('argon2');
 
