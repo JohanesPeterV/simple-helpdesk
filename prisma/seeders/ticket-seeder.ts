@@ -18,6 +18,7 @@ interface TicketSeed {
   solveDetail: string | null;
   creatorEmail: string;
   creatorName: string;
+  doneAt: Date | null;
   ticketDetails: TicketDetailSeed[];
 }
 
@@ -27,10 +28,25 @@ const ticketList: TicketSeed[] = [
     solveDetail: null,
     creatorEmail: 'johanes.vincentius@binus.ac.id',
     creatorName: 'Johanes Peter Vincentius',
+    doneAt: null,
     ticketDetails: [
       {
         title: 'bug di messier',
         content: 'Messiernya pas di buka gabisa clock in dan gabisa clockout',
+        creatorName: 'rdt',
+        creatorEmail: 'rdt@gmail.com',
+        emailMessageId: null,
+      },
+      {
+        title: 'bug di NAR',
+        content: 'NAR nya ada bug, trainee tidak bisa upload jawaban',
+        creatorName: 'rdt',
+        creatorEmail: 'rdt@gmail.com',
+        emailMessageId: null,
+      },
+      {
+        title: 'bug di Bluejack Practikum',
+        content: 'Bluejack tidak bisa upload jawaban Quiz',
         creatorName: 'rdt',
         creatorEmail: 'rdt@gmail.com',
         emailMessageId: null,
@@ -42,6 +58,7 @@ const ticketList: TicketSeed[] = [
     solveDetail: null,
     creatorEmail: 'johanes.vincentius@binus.ac.id',
     creatorName: 'Johanes Peter Vincentius',
+    doneAt: null,
     ticketDetails: [
       {
         title: 'keperluan ticket system rdt',
@@ -58,6 +75,7 @@ const ticketList: TicketSeed[] = [
       'Permasalahan ini seharusnya dilaporkan secara langsung kepada pihak HC.',
     creatorEmail: 'johanes.vincentius@binus.ac.id',
     creatorName: 'Johanes Peter Vincentius',
+    doneAt: null,
     ticketDetails: [
       {
         title: 'hc problem',
@@ -73,6 +91,7 @@ const ticketList: TicketSeed[] = [
     solveDetail: 'Closed Ticket 1.',
     creatorEmail: 'johanes.vincentius@binus.ac.id',
     creatorName: 'Johanes Peter Vincentius',
+    doneAt: null,
     ticketDetails: [
       {
         title: 'Closed Ticket 1',
@@ -88,6 +107,7 @@ const ticketList: TicketSeed[] = [
     solveDetail: 'Closed Ticket 2.',
     creatorEmail: 'johanes.vincentius@binus.ac.id',
     creatorName: 'Johanes Peter Vincentius',
+    doneAt: null,
     ticketDetails: [
       {
         title: 'Closed Ticket 2',
@@ -103,6 +123,7 @@ const ticketList: TicketSeed[] = [
     solveDetail: 'Closed Ticket 3.',
     creatorEmail: 'johanes.vincentius@binus.ac.id',
     creatorName: 'Johanes Peter Vincentius',
+    doneAt: null,
     ticketDetails: [
       {
         title: 'Closed Ticket 3',
@@ -118,6 +139,7 @@ const ticketList: TicketSeed[] = [
     solveDetail: 'Closed Ticket 4.',
     creatorEmail: 'johanes.vincentius@binus.ac.id',
     creatorName: 'Johanes Peter Vincentius',
+    doneAt: null,
     ticketDetails: [
       {
         title: 'Closed Ticket 4',
@@ -133,6 +155,7 @@ const ticketList: TicketSeed[] = [
     solveDetail: 'Closed Ticket 5.',
     creatorEmail: 'johanes.vincentius@binus.ac.id',
     creatorName: 'Johanes Peter Vincentius',
+    doneAt: null,
     ticketDetails: [
       {
         title: 'Closed Ticket 5',
@@ -148,6 +171,7 @@ const ticketList: TicketSeed[] = [
     solveDetail: 'Closed Ticket 6.',
     creatorEmail: 'johanes.vincentius@binus.ac.id',
     creatorName: 'Johanes Peter Vincentius',
+    doneAt: null,
     ticketDetails: [
       {
         title: 'Closed Ticket 6',
@@ -171,6 +195,7 @@ async function insertHeader(ticket: TicketSeed) {
       creatorEmail: ticket.creatorEmail,
       creatorName: ticket.creatorName,
       ticketStatus: ticket.ticketStatus,
+      doneAt: ticket.doneAt
     },
   });
   return ticketHeader;

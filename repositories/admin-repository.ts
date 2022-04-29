@@ -20,4 +20,14 @@ export default class AdminRepository {
       },
     });
   };
+
+  static getAll = async() => {
+    return SCHEMA.findMany(
+      {
+        select: {
+          username: true
+        }
+      }
+    );
+  }
 }

@@ -17,12 +17,12 @@ const NavigationDropdown: FunctionComponent<DropdownProps> = ({
       />
     </div>
     <div className="relative">
-      <div className="hidden transition-all delay-500 group-hover:block transition-all absolute -left-4 w-32 mt-2 origin-top-right bg-white divide-y divide-gray-100 rounded-md shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
-        <div className="px-1 py-1 ">
+      <div className="hidden transition-all delay-500 group-hover:block transition-all absolute -left-4 w-52 mt-2 origin-top-right bg-white divide-y divide-gray-100 rounded-md shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+        <div className="">
           {links.map((link) => (
             <div key={link.path}>
               <button
-                className="hover:bg-gray-200 font-medium text-gray-900 group flex rounded-md items-center w-full px-2 py-2 text-sm"
+                className="hover:bg-gray-200 font-medium text-gray-900 group flex rounded-md items-center w-full px-5 py-3 text-sm"
                 onClick={() => {
                   Router.push(link.path);
                 }}
