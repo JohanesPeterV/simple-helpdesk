@@ -2,7 +2,7 @@ import User from '../models/auth/user';
 import { PrismaClient, TicketStatus } from '@prisma/client';
 import TicketHeaderRepository from './ticket-header-repository';
 import TicketDetailRepository from './ticket-detail-repository';
-import { CreateTicketDTO } from '../models/ticket/create-ticket-dto';
+import { CreateTicketDTO } from '../models/dto/create-ticket-dto';
 import { Ticket } from '../models/ticket/ticket';
 import { prisma } from '../lib/prisma';
 import Mailer from '../lib/mailer/mailer';

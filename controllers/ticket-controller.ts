@@ -20,24 +20,21 @@ export default class TicketController {
     const pendingTicketsString = superjson.stringify(
       await TicketRepository.getPending(user)
     );
-    const pendingTickets = superjson.parse<Ticket[]>(pendingTicketsString);
-    return pendingTickets;
+    return superjson.parse<Ticket[]>(pendingTicketsString);
   }
 
   static async getOngoingTickets(user: User) {
     const pendingTicketsString = superjson.stringify(
       await TicketRepository.getOnGoing(user)
     );
-    const pendingTickets = superjson.parse<Ticket[]>(pendingTicketsString);
-    return pendingTickets;
+    return superjson.parse<Ticket[]>(pendingTicketsString);
   }
 
   static async getClosedTickets({user, limit, skip}: NamedParametersPaginate) {
     const pendingTicketsString = superjson.stringify(
       await TicketRepository.getClosed(user, limit, skip)
     );
-    const pendingTickets = superjson.parse<Ticket[]>(pendingTicketsString);
-    return pendingTickets;
+    return superjson.parse<Ticket[]>(pendingTicketsString);
   }
 
   static async getClosedTicketsLength(){

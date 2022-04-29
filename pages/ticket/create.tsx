@@ -6,7 +6,7 @@ import Input from '../../components/input';
 import Button from '../../components/button';
 import { toast } from 'react-hot-toast';
 import TicketService from '../../services/ticket-service';
-import { CreateTicketDTO } from '../../models/ticket/create-ticket-dto';
+import { CreateTicketDTO } from '../../models/dto/create-ticket-dto';
 
 const Create: NextPage = ({}) => {
   const [title, setTitle] = useState('');
@@ -54,7 +54,7 @@ const Create: NextPage = ({}) => {
                     setTitle(e.target.value);
                   }}
                   autoComplete="given-name"
-                  className="max-w-lg border-2 block w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:max-w-xs sm:text-sm border-gray-300 rounded-md py-2 px-2 text-white bg-white"
+                  className="max-w-lg border-2 block w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:max-w-xs sm:text-sm border-gray-300 rounded-md py-2 px-2 bg-white"
                 />
               </div>
             </div>

@@ -4,14 +4,7 @@ import { Ticket } from '../../models/ticket/ticket';
 import { TicketProp } from '../../models/props/ticket-prop';
 
 const TicketInformation: FunctionComponent<TicketProp> = ({ ticket }) => {
-  return (
-    <DisclosureCard
-      title={'Ticket Information'}
-      content={getTicketInformationComponent(ticket)}
-      defaultOpen={true}
-      className={''}
-    />
-  );
+  return getTicketInformationComponent(ticket);
 };
 
 export default TicketInformation;
@@ -29,7 +22,7 @@ function getTicketInformationComponent(ticket: Ticket) {
         <div className="sm:col-span-1">
           <dt className="text-sm font-medium text-gray-500">PIC</dt>
           <dd className="mt-1 text-sm text-gray-900">
-            {ticket.admin ? ticket.admin.id : '-'}
+            {ticket.admin ? ticket.admin.username : '-'}
           </dd>
         </div>
         <div className="sm:col-span-1">

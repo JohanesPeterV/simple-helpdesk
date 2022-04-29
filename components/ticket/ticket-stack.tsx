@@ -12,10 +12,12 @@ const TicketStack: FunctionComponent<TicketStackProps> = ({
   useDisclosure ? (
     <DisclosureCard
       title={title}
-      content={getTicketStack(title, tickets)}
+      titleClassName=""
       defaultOpen={true}
       className={'h-fit ' + className}
-    />
+    >
+      {getTicketStack(title, tickets)}
+    </DisclosureCard>
   ) : (
     getTicketStack(title, tickets, className)
   );

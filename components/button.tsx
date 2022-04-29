@@ -7,7 +7,7 @@ import {
 
 const Button: FunctionComponent<
   ButtonHTMLAttributes<HTMLButtonElement> & Props
-> = ({ children, className, isLoading, iconType, onClick, ...rest }) => {
+> = ({ children, className, disabled, iconType, onClick, ...rest }) => {
   let Icon: ComponentType<ComponentProps<'svg'>> = () => <></>;
 
   return (
@@ -28,10 +28,9 @@ const Button: FunctionComponent<
         'hover:shadow-md',
         'focus:shadow-md',
         'active:shadow-lg',
-        isLoading ? 'animate-pulse' : '',
         className,
       ].join(' ')}
-      disabled={isLoading}
+      disabled={disabled}
       onClick={(e) => {
         e.stopPropagation();
         if (onClick) onClick(e);
@@ -45,6 +44,6 @@ const Button: FunctionComponent<
 export default Button;
 
 interface Props {
-  isLoading?: boolean;
+  disabled?: boolean;
   iconType?: 'solid' | 'outline';
 }

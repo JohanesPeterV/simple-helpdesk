@@ -1,6 +1,8 @@
 import axios from 'axios';
-import { CreateTicketDTO } from '../models/ticket/create-ticket-dto';
 import { PaginateClosedTicket, PaginateTicket, TicketLength } from '../models/ticket/ticket';
+import { CreateTicketDTO } from '../models/dto/create-ticket-dto';
+import { AssignPICDTO } from '../models/dto/assign-pic-dto';
+
 
 const SERVICE_NAME = 'tickets';
 export default class TicketService {
@@ -8,6 +10,9 @@ export default class TicketService {
     return axios.post('/api/' + SERVICE_NAME + '/create', ticket);
   }
 
+  static assignPIC(assignPICDTO: AssignPICDTO) {
+    return axios.post('/api/' + SERVICE_NAME + '/assign-pic', assignPICDTO);
+  }
   static viewClosedTicketPaginate(paginate: PaginateClosedTicket){
     return axios.post('/api/'+ SERVICE_NAME + '/closed-ticket-pagination', paginate);
   }
