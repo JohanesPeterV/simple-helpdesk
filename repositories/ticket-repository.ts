@@ -55,21 +55,32 @@ export default class TicketRepository {
 
   private static getAllWithOneDetail = async (
     user: User,
-    conditions: Object
+    conditions: Object,
+    limitDetail: number = 1,
+    limit: number = 0,
+    skip: number = 0
   ) => {
     return user.role === 'admin'
       ? await SCHEMA.findMany({
           where: conditions,
           include: {
             ticketDetails: {
-              take: 1,
+              take: limitDetail ? limitDetail: undefined
             },
             admin:{
+  
             }
           },
-          orderBy: {
-            createdAt: 'asc',
-          },
+          skip: skip != 0 ? skip: undefined,
+          take: limit != 0 ? limit: undefined,
+          orderBy: [
+            {
+              createdAt: 'asc',
+            },
+            {
+              ticketStatus: 'asc'
+            }
+          ],
         })
       : await SCHEMA.findMany({
           where: {
@@ -80,32 +91,108 @@ export default class TicketRepository {
           },
           include: {
             ticketDetails: {
-              take: 1,
+              take: limit ? limit: undefined
             },
             admin:{
             }
           },
-          orderBy: {
-            createdAt: 'asc',
-          },
+          skip: skip != 0 ? skip: undefined,
+          take: limit != 0 ? limit: undefined,
+          orderBy: [
+            {
+              createdAt: 'asc',
+            },
+            {
+              ticketStatus: 'asc'
+            }
+          ],
         });
   };
 
-  static getPending = async (user: User) => {
-    return TicketRepository.getAllWithOneDetail(user, {
+  private static getAllWithDetails = async (
+    user: User,
+    conditions: Object,
+  ) => {
+    return user.role === 'admin'
+      ? await SCHEMA.findMany({
+          where: conditions,
+          include: {
+            ticketDetails: {
+            },
+            admin:{  
+                  
+            }
+          },
+          orderBy: [
+            {
+              createdAt: 'asc',
+            },
+            {
+              ticketStatus: 'asc'
+            }
+          ],
+        })
+      : await SCHEMA.findMany({
+          where: {
+            ...{
+              creatorEmail: user.email,
+            },
+            ...conditions,
+          },
+          include: {
+            ticketDetails: {
+            },
+            admin:{
+              
+            }
+          },
+          orderBy: [
+            {
+              createdAt: 'asc',
+            },
+            {
+              ticketStatus: 'asc'
+            }
+          ],
+        });
+  };
+
+  static getAllTickets = async (user: User) => {
+    return TicketRepository.getAllWithDetails(user, {});
+  }
+  static getPending = async (user: User) => TicketRepository.getAllWithOneDetail(user, {
       ticketStatus: TicketStatus.PENDING,
-    });
-  };
+  });
 
-  static getOnGoing = async (user: User) => {
-    return TicketRepository.getAllWithOneDetail(user, {
+  static getOnGoing = async (user: User) => TicketRepository.getAllWithOneDetail(user, {
       ticketStatus: TicketStatus.ONGOING,
-    });
-  };
+  });
 
-  static getClosed = async (user: User) => {
-    return TicketRepository.getAllWithOneDetail(user, {
+  static getClosed = async (user: User, limit?: number, skip?: number, userParam?: String) => TicketRepository.getAllWithOneDetail(user, {
       ticketStatus: TicketStatus.CLOSED,
-    });
-  };
+      admin: {
+        username: userParam == "All" ? undefined : userParam
+      }
+  }, 1, limit, skip);
+
+  static getClosedLength = async function(userParam?: String){
+
+    let conditions: any;
+    if(userParam == "All"){   
+      conditions = {
+        ticketStatus: TicketStatus.CLOSED,
+      }
+    } else {
+      conditions = {
+        ticketStatus: TicketStatus.CLOSED,
+        admin: {
+          username: userParam
+        }
+      }
+    }
+    return SCHEMA.count({
+      where: conditions
+    })
+  }
+  
 }

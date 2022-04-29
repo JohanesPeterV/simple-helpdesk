@@ -21,6 +21,7 @@ CREATE TABLE "TicketHeader" (
     "creatorName" TEXT NOT NULL,
     "ticketStatus" "TicketStatus" NOT NULL DEFAULT E'PENDING',
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "doneAt" TIMESTAMP(3),
     "solveDetail" TEXT,
 
     CONSTRAINT "TicketHeader_pkey" PRIMARY KEY ("id")

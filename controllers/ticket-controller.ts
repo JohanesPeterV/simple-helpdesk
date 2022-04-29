@@ -3,6 +3,12 @@ import TicketRepository from '../repositories/ticket-repository';
 import superjson from 'superjson';
 import { Ticket } from '../models/ticket/ticket';
 
+interface NamedParametersClosedTickets{
+  user: User,
+  limit?: number,
+  skip?: number
+}
+
 export default class TicketController {
   static async get(user: User, id: string) {
     const ticket = await TicketRepository.get(user, id);
@@ -25,12 +31,20 @@ export default class TicketController {
     return pendingTickets;
   }
 
-  static async getClosedTickets(user: User) {
+  static async getClosedTickets({user, limit, skip}: NamedParametersClosedTickets) {
     const pendingTicketsString = superjson.stringify(
-      await TicketRepository.getClosed(user)
+      await TicketRepository.getClosed(user, limit, skip)
     );
     const pendingTickets = superjson.parse<Ticket[]>(pendingTicketsString);
     return pendingTickets;
+  }
+
+  static async getClosedTicketsLength(){
+    const lengthTicketString = superjson.stringify(
+      await TicketRepository.getClosedLength()
+    );
+    const lengthTicket = superjson.parse<Ticket[]>(lengthTicketString);
+    return lengthTicket;
   }
 
   static async getTicketsGroup(user: User) {
@@ -38,5 +52,12 @@ export default class TicketController {
       pendingTickets: await TicketController.getPendingTickets(user),
       ongoingTickets: await TicketController.getOngoingTickets(user),
     };
+  }
+
+  static async getAllTickets(user: User) {
+    const ticketsString = superjson.stringify(
+      await TicketRepository.getAllTickets(user)
+    );
+    return superjson.parse<Ticket[]>(ticketsString);
   }
 }

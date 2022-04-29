@@ -27,6 +27,7 @@ model TicketHeader{
     creatorName String
     ticketStatus TicketStatus   @default(PENDING)
     createdAt   DateTime    @default(now())
+    doneAt   DateTime?
     solveDetail String?
     ticketDetails TicketDetail[]
 }

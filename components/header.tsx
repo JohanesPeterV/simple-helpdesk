@@ -22,6 +22,10 @@ const navigations = [
         label: 'Ticket History',
         path: '/ticket/history',
       },
+      {
+        label: 'View All Tickets',
+        path: '/ticket/view-all/1',
+      },
     ],
   },
 ];
@@ -41,7 +45,7 @@ const Header: FunctionComponent<HTMLAttributes<HTMLDivElement>> = () => {
                   </Popover.Button>
                 </div>
 
-                <div className="hidden md:flex-1 md:flex md:items-center md:justify-between">
+                <div className="hidden z-10 md:flex-1 md:flex md:items-center md:justify-between">
                   <nav className="flex space-x-10">
                     {navigations.map((nav) =>
                       nav.child ? (
