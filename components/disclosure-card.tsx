@@ -6,14 +6,16 @@ import Card from './card';
 
 type DisclosureProp = {
   title: string;
-  defaultOpen: boolean;
-  className: string;
+  titleClassName?: string;
+  defaultOpen?: boolean;
+  className?: string;
 } & HTMLAttributes<HTMLDivElement>;
 
 const DisclosureCard: FunctionComponent<DisclosureProp> = ({
   title,
   defaultOpen,
   className,
+  titleClassName,
   children,
 }) => (
   <Card className={className}>
@@ -30,7 +32,7 @@ const DisclosureCard: FunctionComponent<DisclosureProp> = ({
                   <ChevronRightIcon className="h-6 w-6" />
                 </Else>
               </If>
-              <span className="ml-2">{title}</span>
+              <span className={'ml-2 ' + titleClassName}>{title}</span>
             </h2>
           </Disclosure.Button>
 

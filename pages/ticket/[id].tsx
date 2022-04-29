@@ -11,7 +11,7 @@ import Card from '../../components/card';
 import AdminController from '../../controllers/admin-controller';
 import { Ticket } from '../../models/ticket/ticket';
 import { Admin } from '@prisma/client';
-import AssignPicForm from '../../components/assign-pic-form';
+import ManageTicketForm from '../../components/manage-ticket-form';
 
 interface TicketDetailProp {
   ticket: Ticket;
@@ -24,8 +24,8 @@ const Id: NextPage<TicketDetailProp> = ({ ticket, admins, selectedAdmin }) => {
   const { id } = router.query;
   return ticket ? (
     <>
-      <Container className="flex flex-row">
-        <div className="w-1/2 flex-auto ">
+      <Container className="flex flex-col md:flex-row">
+        <div className="md:w-1/2 flex-auto ">
           <section aria-labelledby="applicant-information-title">
             <TicketInformation ticket={ticket} />
           </section>
@@ -34,7 +34,7 @@ const Id: NextPage<TicketDetailProp> = ({ ticket, admins, selectedAdmin }) => {
           </section>
         </div>
         {admins ? (
-          <AssignPicForm
+          <ManageTicketForm
             admins={admins}
             selectedAdmin={selectedAdmin}
             ticket={ticket}

@@ -84,7 +84,6 @@ const Create: NextPage = ({}) => {
           </div>
         </div>
         <Button
-          isLoading={false}
           type="submit"
           className={'hover:bg-sky-700 bg-sky-600 text-white'}
         >
