@@ -1,5 +1,5 @@
 import seedAdmins from './seeders/admin-seeder';
-import { prisma } from '../db/prisma';
+import { prisma } from '../lib/prisma';
 import seedTicket from './seeders/ticket-seeder';
 
 async function seed() {

@@ -3,7 +3,7 @@ import User from '../../../models/auth/user';
 import { PrismaClient } from '@prisma/client';
 import { withIronSessionApiRoute } from 'iron-session/next';
 import { ironSessionOptions } from '../../../lib/session';
-import { prisma } from '../../../db/prisma';
+import { prisma } from '../../../lib/prisma';
 
 export default withIronSessionApiRoute(handleLogout, ironSessionOptions);
 

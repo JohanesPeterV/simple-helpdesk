@@ -4,7 +4,8 @@ import TicketHeaderRepository from './ticket-header-repository';
 import TicketDetailRepository from './ticket-detail-repository';
 import { CreateTicketDTO } from '../models/ticket/create-ticket-dto';
 import { Ticket } from '../models/ticket/ticket';
-import { prisma } from '../db/prisma';
+import { prisma } from '../lib/prisma';
+import Mailer from '../lib/mailer/mailer';
 
 const SCHEMA = prisma.ticketHeader;
 export default class TicketRepository {
@@ -93,8 +94,7 @@ export default class TicketRepository {
             ticketDetails: {
               take: limit ? limit: undefined
             },
-            admin:{
-            }
+            admin: {},
           },
           skip: skip != 0 ? skip: undefined,
           take: limit != 0 ? limit: undefined,

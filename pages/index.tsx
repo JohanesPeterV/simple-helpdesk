@@ -6,7 +6,7 @@ import { withIronSessionSsr } from 'iron-session/next';
 import { TicketGrouping } from '../models/ticket/ticket-grouping';
 import TicketController from '../controllers/ticket-controller';
 import TicketStack from '../components/ticket/ticket-stack';
-import { If } from 'react-if';
+import Mailer from '../lib/mailer/mailer';
 
 interface HomeProps {
   ticketGrouping: TicketGrouping;
