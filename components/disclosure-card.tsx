@@ -1,21 +1,20 @@
-import { FunctionComponent, ReactElement } from 'react';
+import { FunctionComponent, HTMLAttributes, ReactElement } from 'react';
 import { Disclosure, Transition } from '@headlessui/react';
 import { Else, If, Then } from 'react-if';
 import { ChevronDownIcon, ChevronRightIcon } from '@heroicons/react/solid';
 import Card from './card';
 
-interface DisclosureProp {
+type DisclosureProp = {
   title: string;
-  content: ReactElement;
   defaultOpen: boolean;
   className: string;
-}
+} & HTMLAttributes<HTMLDivElement>;
 
 const DisclosureCard: FunctionComponent<DisclosureProp> = ({
   title,
-  content,
   defaultOpen,
   className,
+  children,
 }) => (
   <Card className={className}>
     <Disclosure defaultOpen={defaultOpen}>
@@ -31,7 +30,6 @@ const DisclosureCard: FunctionComponent<DisclosureProp> = ({
                   <ChevronRightIcon className="h-6 w-6" />
                 </Else>
               </If>
-
               <span className="ml-2">{title}</span>
             </h2>
           </Disclosure.Button>
@@ -45,7 +43,7 @@ const DisclosureCard: FunctionComponent<DisclosureProp> = ({
             leaveTo="transform -translate-y-4 opacity-0"
           >
             <Disclosure.Panel className="mt-4 border-t border-gray-200 ">
-              {content}
+              {children}
             </Disclosure.Panel>
           </Transition>
         </>

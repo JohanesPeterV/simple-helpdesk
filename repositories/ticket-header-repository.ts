@@ -1,5 +1,6 @@
 import User from '../models/auth/user';
 import { prisma } from '../lib/prisma';
+import { AssignPICDTO } from '../models/dto/assign-pic-dto';
 
 const SCHEMA = prisma.ticketHeader;
 export default class TicketHeaderRepository {
@@ -12,7 +13,16 @@ export default class TicketHeaderRepository {
       },
     });
   };
-
+  static assignPIC = async (assignPICDTO: AssignPICDTO) => {
+    return await SCHEMA.update({
+      where: {
+        id: assignPICDTO.ticketId,
+      },
+      data: {
+        adminId: assignPICDTO.adminId,
+      },
+    });
+  };
   private static getAll = async (user: User, conditions: Object) => {
     return user.role === 'Admin'
       ? await SCHEMA.findMany({

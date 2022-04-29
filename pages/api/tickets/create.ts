@@ -2,7 +2,7 @@ import type { NextApiRequest, NextApiResponse } from 'next';
 import User from '../../../models/auth/user';
 import { withIronSessionApiRoute } from 'iron-session/next';
 import { ironSessionOptions } from '../../../lib/session';
-import { CreateTicketDTO } from '../../../models/ticket/create-ticket-dto';
+import { CreateTicketDTO } from '../../../models/dto/create-ticket-dto';
 import TicketRepository from '../../../repositories/ticket-repository';
 
 export default withIronSessionApiRoute(handleCreateTicket, ironSessionOptions);

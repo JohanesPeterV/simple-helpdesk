@@ -10,4 +10,14 @@ export default class AdminRepository {
       },
     });
   };
+  static getActiveAdmins = async () => {
+    return SCHEMA.findMany({
+      where: {
+        resignedAt: null,
+      },
+      orderBy: {
+        username: 'asc',
+      },
+    });
+  };
 }
