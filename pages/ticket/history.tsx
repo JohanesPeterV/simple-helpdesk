@@ -1,17 +1,13 @@
 import type { NextPage } from 'next';
 import { useEffect, useState } from 'react';
-import "@material-tailwind/react/tailwind.css";
 import Container from '../../components/container';
 import { ironSessionOptions } from '../../lib/session';
 import { withIronSessionSsr } from 'iron-session/next';
-import { TicketGrouping } from '../../models/ticket/ticket-grouping';
 import TicketController from '../../controllers/ticket-controller';
 import { PaginateClosedTicket, Ticket, TicketLength } from '../../models/ticket/ticket';
 import TicketStack from '../../components/ticket/ticket-stack';
 import ReactPaginate from 'react-paginate';
-import { count } from 'console';
 import User from '../../models/auth/user';
-import axios from 'axios';
 import TicketService from '../../services/ticket-service';
 import UserController from '../../controllers/user-controller';
 
@@ -25,8 +21,9 @@ const History: NextPage<HistoryProps> = (props) => {
   const [admins, setAdmins] = useState<User[]>();
   const [closedTickets, setClosedTickets] = useState<Ticket[]>();
   const [output, setOutput] = useState<Ticket[] | undefined>();
+  
   const [countData, setCountData] = useState<number>();
-  const dataPerPage = 3;
+  const dataPerPage = 5;
   const [page, setPage] = useState(0);
 
   const [userParam, setUserParam] = useState('All');
@@ -80,17 +77,16 @@ const History: NextPage<HistoryProps> = (props) => {
   return (
     <Container className="">
       {output ? (
-        <Container>
+        <div>
           <ReactPaginate
             pageCount={page}
-            previousLabel={'<<'}
-            nextLabel={'>>'}
+            previousLabel= {'<<'}
+            nextLabel= {'>>'}
             breakLabel={'...'}
             marginPagesDisplayed={3}
             onPageChange={handlePageClick}
             containerClassName={'flex justify-center mb-5'}
             pageClassName={'bg-white border-gray-300 text-gray-500 hover:bg-gray-50 relative inline-flex items-center px-3 py-1 border text-base font-medium'}
-            pageLinkClassName={''}
             nextClassName={'bg-white border-gray-300 text-gray-500 hover:bg-gray-50 relative inline-flex items-center px-3 py-1 border text-base font-medium'}
             previousClassName={'bg-white border-gray-300 text-gray-500 hover:bg-border-50 relative inline-flex items-center px-3 py-1 border text-base font-medium'}
             activeClassName={'z-10 bg-gray-200 text-indigo-600 relative inline-flex items-center px-3 py-1 border text-base font-medium'}
@@ -113,7 +109,7 @@ const History: NextPage<HistoryProps> = (props) => {
             />
           </div>
         </div>
-        </Container>
+        </div>
         
       ) : (
         <></>
@@ -130,7 +126,7 @@ export const getServerSideProps = withIronSessionSsr(
         ? {
             closedTickets: await TicketController.getClosedTickets(
               {user: req.session.user,
-              limit: 3}
+              limit: 5}
             ),
             closedTicketsLength: await TicketController.getClosedTicketsLength(),
             admins: await UserController.getAllAdmin()

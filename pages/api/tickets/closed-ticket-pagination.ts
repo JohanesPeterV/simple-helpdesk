@@ -18,5 +18,7 @@ async function getTickets(req: NextApiRequest, res: NextApiResponse){
 }
 
 async function getClosedTickets(user: User, paginate: PaginateClosedTicket) {
-    return await TicketRepository.getClosed(user, paginate.dataPerPage, (paginate.page-1)*paginate.dataPerPage, paginate.user);
+    const takeData = paginate.dataPerPage;
+    const skipData = (paginate.page-1)*paginate.dataPerPage;
+    return await TicketRepository.getClosed(user, takeData, skipData, paginate.user);
   }

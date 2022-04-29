@@ -13,3 +13,8 @@ export type PaginateClosedTicket = {
 export type TicketLength = {
   userParam: String;
 }
+
+export type PaginateTicket = {
+  page: number;
+  dataPerPage: number;
+}

@@ -112,6 +112,8 @@ export default class TicketRepository {
   private static getAllWithDetails = async (
     user: User,
     conditions: Object,
+    limit: number = 0,
+    skip: number = 0
   ) => {
     return user.role === 'admin'
       ? await SCHEMA.findMany({
@@ -123,6 +125,8 @@ export default class TicketRepository {
                   
             }
           },
+          skip: skip != 0 ? skip: undefined,
+          take: limit != 0 ? limit: undefined,
           orderBy: [
             {
               createdAt: 'asc',
@@ -146,6 +150,8 @@ export default class TicketRepository {
               
             }
           },
+          skip: skip != 0 ? skip: undefined,
+          take: limit != 0 ? limit: undefined,
           orderBy: [
             {
               createdAt: 'asc',
@@ -157,8 +163,8 @@ export default class TicketRepository {
         });
   };
 
-  static getAllTickets = async (user: User) => {
-    return TicketRepository.getAllWithDetails(user, {});
+  static getAllTickets = async (user: User, limit?: number, skip?: number) => {
+    return TicketRepository.getAllWithDetails(user, {}, limit, skip);
   }
   static getPending = async (user: User) => TicketRepository.getAllWithOneDetail(user, {
       ticketStatus: TicketStatus.PENDING,
@@ -193,6 +199,10 @@ export default class TicketRepository {
     return SCHEMA.count({
       where: conditions
     })
+  }
+
+  static getAllTicketLength = async function (){
+    return SCHEMA.count()
   }
   
 }
