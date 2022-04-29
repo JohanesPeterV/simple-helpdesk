@@ -24,7 +24,7 @@ const navigations = [
       },
       {
         label: 'View All Tickets',
-        path: '/ticket/view-all/1',
+        path: '/ticket/view-all-tickets',
       },
     ],
   },
