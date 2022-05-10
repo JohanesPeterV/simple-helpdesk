@@ -138,8 +138,8 @@ export default class TicketRepository {
             ticketDetails: {},
             admin: {},
           },
-          skip: skip != 0 ? skip: undefined,
-          take: limit != 0 ? limit: undefined,
+          skip: skip != 0 ? skip : undefined,
+          take: limit != 0 ? limit : undefined,
           orderBy: [
             {
               createdAt: 'asc',
@@ -160,8 +160,8 @@ export default class TicketRepository {
             ticketDetails: {},
             admin: {},
           },
-          skip: skip != 0 ? skip: undefined,
-          take: limit != 0 ? limit: undefined,
+          skip: skip != 0 ? skip : undefined,
+          take: limit != 0 ? limit : undefined,
           orderBy: [
             {
               createdAt: 'asc',
@@ -175,8 +175,9 @@ export default class TicketRepository {
 
   static getAllTickets = async (user: User, limit?: number, skip?: number) => {
     return TicketRepository.getAllWithDetails(user, {}, limit, skip);
-  }
-  static getPending = async (user: User) => TicketRepository.getAllWithOneDetail(user, {
+  };
+  static getPending = async (user: User) =>
+    TicketRepository.getAllWithOneDetail(user, {
       ticketStatus: TicketStatus.PENDING,
     });
 
@@ -204,27 +205,24 @@ export default class TicketRepository {
       skip
     );
 
-  static getClosedLength = async function (userParam?: String) {
-    let conditions: any;
-    if (userParam == 'All') {
-      conditions = {
-        ticketStatus: TicketStatus.CLOSED,
-      };
-    } else {
-      conditions = {
-        ticketStatus: TicketStatus.CLOSED,
-        admin: {
-          username: userParam,
-        },
-      };
-    }
+  static getClosedLength = async function (userParam: string) {
     return SCHEMA.count({
-      where: conditions
-    })
-  }
+      where: {
+        ...{
+          ticketStatus: TicketStatus.CLOSED,
+        },
+        ...(userParam === 'All'
+          ? {}
+          : {
+              admin: {
+                username: userParam,
+              },
+            }),
+      },
+    });
+  };
 
-  static getAllTicketLength = async function (){
-    return SCHEMA.count()
-  }
-  
+  static getAllTicketLength = async function () {
+    return SCHEMA.count();
+  };
 }

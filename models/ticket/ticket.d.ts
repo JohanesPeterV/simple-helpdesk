@@ -4,17 +4,17 @@ export type Ticket = TicketHeader & { admin: Admin | null } & {
   ticketDetails: TicketDetail[];
 };
 
-export type PaginateClosedTicket = {
+export type PaginateClosedTicketParameter = {
   page: number;
   dataPerPage: number;
-  user: String;
-}
+  user: string;
+};
 
-export type TicketLength = {
-  userParam: String;
-}
+export type UserNameParameter = {
+  userName: string;
+};
 
-export type PaginateTicket = {
+export type PaginateTicketParameter = {
   page: number;
   dataPerPage: number;
-}
+};
