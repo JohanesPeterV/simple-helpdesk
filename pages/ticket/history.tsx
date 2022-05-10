@@ -7,13 +7,13 @@ import TicketController from '../../controllers/ticket-controller';
 import {
   PaginateClosedTicketParameter,
   Ticket,
-  UserNameParameter,
 } from '../../models/ticket/ticket';
 import TicketStack from '../../components/ticket/ticket-stack';
 import ReactPaginate from 'react-paginate';
 import User from '../../models/auth/user';
 import TicketService from '../../services/ticket-service';
 import UserController from '../../controllers/user-controller';
+import { UserNameParameter } from '../../models/parameters/user-name-parameter';
 
 interface HistoryProps {
   closedTickets: Ticket[];
@@ -61,10 +61,10 @@ const History: NextPage<HistoryProps> = (props) => {
     const initial = data.target.value;
     setUserParam(initial);
 
-    const ticketLength: UserNameParameter = {
+    const userNameParameter: UserNameParameter = {
       userName: initial,
     };
-    const length = await TicketService.getClosedTicketLength(ticketLength);
+    const length = await TicketService.getClosedTicketLength(userNameParameter);
     setCountData(length.data);
 
     const currPage = 1;
@@ -114,7 +114,9 @@ const History: NextPage<HistoryProps> = (props) => {
               <option value="All">All</option>
 
               {admins!.map((admin) => (
-                <option value={admin.username}>{admin.username}</option>
+                <option key={admin.username} value={admin.username}>
+                  {admin.username}
+                </option>
               ))}
             </select>
 
@@ -144,8 +146,9 @@ export const getServerSideProps = withIronSessionSsr(
               user: req.session.user,
               limit: 5,
             }),
-            closedTicketsLength:
-              await TicketController.getClosedTicketsLength(),
+            closedTicketsLength: await TicketController.getClosedTicketsLength(
+              req.session.user.username
+            ),
             admins: await UserController.getAllAdmin(),
           }
         : {},

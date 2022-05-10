@@ -10,10 +10,6 @@ export type PaginateClosedTicketParameter = {
   user: string;
 };
 
-export type UserNameParameter = {
-  userName: string;
-};
-
 export type PaginateTicketParameter = {
   page: number;
   dataPerPage: number;

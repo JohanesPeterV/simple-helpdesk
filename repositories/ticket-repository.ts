@@ -205,17 +205,17 @@ export default class TicketRepository {
       skip
     );
 
-  static getClosedLength = async function (userParam: string) {
+  static getClosedLength = async function (username: string) {
     return SCHEMA.count({
       where: {
         ...{
           ticketStatus: TicketStatus.CLOSED,
         },
-        ...(userParam === 'All'
+        ...(username === 'All'
           ? {}
           : {
               admin: {
-                username: userParam,
+                username: username,
               },
             }),
       },
