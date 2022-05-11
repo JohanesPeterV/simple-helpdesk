@@ -16,6 +16,8 @@ async function handleLogin(req: NextApiRequest, res: NextApiResponse) {
   admin
     ? await adminLogin(admin, password, res, req)
     : await loginBinusian(username, password, res, req);
+
+  res.status(401).end('User not found');
 }
 
 async function findAdmin(username: string) {
@@ -35,7 +37,7 @@ async function loginBinusian(
 ) {
   const response = await logOnBinusian(username, password);
   const binusian = response.data;
-  if (binusian !== null) {
+  if (binusian) {
     const user = new User(
       binusian.User.UserId,
       binusian.User.Name,

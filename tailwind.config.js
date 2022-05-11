@@ -5,6 +5,9 @@ module.exports = {
   ],
   theme: {
     extend: {},
+    minWidth: {
+      'standard-screen': '1920px',
+    },
   },
   plugins: [],
-}
+};

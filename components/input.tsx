@@ -19,6 +19,7 @@ const Input: FunctionComponent<
     'focus:outline-none',
     'py-2',
     'px-2',
+    'font-medium',
   ].join(' ');
 
   const { children, className, type, value, ...rest } = props;

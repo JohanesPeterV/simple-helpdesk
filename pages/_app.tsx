@@ -1,5 +1,5 @@
 import type { AppProps } from 'next/app';
-import Layout from '../components/layout';
+import AuthLayout from '../components/auth-layout';
 import '../styles/globals.css';
 import { useRouter } from 'next/router';
 import GuestLayout from '../components/guest-layout';
@@ -20,9 +20,9 @@ export default function App({ Component, pageProps }: AppProps) {
     );
 
   return (
-    <Layout {...pageProps}>
+    <AuthLayout {...pageProps}>
       <Toaster />
       <Component {...pageProps} />
-    </Layout>
+    </AuthLayout>
   );
 }

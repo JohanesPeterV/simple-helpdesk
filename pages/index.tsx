@@ -20,7 +20,7 @@ const Home: NextPage<HomeProps> = (props) => {
   }, []);
 
   return (
-    <Container className="">
+    <Container className="sm:px-12 px-2.5">
       {ticketGrouping ? (
         <div className="flex flex-col md:flex-row md:space-x-8 space-y-8 md:space-y-0 justify-start">
           <TicketStack
