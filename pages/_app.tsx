@@ -4,7 +4,7 @@ import '../styles/globals.css';
 import { useRouter } from 'next/router';
 import GuestLayout from '../components/guest-layout';
 import { Toaster } from 'react-hot-toast';
-
+import '../styles/background.css';
 export default function App({ Component, pageProps }: AppProps) {
   const router = useRouter();
   const isGuestPath = ['/login', '/register'].some((path) =>

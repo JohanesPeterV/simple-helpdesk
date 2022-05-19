@@ -11,7 +11,7 @@ import { toast } from 'react-hot-toast';
 import binusPicture from '../public/images/binus.png';
 import ribbonPicture from '../public/images/ribbon.png';
 import shootingStar from '../public/images/shootingstar.png';
-
+import LoginParticleBackground from '../components/login-particle-background';
 const Login: NextPage = ({}) => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
@@ -29,13 +29,11 @@ const Login: NextPage = ({}) => {
     await Router.push('/');
   };
   return (
-    <Container className="mx-auto flex h-screen flex-col items-center justify-center space-y-3">
-      <Image
-        src={shootingStar}
-        layout="fill"
-        className="min-w-standard-screen z-0"
-      />
-      <Card className="w-full w-80 pt-0 z-10 bg-opacity-40 backdrop-blur-sm">
+    <Container className="px-0 md:px-0 flex h-screen flex-col items-center justify-center space-y-0 login-bg">
+      <div className="h-full w-full absolute z-10">
+        <LoginParticleBackground />
+      </div>
+      <Card className="w-full w-80 pt-0 z-20 bg-opacity-80 backdrop-blur-sm">
         <form onSubmit={onSubmit} className="grid grid-cols-1 gap-4">
           <div className="flex items-start justify-start pl-2">
             <div className="w-9/12 flex flex-row space-x-3 space-y-2.5">

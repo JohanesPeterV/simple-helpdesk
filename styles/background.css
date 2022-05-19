@@ -1,0 +1,6 @@
+.login-bg {
+  background-image: url('../public/images/shootingstar.png');
+  background-size: cover;
+  overflow: hidden;
+  background-position: center;
+}
