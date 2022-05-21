@@ -7,27 +7,28 @@ import { ISourceOptions } from 'tsparticles-engine';
 const particleOptions: ISourceOptions = {
   particles: {
     number: {
-      value: 80,
+      value: 60,
       density: {
         enable: true,
         value_area: 700,
       },
     },
     color: {
-      value: '#949494',
+      value: '#FFFFFF',
     },
     shape: {
       type: 'circle',
       stroke: {
-        width: 0,
-        color: '#000000',
+        width: 8,
+        color: '#38bdf8',
+        opacity: 0.2,
       },
       polygon: {
         nb_sides: 5,
       },
     },
     opacity: {
-      value: 0.5,
+      value: 0.6,
       random: false,
       anim: {
         enable: false,
@@ -39,26 +40,20 @@ const particleOptions: ISourceOptions = {
     size: {
       value: 3,
       random: true,
-      anim: {
-        enable: false,
-        speed: 10,
-        size_min: 0.1,
-        sync: false,
-      },
     },
     line_linked: {
       enable: true,
-      distance: 150,
-      color: '#454545',
+      distance: 80,
+      color: '#FFFFFF',
       opacity: 0.4,
       width: 1,
     },
     move: {
       enable: true,
       speed: 2,
-      direction: 'none',
-      random: false,
-      straight: false,
+      direction: 'bottom-right',
+      random: true,
+      straight: true,
       out_mode: 'out',
       bounce: false,
       attract: {
@@ -83,16 +78,15 @@ const particleOptions: ISourceOptions = {
     },
     modes: {
       grab: {
-        distance: 140,
+        distance: 100,
         line_linked: {
           opacity: 1,
         },
       },
       bubble: {
         distance: 400,
-        size: 40,
         duration: 4,
-        opacity: 8,
+        opacity: 0.8,
       },
       repulse: {
         distance: 200,
@@ -100,11 +94,18 @@ const particleOptions: ISourceOptions = {
       },
       push: {
         particles_nb: 4,
+        quantity: 1,
       },
       remove: {
         particles_nb: 2,
       },
     },
+  },
+  background: {
+    color: {
+      value: '#0284c7',
+    },
+    opacity: 0,
   },
   retina_detect: true,
 };
