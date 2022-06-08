@@ -53,9 +53,11 @@ const Header: FunctionComponent<HTMLAttributes<HTMLDivElement>> = () => {
                           label={nav.label}
                           links={nav.child}
                           className={''}
+                          key={nav.label}
                         />
                       ) : (
                         <a
+                          key={nav.label}
                           href={nav.path}
                           className="text-base font-medium text-gray-500 hover:text-gray-900"
                         >
@@ -109,7 +111,7 @@ const Header: FunctionComponent<HTMLAttributes<HTMLDivElement>> = () => {
                     <div className="mt-6">
                       <nav className="grid gap-6">
                         {navigations.map((nav) => (
-                          <>
+                          <div key={nav.label}>
                             {nav.child ? (
                               <MobileNavigationDropdown
                                 label={nav.label}
@@ -118,7 +120,6 @@ const Header: FunctionComponent<HTMLAttributes<HTMLDivElement>> = () => {
                               />
                             ) : (
                               <a
-                                key={nav.label}
                                 href={nav.path}
                                 className="-m-3 p-3 flex items-center rounded-lg hover:bg-gray-50"
                               >
@@ -127,7 +128,7 @@ const Header: FunctionComponent<HTMLAttributes<HTMLDivElement>> = () => {
                                 </div>
                               </a>
                             )}
-                          </>
+                          </div>
                         ))}
                       </nav>
                     </div>

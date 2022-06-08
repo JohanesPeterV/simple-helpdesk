@@ -8,6 +8,7 @@ const BaseLayout: FunctionComponent<HTMLAttributes<HTMLDivElement>> = ({
     <Head>
       <title>RnD Helpdesk</title>
     </Head>
+
     {children}
   </>
 );

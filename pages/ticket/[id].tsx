@@ -11,7 +11,10 @@ import Card from '../../components/card';
 import AdminController from '../../controllers/admin-controller';
 import { Ticket } from '../../models/ticket/ticket';
 import { Admin } from '@prisma/client';
-import ManageTicketForm from '../../components/manage-ticket-form';
+import ManageTicketFormDesktop from '../../components/manage-ticket/manage-ticket-form-desktop';
+import ResponsiveMobile from '../../components/responsive-mobile';
+import { ReactElement } from 'react';
+import ManageTicketFormMobile from '../../components/manage-ticket/manage-ticket-form-mobile';
 
 interface TicketDetailProp {
   ticket: Ticket;
@@ -22,10 +25,19 @@ interface TicketDetailProp {
 const Id: NextPage<TicketDetailProp> = ({ ticket, admins, selectedAdmin }) => {
   const router = useRouter();
   const { id } = router.query;
+  function getManageTicketForm(): ReactElement<HTMLDivElement> {
+    return (
+      <ManageTicketFormDesktop
+        admins={admins}
+        selectedAdmin={selectedAdmin}
+        ticket={ticket}
+      />
+    );
+  }
   return ticket ? (
     <>
-      <Container className="flex flex-col md:flex-row">
-        <div className="md:w-1/2 flex-auto ">
+      <Container className="flex flex-row ">
+        <div className="md:w-60 lg:w-1/2 flex-auto ">
           <section aria-labelledby="applicant-information-title">
             <TicketInformation ticket={ticket} />
           </section>
@@ -34,10 +46,21 @@ const Id: NextPage<TicketDetailProp> = ({ ticket, admins, selectedAdmin }) => {
           </section>
         </div>
         {admins ? (
-          <ManageTicketForm
-            admins={admins}
-            selectedAdmin={selectedAdmin}
-            ticket={ticket}
+          <ResponsiveMobile
+            desktopChild={
+              <ManageTicketFormDesktop
+                admins={admins}
+                selectedAdmin={selectedAdmin}
+                ticket={ticket}
+              />
+            }
+            mobileChild={
+              <ManageTicketFormMobile
+                admins={admins}
+                selectedAdmin={selectedAdmin}
+                ticket={ticket}
+              />
+            }
           />
         ) : (
           <></>

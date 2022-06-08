@@ -7,6 +7,8 @@ const AuthLayout: FunctionComponent<HTMLAttributes<HTMLDivElement>> = ({
 }) => (
   <BaseLayout>
     <Header />
+
+    <div id="popup-modal-root" />
     {children}
   </BaseLayout>
 );
