@@ -21,17 +21,17 @@ const Home: NextPage<HomeProps> = (props) => {
   return (
     <Container className="sm:px-12 px-2.5">
       {ticketGrouping ? (
-        <div className="flex flex-col md:flex-row md:space-x-8 space-y-8 md:space-y-0 justify-start">
+        <div className="flex flex-col xl:flex-row xl:space-x-8 space-y-8 xl:space-y-0 justify-start">
           <TicketStack
             title={'Ongoing Tickets'}
             tickets={ticketGrouping.ongoingTickets}
-            className={'md:w-1/2'}
+            className={'xl:w-1/2'}
             useDisclosure={true}
           />
           <TicketStack
             title={'Pending Tickets'}
             tickets={ticketGrouping.pendingTickets}
-            className={'md:w-1/2'}
+            className={'xl:w-1/2'}
             useDisclosure={true}
           />
         </div>
