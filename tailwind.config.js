@@ -3,6 +3,12 @@ module.exports = {
     './pages/**/*.{js,ts,jsx,tsx}',
     './components/**/*.{js,ts,jsx,tsx}',
   ],
+  variants: {
+    extend: {
+      // display: ['group-hover'],
+      visibility: ['hover', 'group-hover'],
+    },
+  },
   theme: {
     extend: {
       minHeight: {

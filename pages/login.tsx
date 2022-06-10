@@ -10,7 +10,6 @@ import AuthService from '../services/auth-service';
 import { toast } from 'react-hot-toast';
 import binusPicture from '../public/images/binus.png';
 import ribbonPicture from '../public/images/ribbon.png';
-import shootingStar from '../public/images/shootingstar.png';
 import LoginParticleBackground from '../components/login-particle-background';
 const Login: NextPage = ({}) => {
   const [username, setUsername] = useState('');
@@ -65,6 +64,16 @@ const Login: NextPage = ({}) => {
           </Button>
         </form>
       </Card>
+      <footer className="z-50 group sm:text-lg text-xs fixed inset-x-0 bottom-3 text-center text-white">
+        <p className="block group-hover:hidden">
+          Copyright &copy; 2022 - Research and Development - SLC - Binus
+          University
+        </p>
+        <p className="hidden group-hover:block">
+          Copyright &copy; 2022 - <b>JP20-2 GA20-2 VN20-2</b> - SLC - Binus
+          University
+        </p>
+      </footer>
     </Container>
   );
 };
