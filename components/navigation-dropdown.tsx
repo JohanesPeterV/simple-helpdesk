@@ -7,10 +7,11 @@ const NavigationDropdown: FunctionComponent<DropdownProps> = ({
   label,
   links,
   className,
+  labelClassName,
 }) => (
-  <div className="group pb-4">
+  <div className={'group pb-4 ' + className}>
     <div className="text-gray-500 group bg-white rounded-md inline-flex items-center text-base font-medium hover:text-gray-900 focus:outline-none ">
-      {label}
+      <p className={labelClassName}>{label}</p>
       <ChevronDownIcon
         className="w-5 h-5 ml-2 -mr-1 text-violet-200 group-hover:text-sky-200"
         aria-hidden="true"
