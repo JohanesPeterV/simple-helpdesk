@@ -15,7 +15,9 @@ export default function App({ Component, pageProps }: AppProps) {
     return (
       <GuestLayout>
         <Toaster />
-        <Component {...pageProps} />
+        <>
+          <Component {...pageProps} />
+        </>
       </GuestLayout>
     );
 
