@@ -1,8 +1,6 @@
 import { FunctionComponent } from 'react';
-import DisclosureCard from '../disclosure-card';
 import { TicketDetail } from '@prisma/client';
 import { TicketDetailsProp } from '../../models/props/ticket-details-prop';
-import Card from '../card';
 
 const TicketDetail: FunctionComponent<TicketDetailsProp> = ({
   ticketDetails,
