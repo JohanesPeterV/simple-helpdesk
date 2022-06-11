@@ -2,7 +2,7 @@ import AdminRepository from '../repositories/admin-repository';
 import superjson from 'superjson';
 import { Admin } from '@prisma/client';
 
-export default class AdminController {
+export default class AdminPresenter {
   static getActiveAdmins = async () => {
     const activeAdminsString = superjson.stringify(
       await AdminRepository.getActiveAdmins()

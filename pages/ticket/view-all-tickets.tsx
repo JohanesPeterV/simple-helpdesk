@@ -5,7 +5,7 @@ import { NextPage } from 'next';
 import { useEffect, useState } from 'react';
 import Container from '../../components/container';
 import TicketWithDetailsStack from '../../components/ticket/ticket-with-details-stack';
-import TicketController from '../../controllers/ticket-controller';
+import TicketPresenter from '../../presenters/ticket-presenter';
 import { ironSessionOptions } from '../../lib/session';
 import { PaginateTicketParameter, Ticket } from '../../models/ticket/ticket';
 import ReactPaginate from 'react-paginate';
@@ -96,11 +96,11 @@ export const getServerSideProps = withIronSessionSsr(
     return {
       props: req.session.user
         ? {
-            allTickets: await TicketController.getAllTickets({
+            allTickets: await TicketPresenter.getAllTickets({
               user: req.session.user,
               limit: 5,
             }),
-            allTicketsLength: await TicketController.getAllTicketsLength(),
+            allTicketsLength: await TicketPresenter.getAllTicketsLength(),
           }
         : {},
     };

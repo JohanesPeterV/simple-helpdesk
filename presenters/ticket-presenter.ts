@@ -2,14 +2,9 @@ import User from '../models/auth/user';
 import TicketRepository from '../repositories/ticket-repository';
 import superjson from 'superjson';
 import { Ticket } from '../models/ticket/ticket';
+import { PaginateTicketFilteredByUserParams } from '../models/parameters/paginate-ticket-filtered-by-user-params';
 
-interface NamedParametersPaginate {
-  user: User;
-  limit?: number;
-  skip?: number;
-}
-
-export default class TicketController {
+export default class TicketPresenter {
   static async get(user: User, id: string) {
     const ticket = await TicketRepository.get(user, id);
     return ticket;
@@ -33,7 +28,7 @@ export default class TicketController {
     user,
     limit,
     skip,
-  }: NamedParametersPaginate) {
+  }: PaginateTicketFilteredByUserParams) {
     const pendingTicketsString = superjson.stringify(
       await TicketRepository.getClosed(user, limit, skip)
     );
@@ -56,14 +51,11 @@ export default class TicketController {
     return lengthTicket;
   }
 
-  static async getTicketsGroup(user: User) {
-    return {
-      pendingTickets: await TicketController.getPendingTickets(user),
-      ongoingTickets: await TicketController.getOngoingTickets(user),
-    };
-  }
-
-  static async getAllTickets({ user, limit, skip }: NamedParametersPaginate) {
+  static async getAllTickets({
+    user,
+    limit,
+    skip,
+  }: PaginateTicketFilteredByUserParams) {
     const ticketsString = superjson.stringify(
       await TicketRepository.getAllTickets(user, limit, skip)
     );

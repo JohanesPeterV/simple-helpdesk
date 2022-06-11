@@ -2,13 +2,13 @@ import type { NextPage } from 'next';
 import Container from '../../components/container';
 import { useRouter } from 'next/router';
 import { withIronSessionSsr } from 'iron-session/next';
-import TicketController from '../../controllers/ticket-controller';
+import TicketPresenter from '../../presenters/ticket-presenter';
 import { ironSessionOptions } from '../../lib/session';
 import TicketInformation from '../../components/ticket/ticket-information';
 import TicketDetail from '../../components/ticket/ticket-detail';
 import Button from '../../components/button';
 import Card from '../../components/card';
-import AdminController from '../../controllers/admin-controller';
+import AdminPresenter from '../../presenters/admin-presenter';
 import { Ticket } from '../../models/ticket/ticket';
 import { Admin } from '@prisma/client';
 import ManageTicketFormDesktop from '../../components/manage-ticket/manage-ticket-form-desktop';
@@ -89,12 +89,12 @@ export const getServerSideProps = withIronSessionSsr(
         props: {},
       };
     }
-    const ticket = await TicketController.get(
+    const ticket = await TicketPresenter.get(
       req.session.user,
       query.id.toString()
     );
 
-    const admins = await AdminController.getActiveAdmins();
+    const admins = await AdminPresenter.getActiveAdmins();
     const selectedAdmin =
       ticket && ticket.admin
         ? ticket.admin

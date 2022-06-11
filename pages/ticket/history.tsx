@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import Container from '../../components/container';
 import { ironSessionOptions } from '../../lib/session';
 import { withIronSessionSsr } from 'iron-session/next';
-import TicketController from '../../controllers/ticket-controller';
+import TicketPresenter from '../../presenters/ticket-presenter';
 import {
   PaginateClosedTicketParameter,
   Ticket,
@@ -12,7 +12,7 @@ import TicketStack from '../../components/ticket/ticket-stack';
 import ReactPaginate from 'react-paginate';
 import User from '../../models/auth/user';
 import TicketService from '../../services/ticket-service';
-import UserController from '../../controllers/user-controller';
+import UserPresenter from '../../presenters/user-presenter';
 import { UserNameParameter } from '../../models/parameters/user-name-parameter';
 
 interface HistoryProps {
@@ -142,14 +142,14 @@ export const getServerSideProps = withIronSessionSsr(
     return {
       props: req.session.user
         ? {
-            closedTickets: await TicketController.getClosedTickets({
+            closedTickets: await TicketPresenter.getClosedTickets({
               user: req.session.user,
               limit: 5,
             }),
-            closedTicketsLength: await TicketController.getClosedTicketsLength(
+            closedTicketsLength: await TicketPresenter.getClosedTicketsLength(
               req.session.user.username
             ),
-            admins: await UserController.getAllAdmin(),
+            admins: await UserPresenter.getAllAdmin(),
           }
         : {},
     };
