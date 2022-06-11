@@ -1,19 +1,15 @@
 import type { NextPage } from 'next';
 import Container from '../../components/container';
-import { useRouter } from 'next/router';
 import { withIronSessionSsr } from 'iron-session/next';
 import TicketPresenter from '../../presenters/ticket-presenter';
 import { ironSessionOptions } from '../../lib/session';
 import TicketInformation from '../../components/ticket/ticket-information';
 import TicketDetail from '../../components/ticket/ticket-detail';
-import Button from '../../components/button';
-import Card from '../../components/card';
 import AdminPresenter from '../../presenters/admin-presenter';
 import { Ticket } from '../../models/ticket/ticket';
 import { Admin } from '@prisma/client';
 import ManageTicketFormDesktop from '../../components/manage-ticket/manage-ticket-form-desktop';
 import ResponsiveMobile from '../../components/responsive-mobile';
-import { ReactElement } from 'react';
 import ManageTicketFormMobile from '../../components/manage-ticket/manage-ticket-form-mobile';
 
 interface TicketDetailProp {
@@ -23,17 +19,6 @@ interface TicketDetailProp {
 }
 
 const Id: NextPage<TicketDetailProp> = ({ ticket, admins, selectedAdmin }) => {
-  const router = useRouter();
-  const { id } = router.query;
-  function getManageTicketForm(): ReactElement<HTMLDivElement> {
-    return (
-      <ManageTicketFormDesktop
-        admins={admins}
-        selectedAdmin={selectedAdmin}
-        ticket={ticket}
-      />
-    );
-  }
   return ticket ? (
     <>
       <Container className="flex flex-row ">
@@ -71,7 +56,7 @@ const Id: NextPage<TicketDetailProp> = ({ ticket, admins, selectedAdmin }) => {
     <Container className="space-y-4">
       <div className="flex justify-center items-center">
         <h1 className="lg:text-2xl md:text-xl sm:text-lg">
-          Ticket doesn't exist or you don't have the permission.
+          Ticket don&apos;t exist or you don&apos;t have the permission.
         </h1>
       </div>
     </Container>
@@ -79,8 +64,6 @@ const Id: NextPage<TicketDetailProp> = ({ ticket, admins, selectedAdmin }) => {
 };
 
 export default Id;
-
-function test() {}
 
 export const getServerSideProps = withIronSessionSsr(
   async function getServerSideProps({ req, query }) {
@@ -95,12 +78,21 @@ export const getServerSideProps = withIronSessionSsr(
     );
 
     const admins = await AdminPresenter.getActiveAdmins();
-    const selectedAdmin =
-      ticket && ticket.admin
-        ? ticket.admin
-        : admins
-        ? admins.find((admin) => admin.username === req.session.user?.username)
-        : admins[0];
+
+    let selectedAdmin = getCurrentTicketSelectedAdmin({
+      ticket: ticket,
+      admins: admins,
+      userName: req.session.user?.username,
+    });
+
+    if (ticket && ticket.admin) {
+      selectedAdmin = ticket.admin;
+      if (admins) {
+        selectedAdmin = admins.find(
+          (admin) => admin.username === req.session.user?.username
+        );
+      }
+    }
     return {
       props: {
         ticket: ticket,
@@ -115,3 +107,19 @@ export const getServerSideProps = withIronSessionSsr(
   },
   ironSessionOptions
 );
+
+function getCurrentTicketSelectedAdmin(parameterObject: {
+  ticket?: Ticket;
+  admins?: Admin[];
+  userName: string;
+}) {
+  if (parameterObject.ticket && parameterObject.ticket.admin) {
+    return parameterObject.ticket.admin;
+  }
+  if (parameterObject.admins) {
+    return parameterObject.admins.find(
+      (admin) => admin.username === parameterObject.userName
+    );
+  }
+  return null;
+}
