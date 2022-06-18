@@ -23,7 +23,7 @@ const DisclosureCard: FunctionComponent<DisclosureProp> = ({
       {({ open }) => (
         <>
           <Disclosure.Button className="w-full">
-            <h2 className="flex items-center text-left text-xl font-bold ">
+            <h2 className="flex items-center text-left  md:text-lg font-semibold ">
               <If condition={open}>
                 <Then>
                   <ChevronDownIcon className="h-6 w-6" />

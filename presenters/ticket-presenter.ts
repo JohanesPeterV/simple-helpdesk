@@ -6,8 +6,7 @@ import { PaginateTicketFilteredByUserParams } from '../models/parameters/paginat
 
 export default class TicketPresenter {
   static async get(user: User, id: string) {
-    const ticket = await TicketRepository.get(user, id);
-    return ticket;
+    return await TicketRepository.get(user, id);
   }
 
   static async getPendingTickets(user: User) {
@@ -60,5 +59,11 @@ export default class TicketPresenter {
       await TicketRepository.getAllTickets(user, limit, skip)
     );
     return superjson.parse<Ticket[]>(ticketsString);
+  }
+  static async getPendingAndOngoingTicketsGroup(user: User) {
+    return {
+      pendingTickets: await TicketPresenter.getPendingTickets(user),
+      ongoingTickets: await TicketPresenter.getOngoingTickets(user),
+    };
   }
 }

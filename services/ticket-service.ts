@@ -1,12 +1,10 @@
 import axios from 'axios';
-import {
-  PaginateClosedTicketParameter,
-  PaginateTicketParameter,
-} from '../models/ticket/ticket';
 import { CreateTicketDTO } from '../models/dto/create-ticket-dto';
 import { AssignPICDTO } from '../models/dto/assign-pic-dto';
 import { Ticket } from '../models/ticket/ticket';
 import { UserNameParameter } from '../models/parameters/user-name-parameter';
+import { PaginateClosedTicketParameter } from '../models/parameters/paginate-closed-ticket-parameter';
+import { PaginateTicketParameter } from '../models/parameters/paginate-ticket-parameter';
 
 const SERVICE_NAME = 'tickets';
 export default class TicketService {

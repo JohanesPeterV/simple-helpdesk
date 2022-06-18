@@ -1,45 +1,45 @@
 import User from '../models/auth/user';
-import { PrismaClient, TicketStatus } from '@prisma/client';
+import { TicketStatus } from '@prisma/client';
 import TicketHeaderRepository from './ticket-header-repository';
 import TicketDetailRepository from './ticket-detail-repository';
 import { CreateTicketDTO } from '../models/dto/create-ticket-dto';
 import { Ticket } from '../models/ticket/ticket';
 import { prisma } from '../lib/prisma';
-import Mailer from '../lib/mailer/mailer';
-import ticketDetail from '../components/ticket/ticket-detail';
 
 const SCHEMA = prisma.ticketHeader;
 const SCHEMA_CHILD = prisma.ticketDetail;
 export default class TicketRepository {
   static get = async (user: User, id: string) => {
-    return user.role === 'admin'
-      ? await SCHEMA.findUnique({
-          where: {
-            id: id,
-          },
-          include: {
-            ticketDetails: {
-              orderBy: {
-                createdAt: 'asc',
-              },
+    if (user.role === 'admin') {
+      return await SCHEMA.findUnique({
+        where: {
+          id: id,
+        },
+        include: {
+          ticketDetails: {
+            orderBy: {
+              createdAt: 'asc',
             },
-            admin: true,
           },
-        })
-      : await SCHEMA.findFirst({
-          where: {
-            id: id,
-            creatorEmail: user.email,
+          admin: true,
+        },
+      });
+    }
+
+    return await SCHEMA.findFirst({
+      where: {
+        id: id,
+        creatorEmail: user.email,
+      },
+      include: {
+        ticketDetails: {
+          orderBy: {
+            createdAt: 'asc',
           },
-          include: {
-            ticketDetails: {
-              orderBy: {
-                createdAt: 'asc',
-              },
-            },
-            admin: true,
-          },
-        });
+        },
+        admin: true,
+      },
+    });
   };
   static create = async (user: User, ticketDTO: CreateTicketDTO) => {
     const ticketHeader = await TicketHeaderRepository.create(user);
@@ -75,54 +75,34 @@ export default class TicketRepository {
   private static getAllWithOneDetail = async (
     user: User,
     conditions: Object,
-    limitDetail: number = 1,
     limit: number = 0,
     skip: number = 0
   ) => {
-    return user.role === 'admin'
-      ? await SCHEMA.findMany({
-          where: conditions,
-          include: {
-            ticketDetails: {
-              take: limitDetail ? limitDetail : undefined,
-            },
-            admin: {},
-          },
-          skip: skip != 0 ? skip : undefined,
-          take: limit != 0 ? limit : undefined,
-          orderBy: [
-            {
-              createdAt: 'asc',
-            },
-            {
-              ticketStatus: 'asc',
-            },
-          ],
-        })
-      : await SCHEMA.findMany({
-          where: {
-            ...{
-              creatorEmail: user.email,
-            },
-            ...conditions,
-          },
-          include: {
-            ticketDetails: {
-              take: limit ? limit : undefined,
-            },
-            admin: {},
-          },
-          skip: skip != 0 ? skip : undefined,
-          take: limit != 0 ? limit : undefined,
-          orderBy: [
-            {
-              createdAt: 'asc',
-            },
-            {
-              ticketStatus: 'asc',
-            },
-          ],
-        });
+    const authCondition =
+      user.role === 'admin' ? { creatorEmail: user.email } : {};
+    const queryConditions = {
+      ...conditions,
+      ...authCondition,
+    };
+    return await SCHEMA.findMany({
+      where: queryConditions,
+      include: {
+        ticketDetails: {
+          take: 1,
+        },
+        admin: {},
+      },
+      skip: skip != 0 ? skip : undefined,
+      take: limit != 0 ? limit : undefined,
+      orderBy: [
+        {
+          createdAt: 'asc',
+        },
+        {
+          ticketStatus: 'asc',
+        },
+      ],
+    });
   };
 
   private static getAllWithDetails = async (
@@ -131,46 +111,33 @@ export default class TicketRepository {
     limit: number = 0,
     skip: number = 0
   ) => {
-    return user.role === 'admin'
-      ? await SCHEMA.findMany({
-          where: conditions,
-          include: {
-            ticketDetails: {},
-            admin: {},
-          },
-          skip: skip != 0 ? skip : undefined,
-          take: limit != 0 ? limit : undefined,
-          orderBy: [
-            {
-              createdAt: 'asc',
-            },
-            {
-              ticketStatus: 'asc',
-            },
-          ],
-        })
-      : await SCHEMA.findMany({
-          where: {
-            ...{
-              creatorEmail: user.email,
-            },
-            ...conditions,
-          },
-          include: {
-            ticketDetails: {},
-            admin: {},
-          },
-          skip: skip != 0 ? skip : undefined,
-          take: limit != 0 ? limit : undefined,
-          orderBy: [
-            {
-              createdAt: 'asc',
-            },
-            {
-              ticketStatus: 'asc',
-            },
-          ],
-        });
+    const authCondition =
+      user.role === 'admin'
+        ? {}
+        : {
+            creatorEmail: user.email,
+          };
+    const queryCondition = {
+      ...conditions,
+      ...authCondition,
+    };
+    return await SCHEMA.findMany({
+      where: queryCondition,
+      include: {
+        ticketDetails: {},
+        admin: {},
+      },
+      skip: skip != 0 ? skip : undefined,
+      take: limit != 0 ? limit : undefined,
+      orderBy: [
+        {
+          createdAt: 'asc',
+        },
+        {
+          ticketStatus: 'asc',
+        },
+      ],
+    });
   };
 
   static getAllTickets = async (user: User, limit?: number, skip?: number) => {
@@ -200,7 +167,6 @@ export default class TicketRepository {
           username: userParam == 'All' ? undefined : userParam,
         },
       },
-      1,
       limit,
       skip
     );
@@ -208,9 +174,7 @@ export default class TicketRepository {
   static getClosedLength = async function (username: string) {
     return SCHEMA.count({
       where: {
-        ...{
-          ticketStatus: TicketStatus.CLOSED,
-        },
+        ticketStatus: TicketStatus.CLOSED,
         ...(username === 'All'
           ? {}
           : {

@@ -4,16 +4,14 @@ import Container from '../../components/container';
 import { ironSessionOptions } from '../../lib/session';
 import { withIronSessionSsr } from 'iron-session/next';
 import TicketPresenter from '../../presenters/ticket-presenter';
-import {
-  PaginateClosedTicketParameter,
-  Ticket,
-} from '../../models/ticket/ticket';
+import { Ticket } from '../../models/ticket/ticket';
 import TicketStack from '../../components/ticket/ticket-stack';
 import ReactPaginate from 'react-paginate';
 import User from '../../models/auth/user';
 import TicketService from '../../services/ticket-service';
 import UserPresenter from '../../presenters/user-presenter';
 import { UserNameParameter } from '../../models/parameters/user-name-parameter';
+import { PaginateClosedTicketParameter } from '../../models/parameters/paginate-closed-ticket-parameter';
 
 interface HistoryProps {
   closedTickets: Ticket[];

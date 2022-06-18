@@ -7,9 +7,10 @@ import Container from '../../components/container';
 import TicketWithDetailsStack from '../../components/ticket/ticket-with-details-stack';
 import TicketPresenter from '../../presenters/ticket-presenter';
 import { ironSessionOptions } from '../../lib/session';
-import { PaginateTicketParameter, Ticket } from '../../models/ticket/ticket';
+import { Ticket } from '../../models/ticket/ticket';
 import ReactPaginate from 'react-paginate';
 import TicketService from '../../services/ticket-service';
+import { PaginateTicketParameter } from '../../models/parameters/paginate-ticket-parameter';
 
 interface AllTicketsProps {
   allTickets: Ticket[];

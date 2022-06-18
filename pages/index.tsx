@@ -6,14 +6,13 @@ import { withIronSessionSsr } from 'iron-session/next';
 import { TicketGrouping } from '../models/ticket/ticket-grouping';
 import TicketPresenter from '../presenters/ticket-presenter';
 import TicketStack from '../components/ticket/ticket-stack';
-import TicketController from '../controllers/ticket-controllers';
 import DisclosureCard from '../components/disclosure-card';
 
-interface HomeProps {
+interface TicketGroupingProp {
   ticketGrouping: TicketGrouping;
 }
 
-const Home: NextPage<HomeProps> = (props) => {
+const Home: NextPage<TicketGroupingProp> = (props) => {
   const [ticketGrouping, setTicketGrouping] = useState<TicketGrouping>();
 
   useEffect(() => {
@@ -21,7 +20,7 @@ const Home: NextPage<HomeProps> = (props) => {
   }, []);
 
   return (
-    <Container className="sm:px-12 px-2.5">
+    <Container>
       {ticketGrouping ? (
         <div className="flex flex-col xl:flex-row xl:space-x-8 space-y-8 xl:space-y-0 justify-start">
           <DisclosureCard
@@ -60,9 +59,10 @@ export const getServerSideProps = withIronSessionSsr(
     return {
       props: req.session.user
         ? {
-            ticketGrouping: await TicketController.getTicketsGroup(
-              req.session.user
-            ),
+            ticketGrouping:
+              await TicketPresenter.getPendingAndOngoingTicketsGroup(
+                req.session.user
+              ),
           }
         : {},
     };

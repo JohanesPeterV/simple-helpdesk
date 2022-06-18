@@ -7,7 +7,7 @@ const Container: FunctionComponent<HTMLAttributes<HTMLDivElement>> = ({
 }) => (
   <div
     {...rest}
-    className={`py-8 px-12 md:px-16 py-2 w-full min-w-full ${className}`}
+    className={`py-8 px-6 md:px-16 py-2 w-full min-w-full ${className}`}
   >
     {children}
   </div>

@@ -10,12 +10,12 @@ const TicketStack: FunctionComponent<TicketStackProps> = ({
 }) =>
   tickets.length > 0 ? (
     <ul className={`divide-y divide-gray-300 ${className}`}>
-      {tickets.map((ticket) => (
+      {tickets.map((ticket, index) => (
         <TicketCard ticket={ticket} key={ticket.id} />
       ))}
     </ul>
   ) : (
-    <h3 className="sm:text-lg font-bold text-center py-6">
+    <h3 className="sm:text-lg  text-center py-6">
       You have no {title.toLowerCase()}
     </h3>
   );

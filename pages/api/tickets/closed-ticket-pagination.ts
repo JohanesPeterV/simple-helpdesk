@@ -3,7 +3,7 @@ import User from '../../../models/auth/user';
 import { withIronSessionApiRoute } from 'iron-session/next';
 import { ironSessionOptions } from '../../../lib/session';
 import TicketRepository from '../../../repositories/ticket-repository';
-import { PaginateClosedTicketParameter } from '../../../models/ticket/ticket';
+import { PaginateClosedTicketParameter } from '../../../models/parameters/paginate-closed-ticket-parameter';
 
 export default withIronSessionApiRoute(getTickets, ironSessionOptions);
 

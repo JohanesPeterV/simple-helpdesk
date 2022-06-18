@@ -11,9 +11,9 @@ const NavigationDropdown: FunctionComponent<DropdownProps> = ({
 }) => (
   <div className={'group pb-4 ' + className}>
     <div className="text-gray-500 group bg-white rounded-md inline-flex items-center text-base font-medium hover:text-gray-900 focus:outline-none ">
-      <p className={labelClassName}>{label}</p>
+      <p className={`group-hover:text-sky-500 ${labelClassName}`}>{label}</p>
       <ChevronDownIcon
-        className="w-5 h-5 ml-2 -mr-1 text-violet-200 group-hover:text-sky-200"
+        className="w-5 h-5 ml-2 -mr-1 text-violet-200 group-hover:text-sky-500 "
         aria-hidden="true"
       />
     </div>
@@ -23,7 +23,7 @@ const NavigationDropdown: FunctionComponent<DropdownProps> = ({
           {links.map((link) => (
             <div key={link.path}>
               <button
-                className="hover:bg-gray-200 font-medium text-gray-900 group flex rounded-md items-center w-full px-5 py-3 text-sm"
+                className="hover:text-sky-500 bg-white hover:bg-neutral-50 font-medium text-gray-900 group flex rounded-md items-center w-full px-5 py-3 text-sm"
                 onClick={() => {
                   Router.push(link.path);
                 }}
