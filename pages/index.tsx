@@ -61,7 +61,8 @@ export const getServerSideProps = withIronSessionSsr(
         ? {
             ticketGrouping:
               await TicketPresenter.getPendingAndOngoingTicketsGroup(
-                req.session.user
+                req.session.user,
+                10
               ),
           }
         : {},

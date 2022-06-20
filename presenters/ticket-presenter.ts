@@ -9,16 +9,16 @@ export default class TicketPresenter {
     return await TicketRepository.get(user, id);
   }
 
-  static async getPendingTickets(user: User) {
+  static async getPendingTickets(user: User, limit?: number) {
     const pendingTicketsString = superjson.stringify(
-      await TicketRepository.getPending(user)
+      await TicketRepository.getPending(user, limit)
     );
     return superjson.parse<Ticket[]>(pendingTicketsString);
   }
 
-  static async getOngoingTickets(user: User) {
+  static async getOngoingTickets(user: User, limit?: number) {
     const pendingTicketsString = superjson.stringify(
-      await TicketRepository.getOnGoing(user)
+      await TicketRepository.getOnGoing(user, limit)
     );
     return superjson.parse<Ticket[]>(pendingTicketsString);
   }
@@ -60,10 +60,11 @@ export default class TicketPresenter {
     );
     return superjson.parse<Ticket[]>(ticketsString);
   }
-  static async getPendingAndOngoingTicketsGroup(user: User) {
+
+  static async getPendingAndOngoingTicketsGroup(user: User, limit?: number) {
     return {
-      pendingTickets: await TicketPresenter.getPendingTickets(user),
-      ongoingTickets: await TicketPresenter.getOngoingTickets(user),
+      pendingTickets: await TicketPresenter.getPendingTickets(user, limit),
+      ongoingTickets: await TicketPresenter.getOngoingTickets(user, limit),
     };
   }
 }

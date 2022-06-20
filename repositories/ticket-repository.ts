@@ -143,12 +143,12 @@ export default class TicketRepository {
   static getAllTickets = async (user: User, limit?: number, skip?: number) => {
     return TicketRepository.getAllWithDetails(user, {}, limit, skip);
   };
-  static getPending = async (user: User) =>
+  static getPending = async (user: User, limit?: number) =>
     TicketRepository.getAllWithOneDetail(user, {
       ticketStatus: TicketStatus.PENDING,
     });
 
-  static getOnGoing = async (user: User) =>
+  static getOnGoing = async (user: User, limit?: number) =>
     TicketRepository.getAllWithOneDetail(user, {
       ticketStatus: TicketStatus.ONGOING,
     });

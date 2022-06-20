@@ -109,7 +109,7 @@ export const getServerSideProps = withIronSessionSsr(
 );
 
 function getCurrentTicketSelectedAdmin(parameterObject: {
-  ticket?: Ticket;
+  ticket?: Ticket | null;
   admins?: Admin[];
   userName: string;
 }) {
