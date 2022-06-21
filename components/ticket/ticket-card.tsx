@@ -1,4 +1,4 @@
-import { FunctionComponent } from 'react';
+import { FunctionComponent, HTMLAttributes } from 'react';
 import { TicketStatus } from '@prisma/client';
 import {
   CheckCircleIcon,
@@ -14,10 +14,15 @@ export interface TicketProp {
   ticket: Ticket;
 }
 
-const TicketCard: FunctionComponent<TicketProp> = ({ ticket }) => {
+const TicketCard: FunctionComponent<
+  HTMLAttributes<HTMLDivElement> & TicketProp
+> = ({ children, ticket }) => {
   return (
     <li>
-      <a href={'/ticket/' + ticket.id} className="block hover:bg-gray-200 bg-gray-100">
+      <a
+        href={'/ticket/' + ticket.id}
+        className="block hover:bg-gray-200 bg-gray-100"
+      >
         <div className="flex items-center px-4 py-4 sm:px-6">
           <div className="min-w-0 flex-1 flex items-center">
             <div className="min-w-0 flex-1 px-4 md:grid md:grid-cols-2 md:gap-4">
@@ -37,7 +42,9 @@ const TicketCard: FunctionComponent<TicketProp> = ({ ticket }) => {
                     className="flex-shrink-0 mr-1.5 h-5 w-5 text-gray-400"
                     aria-hidden="true"
                   />
-                  <span className="truncate">{ticket.admin?.username ?? "-"}</span>
+                  <span className="truncate">
+                    {ticket.admin?.username ?? '-'}
+                  </span>
                 </div>
               </div>
               <div className="hidden md:block">
@@ -90,6 +97,7 @@ const TicketCard: FunctionComponent<TicketProp> = ({ ticket }) => {
             />
           </div>
         </div>
+        {children}
       </a>
     </li>
   );

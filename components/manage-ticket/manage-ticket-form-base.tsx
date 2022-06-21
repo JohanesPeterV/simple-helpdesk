@@ -23,7 +23,7 @@ const ManageTicketFormBase: FunctionComponent<ManageTicketFormProps> = ({
   const noPIC = !ticket.admin;
   const updateCurrentPIC =
     ticket.admin && selected.username !== ticket.admin.username;
-  const onSubmit: FormEventHandler = async (e) => {
+  const onSubmit: FormEventHandler = async () => {
     const assignPICDTO = {
       adminId: selected.id,
       ticketId: ticket.id,

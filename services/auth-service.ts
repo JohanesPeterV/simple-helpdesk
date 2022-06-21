@@ -12,6 +12,6 @@ export default class AuthService {
   }
 
   static user() {
-    return axios.post('/api/' + SERVICE_NAME + '/user');
+    return axios.get('/api/' + SERVICE_NAME + '/user');
   }
 }

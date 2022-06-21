@@ -18,7 +18,6 @@ import { CreateTicketDTO } from '../../models/dto/create-ticket-dto';
 import { toast } from 'react-hot-toast';
 import Router from 'next/router';
 import Input from '../../components/input';
-import { If } from 'react-if';
 import ConditionComponent from '../../components/condition-component';
 
 interface TicketDetailProp {
@@ -38,6 +37,7 @@ const Id: NextPage<TicketDetailProp> = ({ ticket, admins, selectedAdmin }) => {
       title: title,
       content: content,
     };
+
     await toast.promise(TicketService.create(ticketDetail), {
       loading: 'Replying...',
       success: 'Reply Success',

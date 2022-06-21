@@ -1,16 +1,9 @@
-import {
-  FunctionComponent,
-  ReactElement,
-  ReactNode,
-  useEffect,
-  useState,
-} from 'react';
+import { FunctionComponent, useState } from 'react';
 import { Admin } from '@prisma/client';
 import { Ticket } from '../../models/ticket/ticket';
 import ManageTicketFormBase from './manage-ticket-form-base';
 import Card from '../card';
 import Button from '../button';
-import ReactDOM from 'react-dom';
 import PopupModal from '../popup-modal';
 
 interface ManageTicketFormProps {
@@ -19,7 +12,6 @@ interface ManageTicketFormProps {
   ticket: Ticket;
 }
 
-let reactDom = require('react-dom');
 const ManageTicketFormDesktop: FunctionComponent<ManageTicketFormProps> = ({
   admins,
   selectedAdmin,
