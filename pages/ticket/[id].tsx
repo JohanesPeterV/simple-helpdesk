@@ -18,6 +18,7 @@ import { CreateTicketDTO } from '../../models/dto/create-ticket-dto';
 import { toast } from 'react-hot-toast';
 import Router from 'next/router';
 import Input from '../../components/input';
+import { If } from 'react-if';
 
 interface TicketDetailProp {
   ticket: Ticket;
@@ -42,7 +43,7 @@ const Id: NextPage<TicketDetailProp> = ({ ticket, admins, selectedAdmin }) => {
       error: 'Reply failed',
     });
     await Router.push('/');
-  }
+  };
 
   return ticket ? (
     <>
@@ -50,40 +51,46 @@ const Id: NextPage<TicketDetailProp> = ({ ticket, admins, selectedAdmin }) => {
         <div className="md:w-60 lg:w-1/2 flex-auto">
           <section aria-labelledby="applicant-information-title">
             <TicketInformation ticket={ticket} />
-          </section>  
+          </section>
           <section aria-labelledby="notes-title">
             <TicketDetail ticketDetails={ticket.ticketDetails} />
           </section>
-          <form onSubmit={onSubmit} className="px-4 sm:px-6 pb-6 h-40 mb-20 space-y-3 space-y-6">
-            <label
+          <If condition={!!admins}>
+            <form
+              onSubmit={onSubmit}
+              className="px-4 sm:px-6 pb-6 h-40 mb-20 space-y-3 space-y-6"
+            >
+              <label
                 htmlFor="title"
                 className="block text-base font-medium text-gray-700 sm:mt-px sm:pt-2"
               >
                 Reply Ticket
               </label>
-              <Input 
-              id='reply-content'
-              name='reply-content'
-              onChange={(e) => {
-                setContent(e.target.value);
-                setTitle(e.target.value);
-              }}
-              type='textarea' 
-              className='border-2 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm border-gray-300 rounded-md h-full w-full pl-2 pt-2 hover:shadow-md focus:shadow-md focus:ring-0 focus:outline-none focus:border-slate-400'
-              defaultValue={''}
-              >
-              </Input>
-            <div className='flex flex-col items-end'>
-              <Button 
-              className={'bg-sky-600 text-white font-bold hover:bg-sky-700 px-10 py-2'} 
-              type="submit"
-              >
-                Reply
-              </Button>
-            </div>
-          </form>
+              <Input
+                id="reply-content"
+                name="reply-content"
+                onChange={(e) => {
+                  setContent(e.target.value);
+                  setTitle(e.target.value);
+                }}
+                type="textarea"
+                className="border-2 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm border-gray-300 rounded-md h-full w-full pl-2 pt-2 hover:shadow-md focus:shadow-md focus:ring-0 focus:outline-none focus:border-slate-400"
+                defaultValue={''}
+              />
+              <div className="flex flex-col items-end">
+                <Button
+                  className={
+                    'bg-sky-600 text-white font-bold hover:bg-sky-700 px-10 py-2'
+                  }
+                  type="submit"
+                >
+                  Reply
+                </Button>
+              </div>
+            </form>
+          </If>
         </div>
-        {admins ? (
+        <If condition={!!admins}>
           <ResponsiveMobile
             desktopChild={
               <ManageTicketFormDesktop
@@ -100,9 +107,7 @@ const Id: NextPage<TicketDetailProp> = ({ ticket, admins, selectedAdmin }) => {
               />
             }
           />
-        ) : (
-          <></>
-        )}
+        </If>
       </Container>
     </>
   ) : (

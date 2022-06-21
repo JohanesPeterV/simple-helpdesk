@@ -12,6 +12,7 @@ export default withIronSessionApiRoute(handleLogin, ironSessionOptions);
 
 async function handleLogin(req: NextApiRequest, res: NextApiResponse) {
   const { username, password } = await req.body;
+
   const admin = await findAdmin(await username);
   admin
     ? await adminLogin(admin, password, res, req)

@@ -25,6 +25,7 @@ const Login: NextPage = ({}) => {
       success: 'Log in success',
       error: 'Wrong username or password.',
     });
+
     await Router.push('/');
   };
   return (
