@@ -1,5 +1,4 @@
 import { FunctionComponent } from 'react';
-import DisclosureCard from '../disclosure-card';
 import { Ticket } from '../../models/ticket/ticket';
 import { TicketProp } from '../../models/props/ticket-prop';
 

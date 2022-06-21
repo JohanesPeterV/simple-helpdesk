@@ -121,6 +121,7 @@ export default class TicketRepository {
       ...conditions,
       ...authCondition,
     };
+    //TODO: consider limiting the included details
     return await SCHEMA.findMany({
       where: queryCondition,
       include: {

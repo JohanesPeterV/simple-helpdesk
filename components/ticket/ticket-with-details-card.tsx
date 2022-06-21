@@ -12,7 +12,7 @@ import { Ticket } from '../../models/ticket/ticket';
 import { Else, If, Then } from 'react-if';
 import { TicketProp } from '../../models/props/ticket-prop';
 import TicketCard from './ticket-card';
-
+1;
 const TicketWithDetailsCard: FunctionComponent<TicketProp> = ({ ticket }) => {
   return (
     <TicketCard ticket={ticket}>
