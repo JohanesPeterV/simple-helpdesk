@@ -15,9 +15,10 @@ export default class TicketService {
   static assignPIC(assignPICDTO: AssignPICDTO) {
     return axios.post('/api/' + SERVICE_NAME + '/assign-pic', assignPICDTO);
   }
+
   static viewClosedTicketPaginate(paginate: PaginateClosedTicketParameter) {
     return axios.post(
-      '/api/' + SERVICE_NAME + '/closed-ticket-pagination',
+      '/api/' + SERVICE_NAME + '/get-closed-paginate',
       paginate
     );
   }
@@ -29,14 +30,12 @@ export default class TicketService {
   }
 
   static viewAllTicketPaginate(paginate: PaginateTicketParameter) {
-    return axios.post(
-      '/api/' + SERVICE_NAME + '/all-ticket-pagination',
-      paginate
-    );
+    return axios.post('/api/' + SERVICE_NAME + '/get-all-paginated', paginate);
   }
+
   static getClosedTicketLength(ticketLength: UserNameParameter) {
     return axios.post(
-      '/api/' + SERVICE_NAME + '/closed-ticket-length',
+      '/api/' + SERVICE_NAME + '/get-closed-length',
       ticketLength
     );
   }

@@ -5,9 +5,15 @@ import { ironSessionOptions } from '../../../lib/session';
 import TicketRepository from '../../../repositories/ticket-repository';
 import { PaginateClosedTicketParameter } from '../../../models/parameters/paginate-closed-ticket-parameter';
 
-export default withIronSessionApiRoute(getTickets, ironSessionOptions);
+export default withIronSessionApiRoute(
+  handleGetAllTicketsPaginated,
+  ironSessionOptions
+);
 
-async function getTickets(req: NextApiRequest, res: NextApiResponse) {
+async function handleGetAllTicketsPaginated(
+  req: NextApiRequest,
+  res: NextApiResponse
+) {
   const paginate: PaginateClosedTicketParameter = await req.body;
   const user = req.session.user;
   if (user) {

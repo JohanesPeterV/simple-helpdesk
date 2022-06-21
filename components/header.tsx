@@ -9,12 +9,14 @@ import User from '../models/auth/user';
 import Router from 'next/router';
 
 const Header: FunctionComponent<HTMLAttributes<HTMLDivElement>> = () => {
-  const [user, setUser] = useState<User>();
+  const [user, setUser] = useState<User | null>(null);
 
   useEffect(() => {
-    AuthService.user().then((user) => {
-      setUser(user.data);
-    });
+    if (!user) {
+      AuthService.user().then((user) => {
+        setUser(user.data);
+      });
+    }
   });
   return (
     <header className="w-full flex top-0 px-6 md:px-16">

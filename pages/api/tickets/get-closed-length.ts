@@ -3,11 +3,17 @@ import User from '../../../models/auth/user';
 import { withIronSessionApiRoute } from 'iron-session/next';
 import { ironSessionOptions } from '../../../lib/session';
 import TicketRepository from '../../../repositories/ticket-repository';
-import { UserNameParameter } from '../../../models/ticket/ticket';
+import { UserNameParameter } from '../../../models/parameters/user-name-parameter';
 
-export default withIronSessionApiRoute(closedTicketsLength, ironSessionOptions);
+export default withIronSessionApiRoute(
+  handleClosedTicketLength,
+  ironSessionOptions
+);
 
-async function closedTicketsLength(req: NextApiRequest, res: NextApiResponse) {
+async function handleClosedTicketLength(
+  req: NextApiRequest,
+  res: NextApiResponse
+) {
   const ticketLength: UserNameParameter = await req.body;
   const user = req.session.user;
   if (user) {
