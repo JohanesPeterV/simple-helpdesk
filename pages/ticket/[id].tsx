@@ -19,6 +19,7 @@ import { toast } from 'react-hot-toast';
 import Router from 'next/router';
 import Input from '../../components/input';
 import { If } from 'react-if';
+import ConditionComponent from '../../components/condition-component';
 
 interface TicketDetailProp {
   ticket: Ticket;
@@ -55,7 +56,7 @@ const Id: NextPage<TicketDetailProp> = ({ ticket, admins, selectedAdmin }) => {
           <section aria-labelledby="notes-title">
             <TicketDetail ticketDetails={ticket.ticketDetails} />
           </section>
-          <If condition={!!admins}>
+          <ConditionComponent condition={!!admins}>
             <form
               onSubmit={onSubmit}
               className="px-4 sm:px-6 pb-6 h-40 mb-20 space-y-3 space-y-6"
@@ -88,9 +89,9 @@ const Id: NextPage<TicketDetailProp> = ({ ticket, admins, selectedAdmin }) => {
                 </Button>
               </div>
             </form>
-          </If>
+          </ConditionComponent>
         </div>
-        <If condition={!!admins}>
+        <ConditionComponent condition={!!admins}>
           <ResponsiveMobile
             desktopChild={
               <ManageTicketFormDesktop
@@ -107,7 +108,7 @@ const Id: NextPage<TicketDetailProp> = ({ ticket, admins, selectedAdmin }) => {
               />
             }
           />
-        </If>
+        </ConditionComponent>
       </Container>
     </>
   ) : (
