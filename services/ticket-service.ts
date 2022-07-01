@@ -5,6 +5,7 @@ import { Ticket } from '../models/ticket/ticket';
 import { UserNameParameter } from '../models/parameters/user-name-parameter';
 import { PaginateClosedTicketParameter } from '../models/parameters/paginate-closed-ticket-parameter';
 import { PaginateTicketParameter } from '../models/parameters/paginate-ticket-parameter';
+import { FilterParameter } from '../models/parameters/filter-parameter';
 
 const SERVICE_NAME = 'tickets';
 export default class TicketService {
@@ -18,7 +19,7 @@ export default class TicketService {
 
   static viewClosedTicketPaginate(paginate: PaginateClosedTicketParameter) {
     return axios.post(
-      '/api/' + SERVICE_NAME + '/get-closed-paginate',
+      '/api/' + SERVICE_NAME + '/get-closed-paginated',
       paginate
     );
   }
@@ -37,6 +38,13 @@ export default class TicketService {
     return axios.post(
       '/api/' + SERVICE_NAME + '/get-closed-length',
       ticketLength
+    );
+  }
+
+  static getAllTicketLength(filterParameter: FilterParameter) {
+    return axios.post(
+      '/api/' + SERVICE_NAME + '/get-all-length',
+      filterParameter
     );
   }
 }
