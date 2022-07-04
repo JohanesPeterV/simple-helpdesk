@@ -1,27 +1,28 @@
 import User from '../models/auth/user';
 import { prisma } from '../lib/prisma';
-import { TicketDetailParameter } from '../models/ticket/ticket-detail-parameter';
+
 import Mailer from '../lib/mailer/mailer';
+import { CreateTicketDetailDTO } from '../models/dto/create-ticket-detail-dto';
 
 const SCHEMA = prisma.ticketDetail;
 export default class TicketDetailRepository {
   static create = async (
     user: User,
-    ticketDetailParameter: TicketDetailParameter
+    createTicketDetailDTO: CreateTicketDetailDTO
   ) => {
     const email = await Mailer.sendEmail(user.email, {
-      subject: ticketDetailParameter.title,
-      content: ticketDetailParameter.content,
+      subject: createTicketDetailDTO.title,
+      content: createTicketDetailDTO.content,
     });
     return SCHEMA.create({
       data: {
         creatorEmail: user.email,
         creatorName: user.name,
-        title: ticketDetailParameter.title,
-        content: ticketDetailParameter.content,
+        title: createTicketDetailDTO.title,
+        content: createTicketDetailDTO.content,
         emailMessageId: email.id,
         ticketHeader: {
-          connect: { id: ticketDetailParameter.headerId },
+          connect: { id: createTicketDetailDTO.headerId },
         },
       },
     });
