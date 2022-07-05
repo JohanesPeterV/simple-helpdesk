@@ -2,7 +2,7 @@ import { truncate } from 'fs';
 import { withIronSessionSsr } from 'iron-session/next';
 import { useRouter } from 'next/router';
 import { NextPage } from 'next';
-import { useEffect, useState } from 'react';
+import { FormEventHandler, useEffect, useState } from 'react';
 import Container from '../../components/container';
 import TicketWithDetailsStack from '../../components/ticket/ticket-with-details-stack';
 import TicketPresenter from '../../presenters/ticket-presenter';
@@ -11,6 +11,9 @@ import { Ticket } from '../../models/ticket/ticket';
 import ReactPaginate from 'react-paginate';
 import TicketService from '../../services/ticket-service';
 import { PaginateTicketParameter } from '../../models/parameters/paginate-ticket-parameter';
+import { FilterParameter } from '../../models/parameters/filter-parameter';
+import Input from '../../components/input';
+import Button from '../../components/button';
 
 interface AllTicketsProps {
   allTickets: Ticket[];
@@ -25,6 +28,10 @@ const ViewAllTickets: NextPage<AllTicketsProps> = (props) => {
   const [countData, setCountData] = useState<number>();
   const dataPerPage = 5;
   const [page, setPage] = useState(0);
+  const [currPage, setCurrPage] = useState(0);
+
+  const [statusParam, setStatusParam] = useState('ALL STATUS');
+  const [titleParam, setTitleParam] = useState('');
 
   useEffect(() => {
     setPage(Math.ceil(countData! / dataPerPage));
@@ -35,19 +42,61 @@ const ViewAllTickets: NextPage<AllTicketsProps> = (props) => {
     setOutput(props.allTickets);
     setCountData(props.allTicketsLength);
 
-    console.log(props.allTicketsLength);
+    console.log(props.allTickets);
   }, [allTickets]);
 
   async function handlePageClick(data: any) {
     const currPage = data.selected + 1;
+    setCurrPage(data.selected);
+
+    const filterParameter: FilterParameter = {
+      status: statusParam,
+      title: titleParam
+    };
 
     const paginate: PaginateTicketParameter = {
       page: currPage,
       dataPerPage: dataPerPage,
+      filterParameter: filterParameter,
     };
     const paginateData = await TicketService.viewAllTicketPaginate(paginate);
     setOutput(paginateData.data);
   }
+
+  function statusDropDownChange(data: any) {
+    const status = data.target.value;
+    setStatusParam(status)
+  }
+
+  function titleInputChange(data: any){
+    setTitleParam(data.target.value)
+  }
+
+  const onSubmit: FormEventHandler = async (e) => {
+    e.preventDefault();
+    console.log("Status : " + statusParam)
+    console.log("Title : " + titleParam)
+
+    const filterParameter: FilterParameter = {
+      status: statusParam,
+      title: titleParam
+    };
+
+    const length = await TicketService.getAllTicketLength(filterParameter);
+    setCountData(length.data)
+    console.log(length.data)
+
+    const thePage = 1;
+    setCurrPage(thePage-1);
+    const paginate: PaginateTicketParameter = {
+      page: thePage,
+      dataPerPage: dataPerPage,
+      filterParameter: filterParameter
+    };
+    
+    const paginateData = await TicketService.viewAllTicketPaginate(paginate);
+    setOutput(paginateData.data);
+  };
 
   return (
     <Container className="">
@@ -60,6 +109,7 @@ const ViewAllTickets: NextPage<AllTicketsProps> = (props) => {
             breakLabel={'...'}
             marginPagesDisplayed={3}
             onPageChange={handlePageClick}
+            forcePage={currPage}
             containerClassName={'flex justify-center mb-5'}
             pageClassName={
               'bg-white border-gray-300 text-gray-500 hover:bg-gray-50 relative inline-flex items-center px-3 py-1 border text-base font-medium'
@@ -75,12 +125,43 @@ const ViewAllTickets: NextPage<AllTicketsProps> = (props) => {
               'z-10 bg-gray-200 text-indigo-600 relative inline-flex items-center px-3 py-1 border text-base font-medium'
             }
           />
-          <div className="flex flex-col md:flex-row md:space-x-8 space-y-8 justify-center">
-            <TicketWithDetailsStack
-              title={'Ticket History'}
-              tickets={output}
-              className={'w-full'}
-            />
+
+          <div>
+            <form onSubmit={onSubmit}>
+              <select
+                className="border-2 border-gray-300 border-solid w-full max-w-sm px-2 py-2.5 rounded-md text-gray-500 my-3"
+                name=""
+                id=""
+                value={statusParam}
+                onChange={statusDropDownChange}
+              >
+                <option value="ALL STATUS">ALL STATUS</option>
+                <option value="CLOSED">CLOSED</option>
+                <option value="PENDING">PENDING</option>
+                <option value="ONGOING">ONGOING</option>
+
+              </select>
+
+              <Input
+                onChange={titleInputChange}
+                type="text"
+                placeholder="Title or Content"
+              />
+
+              <Button
+                  type="submit"
+                  className={'hover:bg-sky-700 bg-sky-600 text-white'}>
+                  Filter
+              </Button>
+            </form>
+
+            <div className="flex flex-col md:flex-row md:space-x-8 space-y-8 justify-center">
+              <TicketWithDetailsStack
+                title={'Ticket History'}
+                tickets={output}
+                className={'w-full'}
+              />
+            </div>
           </div>
         </div>
       ) : (
@@ -100,8 +181,8 @@ export const getServerSideProps = withIronSessionSsr(
             allTickets: await TicketPresenter.getAllTickets({
               user: req.session.user,
               limit: 5,
-            }),
-            allTicketsLength: await TicketPresenter.getAllTicketsLength(),
+            }, 'ALL STATUS', ''),
+            allTicketsLength: await TicketPresenter.getAllTicketsLength('ALL STATUS', ''),
           }
         : {},
     };

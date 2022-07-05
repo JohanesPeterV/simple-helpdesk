@@ -14,11 +14,11 @@ import ManageTicketFormMobile from '../../components/manage-ticket/manage-ticket
 import Button from '../../components/button';
 import { FormEventHandler, useState } from 'react';
 import TicketService from '../../services/ticket-service';
-import { CreateTicketDTO } from '../../models/dto/create-ticket-dto';
 import { toast } from 'react-hot-toast';
 import Router from 'next/router';
 import Input from '../../components/input';
 import ConditionComponent from '../../components/condition-component';
+import { CreateTicketDetailDTO } from '../../models/dto/create-ticket-detail-dto';
 
 interface TicketDetailProp {
   ticket: Ticket;
@@ -27,23 +27,23 @@ interface TicketDetailProp {
 }
 
 const Id: NextPage<TicketDetailProp> = ({ ticket, admins, selectedAdmin }) => {
-  const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
 
   const onSubmit: FormEventHandler = async (e) => {
     e.preventDefault();
 
-    const ticketDetail: CreateTicketDTO = {
-      title: title,
+    const ticketDetail: CreateTicketDetailDTO = {
+      title: 'RE#' + ticket.ticketDetails.length + ' : ' + ticket.ticketDetails[0].title,
       content: content,
+      headerId: ticket.id
     };
 
-    await toast.promise(TicketService.create(ticketDetail), {
+    await toast.promise(TicketService.createDetail(ticketDetail), {
       loading: 'Replying...',
       success: 'Reply Success',
       error: 'Reply failed',
     });
-    await Router.push('/');
+    await Router.reload();
   };
 
   return ticket ? (
@@ -72,7 +72,6 @@ const Id: NextPage<TicketDetailProp> = ({ ticket, admins, selectedAdmin }) => {
               name="reply-content"
               onChange={(e) => {
                 setContent(e.target.value);
-                setTitle(e.target.value);
               }}
               type="textarea"
               className="border-2 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm border-gray-300 rounded-md h-full w-full pl-2 pt-2 hover:shadow-md focus:shadow-md focus:ring-0 focus:outline-none focus:border-slate-400"

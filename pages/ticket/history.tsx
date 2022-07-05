@@ -27,6 +27,7 @@ const History: NextPage<HistoryProps> = (props) => {
   const [countData, setCountData] = useState<number>();
   const dataPerPage = 5;
   const [page, setPage] = useState(0);
+  const [currPage, setCurrPage] = useState(0);
 
   const [userParam, setUserParam] = useState('All');
 
@@ -35,16 +36,17 @@ const History: NextPage<HistoryProps> = (props) => {
   }, [countData]);
 
   useEffect(() => {
+    
     setAdmins(props.admins);
     setClosedTickets(props.closedTickets);
     setOutput(closedTickets);
-    console.log(props.admins);
 
     setCountData(props.closedTicketsLength);
   }, [closedTickets]);
 
   async function handlePageClick(data: any) {
     const currPage = data.selected + 1;
+    setCurrPage(data.selected);
 
     const paginate: PaginateClosedTicketParameter = {
       page: currPage,
@@ -66,6 +68,7 @@ const History: NextPage<HistoryProps> = (props) => {
     setCountData(length.data);
 
     const currPage = 1;
+    setCurrPage(currPage-1);
     const paginate: PaginateClosedTicketParameter = {
       page: currPage,
       dataPerPage: dataPerPage,
@@ -87,6 +90,7 @@ const History: NextPage<HistoryProps> = (props) => {
             breakLabel={'...'}
             marginPagesDisplayed={3}
             onPageChange={handlePageClick}
+            forcePage={currPage}
             containerClassName={'flex justify-center mb-5'}
             pageClassName={
               'bg-white border-gray-300 text-gray-500 hover:bg-gray-50 relative inline-flex items-center px-3 py-1 border text-base font-medium'
@@ -137,6 +141,7 @@ export default History;
 
 export const getServerSideProps = withIronSessionSsr(
   async function getServerSideProps({ req }) {
+    var userInitial: string = 'All';
     return {
       props: req.session.user
         ? {
@@ -145,7 +150,7 @@ export const getServerSideProps = withIronSessionSsr(
               limit: 5,
             }),
             closedTicketsLength: await TicketPresenter.getClosedTicketsLength(
-              req.session.user.username
+              userInitial
             ),
             admins: await UserPresenter.getAllAdmin(),
           }

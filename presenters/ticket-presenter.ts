@@ -3,6 +3,8 @@ import TicketRepository from '../repositories/ticket-repository';
 import superjson from 'superjson';
 import { Ticket } from '../models/ticket/ticket';
 import { PaginateTicketFilteredByUserParams } from '../models/parameters/paginate-ticket-filtered-by-user-params';
+import { PaginateTicketParameter } from '../models/parameters/paginate-ticket-parameter';
+import { FilterParameter } from '../models/parameters/filter-parameter';
 
 export default class TicketPresenter {
   static async get(user: User, id: string) {
@@ -42,9 +44,13 @@ export default class TicketPresenter {
     return lengthTicket;
   }
 
-  static async getAllTicketsLength() {
+  static async getAllTicketsLength(status: string, title: string) {
+    const filter: FilterParameter = {
+      status: status,
+      title: title
+    };
     const lengthTicketString = superjson.stringify(
-      await TicketRepository.getAllTicketLength()
+      await TicketRepository.getAllTicketLength(filter)
     );
     const lengthTicket = superjson.parse<Ticket[]>(lengthTicketString);
     return lengthTicket;
@@ -54,9 +60,18 @@ export default class TicketPresenter {
     user,
     limit,
     skip,
-  }: PaginateTicketFilteredByUserParams) {
+  }: PaginateTicketFilteredByUserParams, status: string,
+    title: string) {
+    const paginate: PaginateTicketParameter = {
+      page: 1,
+      dataPerPage: limit!,
+      filterParameter: {
+        status: status,
+        title: title
+      }
+    };
     const ticketsString = superjson.stringify(
-      await TicketRepository.getAllTickets(user, limit, skip)
+      await TicketRepository.getAllTickets(user, paginate)
     );
     return superjson.parse<Ticket[]>(ticketsString);
   }

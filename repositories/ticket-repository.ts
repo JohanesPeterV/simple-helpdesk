@@ -5,6 +5,9 @@ import TicketDetailRepository from './ticket-detail-repository';
 import { CreateTicketDTO } from '../models/dto/create-ticket-dto';
 import { Ticket } from '../models/ticket/ticket';
 import { prisma } from '../lib/prisma';
+import { FilterParameter } from '../models/parameters/filter-parameter';
+import { PaginateTicketParameter } from '../models/parameters/paginate-ticket-parameter';
+import TicketDetail from '../components/ticket/ticket-detail';
 
 const SCHEMA = prisma.ticketHeader;
 const SCHEMA_CHILD = prisma.ticketDetail;
@@ -79,7 +82,7 @@ export default class TicketRepository {
     skip: number = 0
   ) => {
     const authCondition =
-      user.role === 'admin' ? { creatorEmail: user.email } : {};
+      user.role === 'admin' ? {} : { creatorEmail: user.email };
     const queryConditions = {
       ...conditions,
       ...authCondition,
@@ -112,11 +115,7 @@ export default class TicketRepository {
     skip: number = 0
   ) => {
     const authCondition =
-      user.role === 'admin'
-        ? {}
-        : {
-            creatorEmail: user.email,
-          };
+      user.role === 'admin' ? {} : { creatorEmail: user.email, };
     const queryCondition = {
       ...conditions,
       ...authCondition,
@@ -125,7 +124,8 @@ export default class TicketRepository {
     return await SCHEMA.findMany({
       where: queryCondition,
       include: {
-        ticketDetails: {},
+        ticketDetails: {
+        },
         admin: {},
       },
       skip: skip != 0 ? skip : undefined,
@@ -141,8 +141,44 @@ export default class TicketRepository {
     });
   };
 
-  static getAllTickets = async (user: User, limit?: number, skip?: number) => {
-    return TicketRepository.getAllWithDetails(user, {}, limit, skip);
+  static getAllTickets = async (user: User, paginate: PaginateTicketParameter) => {
+    const limit = paginate.dataPerPage;
+    const skip = (paginate.page - 1) * paginate.dataPerPage;
+    const status = paginate.filterParameter.status;
+    const titleContent = paginate.filterParameter.title;
+
+    return TicketRepository.getAllWithDetails(user, {
+      OR:[
+        {
+          ticketStatus: status === 'ALL STATUS' ? {} : 
+          (status === 'CLOSED' ? TicketStatus.CLOSED : 
+            (status === 'ONGOING' ? TicketStatus.ONGOING : 
+              TicketStatus.PENDING)),
+          ticketDetails: {
+            some:{
+              title: {
+                contains: titleContent,
+                mode: 'insensitive'
+              }
+            }
+          }
+        }, 
+        {
+          ticketStatus: status === 'ALL STATUS' ? {} : 
+          (status === 'CLOSED' ? TicketStatus.CLOSED : 
+            (status === 'ONGOING' ? TicketStatus.ONGOING : 
+              TicketStatus.PENDING)),
+          ticketDetails: {
+            some:{
+              content: {
+                contains: titleContent,
+                mode: 'insensitive'
+              }
+            }
+          }
+        }, 
+    ]
+    }, limit, skip);
   };
   static getPending = async (user: User, limit?: number) =>
     TicketRepository.getAllWithOneDetail(user, {
@@ -187,7 +223,43 @@ export default class TicketRepository {
     });
   };
 
-  static getAllTicketLength = async function () {
-    return SCHEMA.count();
+  static getAllTicketLength = async function (filterParameter: FilterParameter) {
+    const status = filterParameter.status;
+    const titleContent = filterParameter.title;
+    return SCHEMA.count({
+      where: {
+        OR:[
+          {
+            ticketStatus: status === 'ALL STATUS' ? {} : 
+            (status === 'CLOSED' ? TicketStatus.CLOSED : 
+              (status === 'ONGOING' ? TicketStatus.ONGOING : 
+                TicketStatus.PENDING)),
+            ticketDetails: {
+              some:{
+                title: {
+                  contains: titleContent,
+                  mode: 'insensitive'
+                }
+              }
+            }
+          }, 
+          {
+            ticketStatus: status === 'ALL STATUS' ? {} : 
+            (status === 'CLOSED' ? TicketStatus.CLOSED : 
+              (status === 'ONGOING' ? TicketStatus.ONGOING : 
+                TicketStatus.PENDING)),
+            ticketDetails: {
+              some:{
+                content: {
+                  contains: titleContent,
+                  mode: 'insensitive'
+                }
+              }
+            }
+          }, 
+        ]
+        
+      },
+    });
   };
 }

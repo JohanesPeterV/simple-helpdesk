@@ -56,7 +56,7 @@ const Navbar: FunctionComponent<HTMLAttributes<HTMLDivElement>> = () => {
                         let navLabelClassName = '';
                         if (isCurrPath) {
                           navClassName = 'border-sky-600 border-b-2';
-                          navLabelClassName = 'text-sky-600 font-bold ';
+                          navLabelClassName = 'text-sky-600 font-bold';
                         }
                         return (
                           <NavigationDropdown
@@ -75,7 +75,7 @@ const Navbar: FunctionComponent<HTMLAttributes<HTMLDivElement>> = () => {
                             Router.push(nav.path);
                           }}
                           className={
-                            'flex  text-base font-medium text-gray-500 hover:text-sky-500 ' +
+                            'flex  text-base font-medium text-gray-500 hover:text-sky-500' +
                             (router.pathname === nav.path
                               ? 'text-sky-600 border-sky-600 border-b-2 font-bold'
                               : '')
@@ -94,7 +94,7 @@ const Navbar: FunctionComponent<HTMLAttributes<HTMLDivElement>> = () => {
                           router.reload();
                         });
                       }}
-                      className="text-base font-medium text-gray-700 hover:text-red-500"
+                      className="text-base font-medium text-gray-700 hover:text-red-500 cursor-pointer"
                     >
                       Log Out
                     </a>
