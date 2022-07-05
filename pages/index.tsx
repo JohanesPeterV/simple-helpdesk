@@ -7,6 +7,7 @@ import { TicketGrouping } from '../models/ticket/ticket-grouping';
 import TicketPresenter from '../presenters/ticket-presenter';
 import TicketStack from '../components/ticket/ticket-stack';
 import DisclosureCard from '../components/disclosure-card';
+import SectionCard from '../components/section-card';
 
 interface TicketGroupingProp {
   ticketGrouping: TicketGrouping;
@@ -22,29 +23,44 @@ const Home: NextPage<TicketGroupingProp> = (props) => {
   return (
     <Container>
       {ticketGrouping ? (
-        <div className="flex flex-col xl:flex-row xl:space-x-8 space-y-8 xl:space-y-0 justify-start">
-          <DisclosureCard
-            title={'Ongoing Tickets'}
-            titleClassName=""
-            defaultOpen={true}
-            className="h-fit xl:w-1/2"
-          >
-            <TicketStack
-              title="Ongoing Tickets"
-              tickets={ticketGrouping.ongoingTickets}
-            />
-          </DisclosureCard>
-          <DisclosureCard
-            title={'Ongoing Tickets'}
-            titleClassName=""
-            defaultOpen={true}
-            className="h-fit xl:w-1/2"
-          >
-            <TicketStack
-              title="Pending Tickets"
-              tickets={ticketGrouping.pendingTickets}
-            />
-          </DisclosureCard>
+        <div className="flex flex-col space-y-8  justify-start">
+          {/*<DisclosureCard*/}
+          {/*  title={'Ongoing Tickets'}*/}
+          {/*  titleClassName=""*/}
+          {/*  defaultOpen={true}*/}
+          {/*  className="h-fit "*/}
+          {/*>*/}
+          {/*  <TicketStack*/}
+          {/*    title="Ongoing Tickets"*/}
+          {/*    tickets={ticketGrouping.ongoingTickets}*/}
+          {/*  />*/}
+          {/*</DisclosureCard>*/}
+          {/*<DisclosureCard*/}
+          {/*  title={'Pending Tickets'}*/}
+          {/*  titleClassName=""*/}
+          {/*  defaultOpen={true}*/}
+          {/*  className="h-fit "*/}
+          {/*>*/}
+          {/*  <TicketStack*/}
+          {/*    title="Pending Tickets"*/}
+          {/*    tickets={ticketGrouping.pendingTickets}*/}
+          {/*  />*/}
+          {/*</DisclosureCard>*/}
+          <div className="flex w-full justify-start space-x-4">
+            <SectionCard title="Ongoing Tickets">
+              <TicketStack
+                title="Ongoing Tickets"
+                tickets={ticketGrouping.ongoingTickets}
+              />
+            </SectionCard>
+
+            <SectionCard title="Pending Tickets">
+              <TicketStack
+                title="Pending Tickets"
+                tickets={ticketGrouping.pendingTickets}
+              />
+            </SectionCard>
+          </div>
         </div>
       ) : (
         <></>
