@@ -1,11 +1,10 @@
 import { Fragment, FunctionComponent, HTMLAttributes, useRef } from 'react';
 import { MenuIcon, XIcon } from '@heroicons/react/solid';
 import { Transition, Popover } from '@headlessui/react';
-import NavigationDropdown from './navigation-dropdown';
-import AuthService from '../services/auth-service';
+import NavigationDropdown from '../navigation-dropdown';
+import AuthService from '../../services/auth-service';
 import Router, { useRouter } from 'next/router';
-import MobileNavigationDropdown from './mobile-navigation-dropdown';
-
+import MobileNavigationDropdown from '../mobile-navigation-dropdown';
 const navigations = [
   {
     label: 'Home',

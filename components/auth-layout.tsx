@@ -1,7 +1,7 @@
 import { FunctionComponent, HTMLAttributes } from 'react';
-import Navbar from './navbar';
+import Navbar from './web-structure/navbar';
 import BaseLayout from './base-layout';
-import Header from './header';
+import Header from './web-structure/header';
 
 const AuthLayout: FunctionComponent<HTMLAttributes<HTMLDivElement>> = ({
   children,
@@ -9,7 +9,6 @@ const AuthLayout: FunctionComponent<HTMLAttributes<HTMLDivElement>> = ({
   <BaseLayout>
     <Header />
     <Navbar />
-
     <div id="popup-modal-root" />
     {children}
   </BaseLayout>

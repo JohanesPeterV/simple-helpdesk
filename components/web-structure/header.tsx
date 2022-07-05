@@ -1,11 +1,11 @@
 import { FunctionComponent, HTMLAttributes, useEffect, useState } from 'react';
 import Image from 'next/image';
-import ribbonPicture from '../public/images/ribbon.png';
-import binusPicture from '../public/images/binus.png';
+import ribbonPicture from '../../public/images/ribbon.png';
+import binusPicture from '../../public/images/binus.png';
 import { NextPage } from 'next';
-import { UserProp } from '../models/props/user-prop';
-import AuthService from '../services/auth-service';
-import User from '../models/auth/user';
+import { UserProp } from '../../models/props/user-prop';
+import AuthService from '../../services/auth-service';
+import User from '../../models/auth/user';
 import Router from 'next/router';
 
 const Header: FunctionComponent<HTMLAttributes<HTMLDivElement>> = () => {

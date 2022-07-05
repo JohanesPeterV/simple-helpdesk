@@ -4,9 +4,10 @@ import { withIronSessionApiRoute } from 'iron-session/next';
 import { ironSessionOptions } from '../../../lib/session';
 import TicketRepository from '../../../repositories/ticket-repository';
 import { UserNameParameter } from '../../../models/parameters/user-name-parameter';
+import requireAdmin from '../../../lib/api/require-admin';
 
 export default withIronSessionApiRoute(
-  handleClosedTicketLength,
+  requireAdmin(handleClosedTicketLength),
   ironSessionOptions
 );
 

@@ -4,9 +4,10 @@ import { withIronSessionApiRoute } from 'iron-session/next';
 import { ironSessionOptions } from '../../../lib/session';
 import TicketRepository from '../../../repositories/ticket-repository';
 import { PaginateClosedTicketParameter } from '../../../models/parameters/paginate-closed-ticket-parameter';
+import requireAdmin from '../../../lib/api/require-admin';
 
 export default withIronSessionApiRoute(
-  handleGetClosedTicketsPaginated,
+  requireAdmin(handleGetClosedTicketsPaginated),
   ironSessionOptions
 );
 
