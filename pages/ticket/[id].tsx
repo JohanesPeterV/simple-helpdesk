@@ -33,9 +33,13 @@ const Id: NextPage<TicketDetailProp> = ({ ticket, admins, selectedAdmin }) => {
     e.preventDefault();
 
     const ticketDetail: CreateTicketDetailDTO = {
-      title: 'RE#' + ticket.ticketDetails.length + ' : ' + ticket.ticketDetails[0].title,
+      title:
+        'RE#' +
+        ticket.ticketDetails.length +
+        ' : ' +
+        ticket.ticketDetails[0].title,
       content: content,
-      headerId: ticket.id
+      headerId: ticket.id,
     };
 
     await toast.promise(TicketService.createDetail(ticketDetail), {
@@ -142,14 +146,6 @@ export const getServerSideProps = withIronSessionSsr(
       userName: req.session.user?.username,
     });
 
-    if (ticket && ticket.admin) {
-      selectedAdmin = ticket.admin;
-      if (admins) {
-        selectedAdmin = admins.find(
-          (admin) => admin.username === req.session.user?.username
-        );
-      }
-    }
     return {
       props: {
         ticket: ticket,
