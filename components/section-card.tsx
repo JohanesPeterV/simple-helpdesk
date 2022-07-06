@@ -4,21 +4,18 @@ import { Else, If, Then } from 'react-if';
 import { ChevronDownIcon, ChevronRightIcon } from '@heroicons/react/solid';
 import Card from './card';
 
-type DisclosureProp = {
+type SectionCardProp = {
   title: string;
-  titleClassName?: string;
-  defaultOpen?: boolean;
   className?: string;
 } & HTMLAttributes<HTMLDivElement>;
 
-const SectionCard: FunctionComponent<DisclosureProp> = ({
+const SectionCard: FunctionComponent<SectionCardProp> = ({
   title,
-  defaultOpen,
   className,
   children,
 }) => (
-  <Card className={`px-0 pt-2 pb-2 divide-y-2 w-full ${className}`}>
-    <div className="px-8 py-4 flex items-center text-left  md:text-lg font-semibold">
+  <Card className={`px-0 pt-2 pb-2 divide-y-2 w-full rounded-sm ${className}`}>
+    <div className="px-8 py-4 flex items-center text-left font-semibold md:text-lg ">
       {title}
     </div>
     <div className="px-6 py-4">{children}</div>

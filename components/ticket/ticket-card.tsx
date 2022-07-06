@@ -17,8 +17,8 @@ const TicketCard: FunctionComponent<
         href={'/ticket/' + ticket.id}
         className="block hover:bg-gray-100 shadow-md border border-gray-200 rounded-md"
       >
-        <div className="min-w-0 flex flex-col divide-y-2 px-2 py-4 sm:px-6">
-          <div>
+        <div className="min-w-0 flex flex-col px-2 py-4 sm:px-6">
+          <div className="pb-1">
             <p className="flex items-center text-md font-semibold h-8">
               {ticket.ticketStatus}
               {ticket.admin ? (

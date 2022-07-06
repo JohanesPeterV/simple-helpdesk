@@ -46,20 +46,29 @@ const Home: NextPage<TicketGroupingProp> = (props) => {
           {/*    tickets={ticketGrouping.pendingTickets}*/}
           {/*  />*/}
           {/*</DisclosureCard>*/}
-          <div className="flex w-full justify-start space-x-4">
-            <SectionCard title="Ongoing Tickets">
+
+          <div className="flex flex-col lg:flex-row w-full justify-start space-y-4 lg:space-y-0 lg:space-x-4">
+            <DisclosureCard
+              defaultOpen={true}
+              className={'w-full h-min'}
+              title="Ongoing Tickets"
+            >
               <TicketStack
                 title="Ongoing Tickets"
                 tickets={ticketGrouping.ongoingTickets}
               />
-            </SectionCard>
+            </DisclosureCard>
 
-            <SectionCard title="Pending Tickets">
+            <DisclosureCard
+              defaultOpen={true}
+              className={'w-full h-min'}
+              title="Pending Tickets"
+            >
               <TicketStack
                 title="Pending Tickets"
                 tickets={ticketGrouping.pendingTickets}
               />
-            </SectionCard>
+            </DisclosureCard>
           </div>
         </div>
       ) : (
