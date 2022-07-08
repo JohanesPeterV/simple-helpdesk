@@ -11,6 +11,10 @@ export interface TicketProp {
 const TicketCard: FunctionComponent<
   HTMLAttributes<HTMLDivElement> & TicketProp
 > = ({ children, ticket }) => {
+  //60597ec (origin/main) Add Filter Creation Date Range
+  // ffc10b9 commit to pull
+  // 4743d07 chore: make ticket card able to handle 2 type of date format
+
   return (
     <li>
       <a
@@ -37,11 +41,17 @@ const TicketCard: FunctionComponent<
               <span className="truncate">
                 {ticket.creatorEmail}
                 {', '}
-                {ticket.createdAt.toLocaleString('en-GB', {
-                  year: 'numeric',
-                  month: 'long',
-                  day: 'numeric',
-                })}
+                {typeof ticket.createdAt === 'string'
+                  ? new Date(ticket.createdAt).toLocaleString('en-GB', {
+                      year: 'numeric',
+                      month: 'long',
+                      day: 'numeric',
+                    })
+                  : ticket.createdAt.toLocaleString('en-GB', {
+                      year: 'numeric',
+                      month: 'long',
+                      day: 'numeric',
+                    })}
 
                 {ticket.doneAt
                   ? '-' +
