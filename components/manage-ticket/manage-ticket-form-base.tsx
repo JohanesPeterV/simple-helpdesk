@@ -7,6 +7,8 @@ import TicketService from '../../services/ticket-service';
 import Router from 'next/router';
 import { Ticket } from '../../models/ticket/ticket';
 import { toast } from 'react-hot-toast';
+import ConfirmationButton from './confirmation-button';
+import { ExclamationIcon } from '@heroicons/react/outline';
 
 interface ManageTicketFormProps {
   admins: Admin[];
@@ -127,10 +129,11 @@ const ManageTicketFormBase: FunctionComponent<ManageTicketFormProps> = ({
         <div className="block text-sm font-medium text-gray-700">
           Delete Ticket
         </div>
-        <Button
-          type="submit"
+        <ConfirmationButton
+          label="Delete"
+          message="This action cannot be undone."
           className="hover:bg-red-700 bg-red-600 text-white w-full"
-          onClick={async () => {
+          callback={async () => {
             await toast.promise(TicketService.delete(ticket), {
               loading: 'Deleting Ticket...',
               success: 'Delete ticket success',
@@ -139,8 +142,22 @@ const ManageTicketFormBase: FunctionComponent<ManageTicketFormProps> = ({
             await Router.push('/');
           }}
         >
-          Delete
-        </Button>
+          <ExclamationIcon className="text-red-300 w-2/5" />
+        </ConfirmationButton>
+        {/*<Button*/}
+        {/*  type="submit"*/}
+        {/*  className="hover:bg-red-700 bg-red-600 text-white w-full"*/}
+        {/*  onClick={async () => {*/}
+        {/*    await toast.promise(TicketService.delete(ticket), {*/}
+        {/*      loading: 'Deleting Ticket...',*/}
+        {/*      success: 'Delete ticket success',*/}
+        {/*      error: 'Delete ticket failed. Please try again.',*/}
+        {/*    });*/}
+        {/*    await Router.push('/');*/}
+        {/*  }}*/}
+        {/*>*/}
+        {/*  Delete*/}
+        {/*</Button>*/}
       </div>
       <div className="space-y-2 mt-4">
         <div className="block text-sm font-medium text-gray-700">

@@ -12,7 +12,7 @@ interface ManageTicketFormProps {
   ticket: Ticket;
 }
 
-const ManageTicketFormDesktop: FunctionComponent<ManageTicketFormProps> = ({
+const ManageTicketFormMobile: FunctionComponent<ManageTicketFormProps> = ({
   admins,
   selectedAdmin,
   ticket,
@@ -20,7 +20,7 @@ const ManageTicketFormDesktop: FunctionComponent<ManageTicketFormProps> = ({
   const [showModal, setShowModal] = useState(false);
 
   return (
-    <footer className="fixed inset-x-0 bottom-0 ">
+    <div className="fixed inset-x-0 bottom-0 ">
       <Button
         onClick={() => {
           setShowModal(true);
@@ -46,7 +46,7 @@ const ManageTicketFormDesktop: FunctionComponent<ManageTicketFormProps> = ({
           </Card>
         </div>
       </PopupModal>
-    </footer>
+    </div>
   );
 };
-export default ManageTicketFormDesktop;
+export default ManageTicketFormMobile;

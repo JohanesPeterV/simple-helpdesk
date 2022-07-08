@@ -52,15 +52,14 @@ const Id: NextPage<TicketDetailProp> = ({ ticket, admins, selectedAdmin }) => {
 
   return ticket ? (
     <>
-      <Container className="flex flex-row ">
-        <div className="md:w-60 lg:w-1/2 flex-auto">
+      <Container className="flex flex-row">
+        <div className="w-full pb-14 md:p0 md:w-60 lg:w-1/2 flex-auto ">
           <section aria-labelledby="applicant-information-title">
             <TicketInformation ticket={ticket} />
           </section>
           <section aria-labelledby="notes-title">
             <TicketDetail ticketDetails={ticket.ticketDetails} />
           </section>
-
           <form
             onSubmit={onSubmit}
             className="px-4 sm:px-6 pb-6 h-40 mb-20 space-y-3 space-y-6"
