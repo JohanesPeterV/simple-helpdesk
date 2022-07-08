@@ -11,7 +11,7 @@ import { Ticket } from '../../models/ticket/ticket';
 import ReactPaginate from 'react-paginate';
 import TicketService from '../../services/ticket-service';
 import { PaginateTicketParameter } from '../../models/parameters/paginate-ticket-parameter';
-import { FilterParameter } from '../../models/parameters/filter-parameter';
+import { FilterParameter, RangeDate } from '../../models/parameters/filter-parameter';
 import Input from '../../components/input';
 import Button from '../../components/button';
 
@@ -31,7 +31,9 @@ const ViewAllTickets: NextPage<AllTicketsProps> = (props) => {
   const [currPage, setCurrPage] = useState(0);
 
   const [statusParam, setStatusParam] = useState('ALL STATUS');
-  const [titleParam, setTitleParam] = useState('');
+  const [titleContentParam, setTitleContentParam] = useState('');
+  const [creationStartDateParam, setCreationStartDateParam] = useState('');
+  const [creationEndDateParam, setCreationEndDateParam] = useState('');
 
   useEffect(() => {
     setPage(Math.ceil(countData! / dataPerPage));
@@ -49,9 +51,15 @@ const ViewAllTickets: NextPage<AllTicketsProps> = (props) => {
     const currPage = data.selected + 1;
     setCurrPage(data.selected);
 
+    const creationRangeDate: RangeDate = {
+      startDate: creationStartDateParam,
+      endDate: creationEndDateParam
+    }
+
     const filterParameter: FilterParameter = {
       status: statusParam,
-      title: titleParam
+      title: titleContentParam,
+      creationTimeRange: creationRangeDate
     };
 
     const paginate: PaginateTicketParameter = {
@@ -69,22 +77,41 @@ const ViewAllTickets: NextPage<AllTicketsProps> = (props) => {
   }
 
   function titleInputChange(data: any){
-    setTitleParam(data.target.value)
+    setTitleContentParam(data.target.value)
+  }
+
+  function creationStartDateInputChange(data: any){
+    const date = data.target.value;
+    const ISOdate = date === '' ? '' : new Date(date).toISOString().substring(0, 10);
+    setCreationStartDateParam(ISOdate);
+  }
+
+  function creationEndDateInputChange(data: any){
+    const date = data.target.value;
+    const ISOdate = date === '' ? '' : new Date(date).toISOString().substring(0, 10);
+    setCreationEndDateParam(ISOdate);
   }
 
   const onSubmit: FormEventHandler = async (e) => {
     e.preventDefault();
     console.log("Status : " + statusParam)
-    console.log("Title : " + titleParam)
+    console.log("Title / Content : " + titleContentParam)
+    console.log("Creation Start Date : " + creationStartDateParam)
+    console.log("Creation End Date : " + creationEndDateParam)
+
+    const creationRangeDate: RangeDate = {
+      startDate: creationStartDateParam,
+      endDate: creationEndDateParam
+    }
 
     const filterParameter: FilterParameter = {
       status: statusParam,
-      title: titleParam
+      title: titleContentParam,
+      creationTimeRange: creationRangeDate
     };
 
     const length = await TicketService.getAllTicketLength(filterParameter);
     setCountData(length.data)
-    console.log(length.data)
 
     const thePage = 1;
     setCurrPage(thePage-1);
@@ -95,6 +122,7 @@ const ViewAllTickets: NextPage<AllTicketsProps> = (props) => {
     };
     
     const paginateData = await TicketService.viewAllTicketPaginate(paginate);
+
     setOutput(paginateData.data);
   };
 
@@ -148,6 +176,17 @@ const ViewAllTickets: NextPage<AllTicketsProps> = (props) => {
                 placeholder="Title or Content"
               />
 
+              <p>Creation Time</p>
+              <Input
+                onChange={creationStartDateInputChange}
+                type="date"
+              />
+              -
+              <Input
+                onChange={creationEndDateInputChange}
+                type="date"
+              />
+
               <Button
                   type="submit"
                   className={'hover:bg-sky-700 bg-sky-600 text-white'}>
@@ -181,8 +220,8 @@ export const getServerSideProps = withIronSessionSsr(
             allTickets: await TicketPresenter.getAllTickets({
               user: req.session.user,
               limit: 5,
-            }, 'ALL STATUS', ''),
-            allTicketsLength: await TicketPresenter.getAllTicketsLength('ALL STATUS', ''),
+            }, 'ALL STATUS', '', '', ''),
+            allTicketsLength: await TicketPresenter.getAllTicketsLength('ALL STATUS', '', '', ''),
           }
         : {},
     };
