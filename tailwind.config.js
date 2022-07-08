@@ -15,7 +15,7 @@ module.exports = {
         '44-w-screen': '44vw',
       },
       width: {
-        ss: '1920px',
+        sm: '640px',
         md: '768px',
         lg: '1024px',
         xl: '1280px',
