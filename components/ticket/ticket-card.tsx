@@ -50,7 +50,10 @@ const TicketCard: FunctionComponent<
               <div className="hidden md:block">
                 <div>
                   <p className="text-sm text-gray-900">
-                    {ticket.createdAt.toLocaleString('en-GB')}
+                     Creation Time : {ticket.createdAt.toLocaleString('en-GB')}
+                  </p>
+                  <p className="text-sm text-gray-900">
+                     Done Time : {ticket.doneAt?.toLocaleString('en-GB') ?? '-'}
                   </p>
                   <p className="mt-2 flex items-center text-sm text-gray-500">
                     <If

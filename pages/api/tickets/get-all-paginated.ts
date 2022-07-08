@@ -6,6 +6,7 @@ import TicketRepository from '../../../repositories/ticket-repository';
 import { PaginateClosedTicketParameter } from '../../../models/parameters/paginate-closed-ticket-parameter';
 import { PaginateTicketParameter } from '../../../models/parameters/paginate-ticket-parameter';
 
+
 export default withIronSessionApiRoute(
   handleGetAllTicketsPaginated,
   ironSessionOptions

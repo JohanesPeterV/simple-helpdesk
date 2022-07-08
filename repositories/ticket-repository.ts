@@ -147,6 +147,14 @@ export default class TicketRepository {
     const status = paginate.filterParameter.status;
     const titleContent = paginate.filterParameter.title;
 
+    const creationEndDateString = paginate.filterParameter.creationTimeRange.endDate;
+    const creationStartDateString = paginate.filterParameter.creationTimeRange.startDate
+
+    let creationStartDate = new Date(creationStartDateString); 
+    let creationEndDate = new Date(creationEndDateString);
+    
+    creationEndDate.setDate(creationEndDate.getDate()+1);
+
     return TicketRepository.getAllWithDetails(user, {
       OR:[
         {
@@ -161,7 +169,11 @@ export default class TicketRepository {
                 mode: 'insensitive'
               }
             }
-          }
+          },
+          createdAt: {
+            lte: creationEndDateString === '' ? new Date() : creationEndDate,
+            gte: creationStartDateString === '' ? new Date('1970-01-01') : creationStartDate, 
+          },
         }, 
         {
           ticketStatus: status === 'ALL STATUS' ? {} : 
@@ -175,6 +187,10 @@ export default class TicketRepository {
                 mode: 'insensitive'
               }
             }
+          },
+          createdAt: {
+            lte: creationEndDateString === '' ? new Date() : creationEndDate,
+            gte: creationStartDateString === '' ? new Date('1970-01-01') : creationStartDate, 
           }
         }, 
     ]
@@ -226,6 +242,15 @@ export default class TicketRepository {
   static getAllTicketLength = async function (filterParameter: FilterParameter) {
     const status = filterParameter.status;
     const titleContent = filterParameter.title;
+
+    const creationEndDateString = filterParameter.creationTimeRange.endDate;
+    const creationStartDateString = filterParameter.creationTimeRange.startDate
+
+    let creationStartDate = new Date(creationStartDateString); 
+    let creationEndDate = new Date(creationEndDateString);
+
+    creationEndDate.setDate(creationEndDate.getDate()+1);
+
     return SCHEMA.count({
       where: {
         OR:[
@@ -241,6 +266,10 @@ export default class TicketRepository {
                   mode: 'insensitive'
                 }
               }
+            },
+            createdAt: {
+              lte: creationEndDateString === '' ? new Date() : creationEndDate,
+              gte: creationStartDateString === '' ? new Date('1970-01-01') : creationStartDate,            
             }
           }, 
           {
@@ -255,6 +284,10 @@ export default class TicketRepository {
                   mode: 'insensitive'
                 }
               }
+            },
+            createdAt: {
+              lte: creationEndDateString === '' ? new Date() : creationEndDate,
+              gte: creationStartDateString === '' ? new Date('1970-01-01') : creationStartDate, 
             }
           }, 
         ]
