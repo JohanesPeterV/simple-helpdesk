@@ -1,6 +1,7 @@
 import User from '../models/auth/user';
 import { prisma } from '../lib/prisma';
 import { AssignPICDTO } from '../models/dto/assign-pic-dto';
+import { TicketStatus } from '@prisma/client';
 
 const SCHEMA = prisma.ticketHeader;
 export default class TicketHeaderRepository {
@@ -20,6 +21,7 @@ export default class TicketHeaderRepository {
       },
       data: {
         adminId: assignPICDTO.adminId,
+        ticketStatus: TicketStatus.ONGOING,
       },
     });
   };

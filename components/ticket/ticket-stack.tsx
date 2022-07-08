@@ -9,7 +9,7 @@ const TicketStack: FunctionComponent<TicketStackProps> = ({
   className,
 }) =>
   tickets.length > 0 ? (
-    <ul className={`divide-y divide-gray-300 ${className}`}>
+    <ul className={`space-y-3.5  divide-gray-300 ${className}`}>
       {tickets.map((ticket, index) => (
         <TicketCard ticket={ticket} key={ticket.id} />
       ))}

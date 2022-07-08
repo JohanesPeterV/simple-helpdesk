@@ -13,6 +13,10 @@ export default class TicketService {
     return axios.post('/api/' + SERVICE_NAME + '/create', ticket);
   }
 
+  static createDetail(ticket: CreateTicketDTO) {
+    return axios.post('/api/' + SERVICE_NAME + '/create-detail', ticket);
+  }
+  
   static assignPIC(assignPICDTO: AssignPICDTO) {
     return axios.post('/api/' + SERVICE_NAME + '/assign-pic', assignPICDTO);
   }

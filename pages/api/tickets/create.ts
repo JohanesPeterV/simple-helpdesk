@@ -4,8 +4,12 @@ import { withIronSessionApiRoute } from 'iron-session/next';
 import { ironSessionOptions } from '../../../lib/session';
 import { CreateTicketDTO } from '../../../models/dto/create-ticket-dto';
 import TicketRepository from '../../../repositories/ticket-repository';
+import requireAuth from '../../../lib/api/require-auth';
 
-export default withIronSessionApiRoute(handleCreateTicket, ironSessionOptions);
+export default withIronSessionApiRoute(
+  requireAuth(handleCreateTicket),
+  ironSessionOptions
+);
 
 async function handleCreateTicket(req: NextApiRequest, res: NextApiResponse) {
   const ticket: CreateTicketDTO = await req.body;

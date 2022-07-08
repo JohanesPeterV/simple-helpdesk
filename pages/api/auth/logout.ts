@@ -4,8 +4,12 @@ import { PrismaClient } from '@prisma/client';
 import { withIronSessionApiRoute } from 'iron-session/next';
 import { ironSessionOptions } from '../../../lib/session';
 import { prisma } from '../../../lib/prisma';
+import requireAuth from '../../../lib/api/require-auth';
 
-export default withIronSessionApiRoute(handleLogout, ironSessionOptions);
+export default withIronSessionApiRoute(
+  requireAuth(handleLogout),
+  ironSessionOptions
+);
 
 function handleLogout(req: NextApiRequest, res: NextApiResponse<User>) {
   req.session.destroy();

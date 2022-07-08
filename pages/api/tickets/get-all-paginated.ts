@@ -3,7 +3,6 @@ import User from '../../../models/auth/user';
 import { withIronSessionApiRoute } from 'iron-session/next';
 import { ironSessionOptions } from '../../../lib/session';
 import TicketRepository from '../../../repositories/ticket-repository';
-import { PaginateClosedTicketParameter } from '../../../models/parameters/paginate-closed-ticket-parameter';
 import { PaginateTicketParameter } from '../../../models/parameters/paginate-ticket-parameter';
 
 
@@ -18,16 +17,14 @@ async function handleGetAllTicketsPaginated(
 ) {
   const paginate: PaginateTicketParameter = await req.body;
   const user = req.session.user;
+  console.log(user);
   if (user) {
     const tickets = await getAllTickets(user, paginate);
     res.json(tickets);
   }
+  res.status(401);
 }
 
-async function getAllTickets(
-  user: User,
-  paginate: PaginateTicketParameter
-) {
-  
+async function getAllTickets(user: User, paginate: PaginateTicketParameter) {
   return await TicketRepository.getAllTickets(user, paginate);
 }
