@@ -29,27 +29,6 @@ interface TicketDetailProp {
 const Id: NextPage<TicketDetailProp> = ({ ticket, admins, selectedAdmin }) => {
   const [content, setContent] = useState('');
 
-  const onSubmit: FormEventHandler = async (e) => {
-    e.preventDefault();
-
-    const ticketDetail: CreateTicketDetailDTO = {
-      title:
-        'RE#' +
-        ticket.ticketDetails.length +
-        ' : ' +
-        ticket.ticketDetails[0].title,
-      content: content,
-      headerId: ticket.id,
-    };
-
-    await toast.promise(TicketService.createDetail(ticketDetail), {
-      loading: 'Replying...',
-      success: 'Reply Success',
-      error: 'Reply failed',
-    });
-    await Router.reload();
-  };
-
   return ticket ? (
     <>
       <Container className="flex flex-row ">
@@ -62,7 +41,6 @@ const Id: NextPage<TicketDetailProp> = ({ ticket, admins, selectedAdmin }) => {
           </section>
 
           <form
-            onSubmit={onSubmit}
             className="px-4 sm:px-6 pb-6 h-40 mb-20 space-y-3 space-y-6"
           >
             <label
@@ -81,14 +59,55 @@ const Id: NextPage<TicketDetailProp> = ({ ticket, admins, selectedAdmin }) => {
               className="border-2 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm border-gray-300 rounded-md h-full w-full pl-2 pt-2 hover:shadow-md focus:shadow-md focus:ring-0 focus:outline-none focus:border-slate-400"
               defaultValue={''}
             />
-            <div className="flex flex-col items-end">
+            <div className="flex justify-end">
               <Button
+                type='button'
                 className={
                   'bg-sky-600 text-white font-bold hover:bg-sky-700 px-10 py-2'
                 }
-                type="submit"
+                onClick={async () => {
+                  const ticketDetail: CreateTicketDetailDTO = {
+                    title:
+                      'RE#' +
+                      ticket.ticketDetails.length +
+                      ' : ' +
+                      ticket.ticketDetails[0].title,
+                    content: content,
+                    headerId: ticket.id,
+                  };
+              
+                  await toast.promise(TicketService.createDetail(ticketDetail), {
+                    loading: 'Replying...',
+                    success: 'Reply Success',
+                    error: 'Reply failed',
+                  });
+
+                  await Router.reload();
+                }}
               >
-                Reply
+                Reply Ticket
+              </Button>
+              <Button
+                type='button'
+                className={
+                  'bg-red-600 text-white font-bold hover:bg-red-700 px-10 py-2 ml-1.5'
+                }
+                onClick={async () => {
+                  const closeTicketParam = {
+                    ticketHeaderId: ticket.id,
+                    solveDetail: content,
+                  };
+      
+                  await toast.promise(TicketService.closeTicket(closeTicketParam), {
+                    loading: 'Closing Ticket...',
+                    success: 'Close ticket success',
+                    error: 'Close ticket failed. Please try again.',
+                  });
+                  
+                  await Router.push('/');
+                }}
+              >
+                Close Ticket
               </Button>
             </div>
           </form>
