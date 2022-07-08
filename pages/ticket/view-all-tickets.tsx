@@ -14,6 +14,7 @@ import { PaginateTicketParameter } from '../../models/parameters/paginate-ticket
 import { FilterParameter, RangeDate } from '../../models/parameters/filter-parameter';
 import Input from '../../components/input';
 import Button from '../../components/button';
+import DisclosureCard from '../../components/disclosure-card';
 
 interface AllTicketsProps {
   allTickets: Ticket[];
@@ -155,44 +156,53 @@ const ViewAllTickets: NextPage<AllTicketsProps> = (props) => {
           />
 
           <div>
+
+          <DisclosureCard
+              defaultOpen={false}
+              className={'w-full h-min mb-2.5 rounded'}
+              title="Filter"
+          >
             <form onSubmit={onSubmit}>
-              <select
-                className="border-2 border-gray-300 border-solid w-full max-w-sm px-2 py-2.5 rounded-md text-gray-500 my-3"
-                name=""
-                id=""
-                value={statusParam}
-                onChange={statusDropDownChange}
-              >
-                <option value="ALL STATUS">ALL STATUS</option>
-                <option value="CLOSED">CLOSED</option>
-                <option value="PENDING">PENDING</option>
-                <option value="ONGOING">ONGOING</option>
+            <select
+              className="border-2 border-gray-300 border-solid w-full max-w-sm px-2 py-2.5 rounded-md text-gray-500 my-3"
+              name=""
+              id=""
+              value={statusParam}
+              onChange={statusDropDownChange}
+            >
+              <option value="ALL STATUS">ALL STATUS</option>
+              <option value="CLOSED">CLOSED</option>
+              <option value="PENDING">PENDING</option>
+              <option value="ONGOING">ONGOING</option>
 
-              </select>
+            </select>
 
-              <Input
-                onChange={titleInputChange}
-                type="text"
-                placeholder="Title or Content"
-              />
+            <Input
+              onChange={titleInputChange}
+              type="text"
+              placeholder="Title or Content"
+            />
 
-              <p>Creation Time</p>
-              <Input
-                onChange={creationStartDateInputChange}
-                type="date"
-              />
-              -
-              <Input
-                onChange={creationEndDateInputChange}
-                type="date"
-              />
+            <p>Creation Time</p>
+            <Input
+              onChange={creationStartDateInputChange}
+              type="date"
+            />
+            -
+            <Input
+              onChange={creationEndDateInputChange}
+              type="date"
+            />
 
-              <Button
-                  type="submit"
-                  className={'hover:bg-sky-700 bg-sky-600 text-white'}>
-                  Filter
-              </Button>
-            </form>
+            <Button
+                type="submit"
+                className={'hover:bg-sky-700 bg-sky-600 text-white'}>
+                Filter
+            </Button>
+          </form>
+            
+          </DisclosureCard>
+            
 
             <div className="flex flex-col md:flex-row md:space-x-8 space-y-8 justify-center">
               <TicketWithDetailsStack
