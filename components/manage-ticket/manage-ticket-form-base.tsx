@@ -144,20 +144,6 @@ const ManageTicketFormBase: FunctionComponent<ManageTicketFormProps> = ({
         >
           <ExclamationIcon className="text-red-300 w-2/5" />
         </ConfirmationButton>
-        {/*<Button*/}
-        {/*  type="submit"*/}
-        {/*  className="hover:bg-red-700 bg-red-600 text-white w-full"*/}
-        {/*  onClick={async () => {*/}
-        {/*    await toast.promise(TicketService.delete(ticket), {*/}
-        {/*      loading: 'Deleting Ticket...',*/}
-        {/*      success: 'Delete ticket success',*/}
-        {/*      error: 'Delete ticket failed. Please try again.',*/}
-        {/*    });*/}
-        {/*    await Router.push('/');*/}
-        {/*  }}*/}
-        {/*>*/}
-        {/*  Delete*/}
-        {/*</Button>*/}
       </div>
       <div className="space-y-2 mt-4">
         <div className="block text-sm font-medium text-gray-700">
