@@ -37,11 +37,17 @@ const TicketCard: FunctionComponent<
               <span className="truncate">
                 {ticket.creatorEmail}
                 {', '}
-                {ticket.createdAt.toLocaleString('en-GB', {
-                  year: 'numeric',
-                  month: 'long',
-                  day: 'numeric',
-                })}
+                {typeof ticket.createdAt === 'string'
+                  ? new Date(ticket.createdAt).toLocaleString('en-GB', {
+                      year: 'numeric',
+                      month: 'long',
+                      day: 'numeric',
+                    })
+                  : ticket.createdAt.toLocaleString('en-GB', {
+                      year: 'numeric',
+                      month: 'long',
+                      day: 'numeric',
+                    })}
 
                 {ticket.doneAt
                   ? '-' +
