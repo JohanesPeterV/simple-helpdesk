@@ -35,22 +35,14 @@ const ConfirmationButton: FunctionComponent<
       >
         <div className="w-full">
           <Card
-            className="p-4 flex flex-col justify-center items-center"
+            className=" p-4 py-6 flex flex-col justify-center items-center"
             title="Manage Ticket"
           >
             {children}
-            <h1 className=" text-md font-semibold">Are you sure ?</h1>
+            <h1 className="text-xl font-semibold">Confirmation</h1>
             <h1 className="pb-4 text-lg  font-light">{message}</h1>
             <div className="flex w-full justify-center space-x-2">
-              <Button
-                className=""
-                onClick={() => {
-                  setShowModal(false);
-                }}
-              >
-                Cancel
-              </Button>
-              <div>
+              <div className="w-1/2">
                 <Button
                   className={className}
                   onClick={() => {

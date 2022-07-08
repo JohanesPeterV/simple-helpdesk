@@ -142,7 +142,7 @@ const ManageTicketFormBase: FunctionComponent<ManageTicketFormProps> = ({
             await Router.push('/');
           }}
         >
-          <ExclamationIcon className="text-red-300 w-2/5" />
+          <ExclamationIcon className="text-red-300 w-44" />
         </ConfirmationButton>
       </div>
       <div className="space-y-2 mt-4">
