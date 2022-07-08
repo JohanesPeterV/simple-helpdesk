@@ -2,6 +2,7 @@ import User from '../models/auth/user';
 import { prisma } from '../lib/prisma';
 import { AssignPICDTO } from '../models/dto/assign-pic-dto';
 import { TicketStatus } from '@prisma/client';
+import { CloseTicketParameter } from '../models/parameters/close-ticket-parameter';
 
 const SCHEMA = prisma.ticketHeader;
 export default class TicketHeaderRepository {
@@ -14,6 +15,7 @@ export default class TicketHeaderRepository {
       },
     });
   };
+
   static assignPIC = async (assignPICDTO: AssignPICDTO) => {
     return await SCHEMA.update({
       where: {
@@ -25,6 +27,19 @@ export default class TicketHeaderRepository {
       },
     });
   };
+
+  static closeTicket = async (closeTicketParameter: CloseTicketParameter) => {
+    return await SCHEMA.update({
+      where: {
+        id: closeTicketParameter.ticketHeaderId,
+      },
+      data: {
+        solveDetail: closeTicketParameter.solveDetail,
+        ticketStatus: TicketStatus.CLOSED,
+      },
+    });
+  };
+
   private static getAll = async (user: User, conditions: Object) => {
     return user.role === 'Admin'
       ? await SCHEMA.findMany({

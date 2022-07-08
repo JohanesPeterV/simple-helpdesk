@@ -142,6 +142,30 @@ const ManageTicketFormBase: FunctionComponent<ManageTicketFormProps> = ({
           Delete
         </Button>
       </div>
+      <div className="space-y-2 mt-4">
+        <div className="block text-sm font-medium text-gray-700">
+          Close Ticket
+        </div>
+        <Button
+          type="submit"
+          className="hover:bg-green-600 bg-green-500 text-white w-full"
+          onClick={async () => {
+            const closeTicketParam = {
+              ticketHeaderId: ticket.id,
+              solveDetail: 'hore solve',
+            };
+
+            await toast.promise(TicketService.closeTicket(closeTicketParam), {
+              loading: 'Closing Ticket...',
+              success: 'Close ticket success',
+              error: 'Close ticket failed. Please try again.',
+            });
+            await Router.push('/');
+          }}
+        >
+          Close Ticket
+        </Button>
+      </div>
     </>
   );
 };

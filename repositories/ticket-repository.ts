@@ -44,6 +44,7 @@ export default class TicketRepository {
       },
     });
   };
+
   static create = async (user: User, ticketDTO: CreateTicketDTO) => {
     const ticketHeader = await TicketHeaderRepository.create(user);
     const ticketDetail = await TicketDetailRepository.create(user, {
@@ -58,6 +59,7 @@ export default class TicketRepository {
     };
     return ticket;
   };
+
   static delete = async (ticketId: string) => {
     await SCHEMA_CHILD.deleteMany({
       where: {
