@@ -19,6 +19,8 @@ import Router from 'next/router';
 import Input from '../../components/input';
 import ConditionComponent from '../../components/condition-component';
 import { CreateTicketDetailDTO } from '../../models/dto/create-ticket-detail-dto';
+import ConfirmationButton from '../../components/manage-ticket/confirmation-button';
+import { XCircleIcon } from '@heroicons/react/outline';
 
 interface TicketDetailProp {
   ticket: Ticket;
@@ -62,7 +64,7 @@ const Id: NextPage<TicketDetailProp> = ({ ticket, admins, selectedAdmin }) => {
               <Button
                 type='button'
                 className={
-                  'bg-sky-600 text-white font-bold hover:bg-sky-700 px-10 py-2'
+                  'bg-sky-600 text-white font-bold hover:bg-sky-700 py-2'
                 }
                 onClick={async () => {
                   const ticketDetail: CreateTicketDetailDTO = {
@@ -86,12 +88,11 @@ const Id: NextPage<TicketDetailProp> = ({ ticket, admins, selectedAdmin }) => {
               >
                 Reply Ticket
               </Button>
-              <Button
-                type='button'
-                className={
-                  'bg-red-600 text-white font-bold hover:bg-red-700 px-10 py-2 ml-1.5'
-                }
-                onClick={async () => {
+              <ConfirmationButton
+              label='Close Ticket'
+              message='This action cannot be undone.'
+              className='bg-red-600 text-white font-bold hover:bg-red-700 py-2 ml-1.5'
+              callback={async () => {
                   const closeTicketParam = {
                     ticketHeaderId: ticket.id,
                     solveDetail: content,
@@ -106,8 +107,8 @@ const Id: NextPage<TicketDetailProp> = ({ ticket, admins, selectedAdmin }) => {
                   await Router.push('/');
                 }}
               >
-                Close Ticket
-              </Button>
+                <XCircleIcon className='text-red-300 w-44' />
+              </ConfirmationButton>
             </div>
           </form>
         </div>
