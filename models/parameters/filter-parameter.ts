@@ -2,6 +2,7 @@ export type FilterParameter = {
     status: string;
     title: string;
     creationTimeRange: RangeDate;
+    doneTimeRange: RangeDate;
   };
   
 export type RangeDate = {

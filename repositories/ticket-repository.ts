@@ -149,11 +149,18 @@ export default class TicketRepository {
 
     const creationEndDateString = paginate.filterParameter.creationTimeRange.endDate;
     const creationStartDateString = paginate.filterParameter.creationTimeRange.startDate
+    
+    const doneEndDateString = paginate.filterParameter.doneTimeRange.endDate;
+    const doneStartDateString = paginate.filterParameter.doneTimeRange.startDate;
 
     let creationStartDate = new Date(creationStartDateString); 
     let creationEndDate = new Date(creationEndDateString);
+
+    let doneStartDate = new Date(doneStartDateString); 
+    let doneEndDate = new Date(doneEndDateString);
     
-    creationEndDate.setDate(creationEndDate.getDate()+1);
+    creationEndDate.setDate(creationEndDate.getDate() + 1);
+    doneEndDate.setDate(doneEndDate.getDate() + 1);
 
     return TicketRepository.getAllWithDetails(user, {
       OR:[
@@ -171,9 +178,13 @@ export default class TicketRepository {
             }
           },
           createdAt: {
-            lte: creationEndDateString === '' ? new Date() : creationEndDate,
-            gte: creationStartDateString === '' ? new Date('1970-01-01') : creationStartDate, 
+            lte: creationEndDateString === '' ? undefined : creationEndDate,
+            gte: creationStartDateString === '' ? undefined : creationStartDate, 
           },
+          doneAt: {
+            lte: doneEndDateString === '' ? undefined : doneEndDate,
+            gte: doneStartDateString === '' ? undefined : doneStartDate,     
+          }
         }, 
         {
           ticketStatus: status === 'ALL STATUS' ? {} : 
@@ -189,8 +200,12 @@ export default class TicketRepository {
             }
           },
           createdAt: {
-            lte: creationEndDateString === '' ? new Date() : creationEndDate,
-            gte: creationStartDateString === '' ? new Date('1970-01-01') : creationStartDate, 
+            lte: creationEndDateString === '' ? undefined : creationEndDate,
+            gte: creationStartDateString === '' ? undefined : creationStartDate, 
+          },
+          doneAt: {
+            lte: doneEndDateString === '' ? undefined : doneEndDate,
+            gte: doneStartDateString === '' ? undefined : doneStartDate,     
           }
         }, 
     ]
@@ -246,10 +261,17 @@ export default class TicketRepository {
     const creationEndDateString = filterParameter.creationTimeRange.endDate;
     const creationStartDateString = filterParameter.creationTimeRange.startDate
 
+    const doneEndDateString = filterParameter.doneTimeRange.endDate;
+    const doneStartDateString = filterParameter.doneTimeRange.startDate
+
     let creationStartDate = new Date(creationStartDateString); 
     let creationEndDate = new Date(creationEndDateString);
 
-    creationEndDate.setDate(creationEndDate.getDate()+1);
+    let doneStartDate = new Date(doneStartDateString);
+    let doneEndDate = new Date(doneEndDateString);
+
+    creationEndDate.setDate(creationEndDate.getDate() + 1);
+    doneEndDate.setDate(doneEndDate.getDate() + 1)
 
     return SCHEMA.count({
       where: {
@@ -268,8 +290,12 @@ export default class TicketRepository {
               }
             },
             createdAt: {
-              lte: creationEndDateString === '' ? new Date() : creationEndDate,
-              gte: creationStartDateString === '' ? new Date('1970-01-01') : creationStartDate,            
+              lte: creationEndDateString === '' ? undefined : creationEndDate,
+              gte: creationStartDateString === '' ? undefined : creationStartDate, 
+            },
+            doneAt: {
+              lte: doneEndDateString === '' ? undefined : doneEndDate,
+              gte: doneStartDateString === '' ? undefined : doneStartDate,     
             }
           }, 
           {
@@ -286,8 +312,12 @@ export default class TicketRepository {
               }
             },
             createdAt: {
-              lte: creationEndDateString === '' ? new Date() : creationEndDate,
-              gte: creationStartDateString === '' ? new Date('1970-01-01') : creationStartDate, 
+              lte: creationEndDateString === '' ? undefined : creationEndDate,
+              gte: creationStartDateString === '' ? undefined : creationStartDate, 
+            },
+            doneAt: {
+              lte: doneEndDateString === '' ? undefined : doneEndDate,
+              gte: doneStartDateString === '' ? undefined : doneStartDate,     
             }
           }, 
         ]

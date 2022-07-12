@@ -23,7 +23,6 @@ interface AllTicketsProps {
 
 const ViewAllTickets: NextPage<AllTicketsProps> = (props) => {
   const [allTickets, setAllTickets] = useState<Ticket[]>();
-  const [input, setInput] = useState('');
   const [output, setOutput] = useState<Ticket[] | undefined>();
 
   const [countData, setCountData] = useState<number>();
@@ -35,6 +34,9 @@ const ViewAllTickets: NextPage<AllTicketsProps> = (props) => {
   const [titleContentParam, setTitleContentParam] = useState('');
   const [creationStartDateParam, setCreationStartDateParam] = useState('');
   const [creationEndDateParam, setCreationEndDateParam] = useState('');
+  const [doneStartDateParam, setDoneStartDateParam] = useState('');
+  const [doneEndDateParam, setDoneEndDateParam] = useState('');
+
 
   useEffect(() => {
     setPage(Math.ceil(countData! / dataPerPage));
@@ -57,10 +59,16 @@ const ViewAllTickets: NextPage<AllTicketsProps> = (props) => {
       endDate: creationEndDateParam
     }
 
+    const doneRangeDate: RangeDate = {
+      startDate: doneStartDateParam,
+      endDate: doneEndDateParam
+    }
+
     const filterParameter: FilterParameter = {
       status: statusParam,
       title: titleContentParam,
-      creationTimeRange: creationRangeDate
+      creationTimeRange: creationRangeDate,
+      doneTimeRange: doneRangeDate
     };
 
     const paginate: PaginateTicketParameter = {
@@ -93,22 +101,36 @@ const ViewAllTickets: NextPage<AllTicketsProps> = (props) => {
     setCreationEndDateParam(ISOdate);
   }
 
+  function doneStartDateInputChange(data: any){
+    const date = data.target.value;
+    const ISOdate = date === '' ? '' : new Date(date).toISOString().substring(0, 10);
+    setDoneStartDateParam(ISOdate);
+  }
+
+  function doneEndDateInputChange(data: any){
+    const date = data.target.value;
+    const ISOdate = date === '' ? '' : new Date(date).toISOString().substring(0, 10);
+    setDoneEndDateParam(ISOdate);
+  }
+
   const onSubmit: FormEventHandler = async (e) => {
     e.preventDefault();
-    console.log("Status : " + statusParam)
-    console.log("Title / Content : " + titleContentParam)
-    console.log("Creation Start Date : " + creationStartDateParam)
-    console.log("Creation End Date : " + creationEndDateParam)
 
     const creationRangeDate: RangeDate = {
       startDate: creationStartDateParam,
       endDate: creationEndDateParam
     }
 
+    const doneRangeDate: RangeDate = {
+      startDate: doneStartDateParam,
+      endDate: doneEndDateParam
+    }
+
     const filterParameter: FilterParameter = {
       status: statusParam,
       title: titleContentParam,
-      creationTimeRange: creationRangeDate
+      creationTimeRange: creationRangeDate,
+      doneTimeRange: doneRangeDate
     };
 
     const length = await TicketService.getAllTicketLength(filterParameter);
@@ -163,36 +185,63 @@ const ViewAllTickets: NextPage<AllTicketsProps> = (props) => {
               title="Filter"
           >
             <form onSubmit={onSubmit}>
-            <select
-              className="border-2 border-gray-300 border-solid w-full max-w-sm px-2 py-2.5 rounded-md text-gray-500 my-3"
-              name=""
-              id=""
-              value={statusParam}
-              onChange={statusDropDownChange}
-            >
-              <option value="ALL STATUS">ALL STATUS</option>
-              <option value="CLOSED">CLOSED</option>
-              <option value="PENDING">PENDING</option>
-              <option value="ONGOING">ONGOING</option>
+            
+            <div className='mt-2.5'>
+              <p>Ticket Status</p>
+              <select
+                className="border-2 border-gray-300 border-solid w-full max-w-sm px-2 py-2.5 rounded-md text-gray-500 mb-2.5"
+                name=""
+                id=""
+                value={statusParam}
+                onChange={statusDropDownChange}
+              >
+                <option value="ALL STATUS">ALL STATUS</option>
+                <option value="CLOSED">CLOSED</option>
+                <option value="PENDING">PENDING</option>
+                <option value="ONGOING">ONGOING</option>
 
-            </select>
+              </select>
+            </div>
+            
+            <div className='mb-2.5'>
+              <p>Ticket Title or Ticket Content</p>
+              <Input
+                onChange={titleInputChange}
+                type="text"
+                placeholder="Type here..."
+              />
+            </div>
+            
 
-            <Input
-              onChange={titleInputChange}
-              type="text"
-              placeholder="Title or Content"
-            />
+            <div>
+              <div className='mb-2.5 mr-2.5'>
+                <p>Creation Time</p>
+                <Input
+                  onChange={creationStartDateInputChange}
+                  type="date"
+                />
+                <span> - </span>
+                <Input
+                  onChange={creationEndDateInputChange}
+                  type="date"
+                />
+              </div>
 
-            <p>Creation Time</p>
-            <Input
-              onChange={creationStartDateInputChange}
-              type="date"
-            />
-            -
-            <Input
-              onChange={creationEndDateInputChange}
-              type="date"
-            />
+              <div className='mb-2.5'>
+                <p>Done Time</p>
+                <Input
+                  onChange={doneStartDateInputChange}
+                  type="date"
+                />
+                <span> - </span>
+                <Input
+                  onChange={doneEndDateInputChange}
+                  type="date"
+                />
+              </div>
+            </div>
+            
+            
 
             <Button
                 type="submit"
@@ -201,9 +250,7 @@ const ViewAllTickets: NextPage<AllTicketsProps> = (props) => {
             </Button>
           </form>
             
-          </DisclosureCard>
-            
-
+          </DisclosureCard>   
             <div className="flex flex-col md:flex-row md:space-x-8 space-y-8 justify-center">
               <TicketWithDetailsStack
                 title={'Ticket History'}
@@ -230,8 +277,11 @@ export const getServerSideProps = withIronSessionSsr(
             allTickets: await TicketPresenter.getAllTickets({
               user: req.session.user,
               limit: 5,
-            }, 'ALL STATUS', '', '', ''),
-            allTicketsLength: await TicketPresenter.getAllTicketsLength('ALL STATUS', '', '', ''),
+            }, 'ALL STATUS', '', '', 
+               '', '', ''),
+            allTicketsLength: await TicketPresenter.getAllTicketsLength(
+              'ALL STATUS', '', '', '', '', ''
+            ),
           }
         : {},
     };

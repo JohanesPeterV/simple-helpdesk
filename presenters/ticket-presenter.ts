@@ -44,16 +44,23 @@ export default class TicketPresenter {
     return lengthTicket;
   }
 
-  static async getAllTicketsLength(status: string, title: string, creationStartDate: string, creationEndDate: string) {
+  static async getAllTicketsLength(status: string, title: string, creationStartDate: string, creationEndDate: string,
+    doneStartDate: string, doneEndDate: string) {
+    
     const creationRangeDate: RangeDate = {
       startDate: creationStartDate,
       endDate: creationEndDate
+    }
+    const doneRangeDate: RangeDate = {
+      startDate: doneStartDate,
+      endDate: doneEndDate
     }
 
     const filter: FilterParameter = {
       status: status,
       title: title,
-      creationTimeRange: creationRangeDate
+      creationTimeRange: creationRangeDate,
+      doneTimeRange: doneRangeDate
     };
     const lengthTicketString = superjson.stringify(
       await TicketRepository.getAllTicketLength(filter)
@@ -67,10 +74,16 @@ export default class TicketPresenter {
     limit,
     skip,
   }: PaginateTicketFilteredByUserParams, status: string,
-    title: string, creationStartDate: string, creationEndDate: string) {
+    title: string, creationStartDate: string, creationEndDate: string, doneStartDate: string,
+    doneEndDate: string) {
+
     const creationRangeDate: RangeDate = {
       startDate: creationStartDate,
       endDate: creationEndDate
+    }
+    const doneRangeDate: RangeDate = {
+      startDate: doneStartDate,
+      endDate: doneEndDate
     }
     const paginate: PaginateTicketParameter = {
       page: 1,
@@ -78,7 +91,8 @@ export default class TicketPresenter {
       filterParameter: {
         status: status,
         title: title,
-        creationTimeRange: creationRangeDate
+        creationTimeRange: creationRangeDate,
+        doneTimeRange: doneRangeDate
       }
     };
     const ticketsString = superjson.stringify(
