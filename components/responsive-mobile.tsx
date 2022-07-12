@@ -17,8 +17,8 @@ const ResponsiveMobile: FunctionComponent<ResponsiveMobileProps> = ({
   mobileChild,
 }) => (
   <>
-    <div className="invisible lg:visible">{desktopChild}</div>
-    <div className="visible lg:invisible">{mobileChild}</div>
+    <div className="hidden lg:block">{desktopChild}</div>
+    <div className="block lg:hidden">{mobileChild}</div>
   </>
 );
 

@@ -1,6 +1,6 @@
 import type { IronSessionOptions } from 'iron-session';
 import User from '../models/auth/user';
-import { SessionOptions } from 'next-iron-session';
+
 
 export const ironSessionOptions: IronSessionOptions = {
   password: process.env.SECRET_COOKIE_PASSWORD as string,

@@ -19,6 +19,8 @@ import Router from 'next/router';
 import Input from '../../components/input';
 import ConditionComponent from '../../components/condition-component';
 import { CreateTicketDetailDTO } from '../../models/dto/create-ticket-detail-dto';
+import ConfirmationButton from '../../components/manage-ticket/confirmation-button';
+import { XCircleIcon } from '@heroicons/react/outline';
 
 interface TicketDetailProp {
   ticket: Ticket;
@@ -29,40 +31,17 @@ interface TicketDetailProp {
 const Id: NextPage<TicketDetailProp> = ({ ticket, admins, selectedAdmin }) => {
   const [content, setContent] = useState('');
 
-  const onSubmit: FormEventHandler = async (e) => {
-    e.preventDefault();
-
-    const ticketDetail: CreateTicketDetailDTO = {
-      title:
-        'RE#' +
-        ticket.ticketDetails.length +
-        ' : ' +
-        ticket.ticketDetails[0].title,
-      content: content,
-      headerId: ticket.id,
-    };
-
-    await toast.promise(TicketService.createDetail(ticketDetail), {
-      loading: 'Replying...',
-      success: 'Reply Success',
-      error: 'Reply failed',
-    });
-    await Router.reload();
-  };
-
   return ticket ? (
     <>
-      <Container className="flex flex-row ">
-        <div className="md:w-60 lg:w-1/2 flex-auto">
+      <Container className="flex flex-row">
+        <div className="w-full pb-14 md:p0 md:w-60 lg:w-1/2 flex-auto ">
           <section aria-labelledby="applicant-information-title">
             <TicketInformation ticket={ticket} />
           </section>
           <section aria-labelledby="notes-title">
             <TicketDetail ticketDetails={ticket.ticketDetails} />
           </section>
-
           <form
-            onSubmit={onSubmit}
             className="px-4 sm:px-6 pb-6 h-40 mb-20 space-y-3 space-y-6"
           >
             <label
@@ -81,15 +60,55 @@ const Id: NextPage<TicketDetailProp> = ({ ticket, admins, selectedAdmin }) => {
               className="border-2 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm border-gray-300 rounded-md h-full w-full pl-2 pt-2 hover:shadow-md focus:shadow-md focus:ring-0 focus:outline-none focus:border-slate-400"
               defaultValue={''}
             />
-            <div className="flex flex-col items-end">
+            <div className="flex justify-end">
               <Button
+                type='button'
                 className={
-                  'bg-sky-600 text-white font-bold hover:bg-sky-700 px-10 py-2'
+                  'bg-sky-600 text-white font-bold hover:bg-sky-700 py-2'
                 }
-                type="submit"
+                onClick={async () => {
+                  const ticketDetail: CreateTicketDetailDTO = {
+                    title:
+                      'RE#' +
+                      ticket.ticketDetails.length +
+                      ' : ' +
+                      ticket.ticketDetails[0].title,
+                    content: content,
+                    headerId: ticket.id,
+                  };
+              
+                  await toast.promise(TicketService.createDetail(ticketDetail), {
+                    loading: 'Replying...',
+                    success: 'Reply Success',
+                    error: 'Reply failed',
+                  });
+
+                  await Router.reload();
+                }}
               >
-                Reply
+                Reply Ticket
               </Button>
+              <ConfirmationButton
+              label='Close Ticket'
+              message='This action cannot be undone.'
+              className='bg-red-600 text-white font-bold hover:bg-red-700 py-2 ml-1.5'
+              callback={async () => {
+                  const closeTicketParam = {
+                    ticketHeaderId: ticket.id,
+                    solveDetail: content,
+                  };
+      
+                  await toast.promise(TicketService.closeTicket(closeTicketParam), {
+                    loading: 'Closing Ticket...',
+                    success: 'Close ticket success',
+                    error: 'Close ticket failed. Please try again.',
+                  });
+                  
+                  await Router.push('/');
+                }}
+              >
+                <XCircleIcon className='text-red-300 w-44' />
+              </ConfirmationButton>
             </div>
           </form>
         </div>
