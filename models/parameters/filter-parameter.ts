@@ -3,7 +3,8 @@ export type FilterParameter = {
     title: string;
     keyword: string;
     creationTimeRange: RangeDate;
-};
+    doneTimeRange: RangeDate;
+  };
   
 export type RangeDate = {
   startDate: string;

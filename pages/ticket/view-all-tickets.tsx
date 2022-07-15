@@ -36,6 +36,9 @@ const ViewAllTickets: NextPage<AllTicketsProps> = (props) => {
   const [titleContentParam, setTitleContentParam] = useState('');
   const [creationStartDateParam, setCreationStartDateParam] = useState('');
   const [creationEndDateParam, setCreationEndDateParam] = useState('');
+  const [doneStartDateParam, setDoneStartDateParam] = useState('');
+  const [doneEndDateParam, setDoneEndDateParam] = useState('');
+
 
   useEffect(() => {
     setPage(Math.ceil(countData! / dataPerPage));
@@ -58,11 +61,17 @@ const ViewAllTickets: NextPage<AllTicketsProps> = (props) => {
       endDate: creationEndDateParam
     }
 
+    const doneRangeDate: RangeDate = {
+      startDate: doneStartDateParam,
+      endDate: doneEndDateParam
+    }
+
     const filterParameter: FilterParameter = {
       status: statusParam,
       title: titleContentParam,
       keyword: textFilter,
-      creationTimeRange: creationRangeDate
+      creationTimeRange: creationRangeDate,
+      doneTimeRange: doneRangeDate
     };
 
     const paginate: PaginateTicketParameter = {
@@ -95,19 +104,37 @@ const ViewAllTickets: NextPage<AllTicketsProps> = (props) => {
     setCreationEndDateParam(ISOdate);
   }
 
+  function doneStartDateInputChange(data: any){
+    const date = data.target.value;
+    const ISOdate = date === '' ? '' : new Date(date).toISOString().substring(0, 10);
+    setDoneStartDateParam(ISOdate);
+  }
+
+  function doneEndDateInputChange(data: any){
+    const date = data.target.value;
+    const ISOdate = date === '' ? '' : new Date(date).toISOString().substring(0, 10);
+    setDoneEndDateParam(ISOdate);
+  }
+
   const onSubmit: FormEventHandler = async (e) => {
     e.preventDefault();
-console.log(textFilter);
+    
     const creationRangeDate: RangeDate = {
       startDate: creationStartDateParam,
       endDate: creationEndDateParam
+    }
+
+    const doneRangeDate: RangeDate = {
+      startDate: doneStartDateParam,
+      endDate: doneEndDateParam
     }
 
     const filterParameter: FilterParameter = {
       status: statusParam,
       title: titleContentParam,
       keyword: textFilter,
-      creationTimeRange: creationRangeDate
+      creationTimeRange: creationRangeDate,
+      doneTimeRange: doneRangeDate
     };
     const length = await TicketService.getAllTicketLength(filterParameter);
     setCountData(length.data)
@@ -239,8 +266,8 @@ export const getServerSideProps = withIronSessionSsr(
             allTickets: await TicketPresenter.getAllTickets({
               user: req.session.user,
               limit: 5,
-            }, 'ALL STATUS', '', '', '', ''),
-            allTicketsLength: await TicketPresenter.getAllTicketsLength('ALL STATUS', '', '', '', ''),
+            }, 'ALL STATUS', '', '', '', '', '', ''),
+            allTicketsLength: await TicketPresenter.getAllTicketsLength('ALL STATUS', '', '', '', '', '', ''),
           }
         : {},
     };

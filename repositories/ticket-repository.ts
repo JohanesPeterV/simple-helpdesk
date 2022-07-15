@@ -153,10 +153,17 @@ export default class TicketRepository {
     const creationEndDateString = paginate.filterParameter.creationTimeRange.endDate;
     const creationStartDateString = paginate.filterParameter.creationTimeRange.startDate
 
+    const doneEndDateString = paginate.filterParameter.doneTimeRange.endDate;
+    const doneStartDateString = paginate.filterParameter.doneTimeRange.startDate;
+
     let creationStartDate = new Date(creationStartDateString); 
     let creationEndDate = new Date(creationEndDateString);
     
-    creationEndDate.setDate(creationEndDate.getDate()+1);
+    let doneStartDate = new Date(doneStartDateString); 
+    let doneEndDate = new Date(doneEndDateString);
+
+    creationEndDate.setDate(creationEndDate.getDate() + 1);
+    doneEndDate.setDate(doneEndDate.getDate() + 1);
 
     const ticketStatus = status === 'ALL STATUS' ? {} : 
     (status === 'CLOSED' ? TicketStatus.CLOSED : 
@@ -168,6 +175,10 @@ export default class TicketRepository {
         lte: creationEndDateString === '' ? new Date() : creationEndDate,
         gte: creationStartDateString === '' ? new Date('1970-01-01') : creationStartDate, 
       },
+      doneAt: {
+        lte: doneEndDateString === '' ? undefined : doneEndDate,
+        gte: doneStartDateString === '' ? undefined : doneStartDate,     
+      }
     }
 
     return TicketRepository.getAllWithDetails(user, {
@@ -362,10 +373,17 @@ export default class TicketRepository {
     const creationEndDateString = filterParameter.creationTimeRange.endDate;
     const creationStartDateString = filterParameter.creationTimeRange.startDate
 
+    const doneEndDateString = filterParameter.doneTimeRange.endDate;
+    const doneStartDateString = filterParameter.doneTimeRange.startDate
+
     let creationStartDate = new Date(creationStartDateString); 
     let creationEndDate = new Date(creationEndDateString);
 
+    let doneStartDate = new Date(doneStartDateString);
+    let doneEndDate = new Date(doneEndDateString);
+
     creationEndDate.setDate(creationEndDate.getDate() + 1);
+    doneEndDate.setDate(doneEndDate.getDate() + 1)
 
     const ticketStatus = status === 'ALL STATUS' ? {} : 
     (status === 'CLOSED' ? TicketStatus.CLOSED : 
@@ -377,6 +395,10 @@ export default class TicketRepository {
         lte: creationEndDateString === '' ? new Date() : creationEndDate,
         gte: creationStartDateString === '' ? new Date('1970-01-01') : creationStartDate, 
       },
+      doneAt: {
+        lte: doneEndDateString === '' ? undefined : doneEndDate,
+        gte: doneStartDateString === '' ? undefined : doneStartDate,     
+      }
     }
 
     return SCHEMA.count({
