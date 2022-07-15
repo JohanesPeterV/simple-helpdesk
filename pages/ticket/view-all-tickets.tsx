@@ -24,6 +24,7 @@ interface AllTicketsProps {
 const ViewAllTickets: NextPage<AllTicketsProps> = (props) => {
   const [allTickets, setAllTickets] = useState<Ticket[]>();
   const [input, setInput] = useState('');
+  const [textFilter, setTextFilter] = useState('');
   const [output, setOutput] = useState<Ticket[] | undefined>();
 
   const [countData, setCountData] = useState<number>();
@@ -60,6 +61,7 @@ const ViewAllTickets: NextPage<AllTicketsProps> = (props) => {
     const filterParameter: FilterParameter = {
       status: statusParam,
       title: titleContentParam,
+      keyword: textFilter,
       creationTimeRange: creationRangeDate
     };
 
@@ -95,11 +97,7 @@ const ViewAllTickets: NextPage<AllTicketsProps> = (props) => {
 
   const onSubmit: FormEventHandler = async (e) => {
     e.preventDefault();
-    console.log("Status : " + statusParam)
-    console.log("Title / Content : " + titleContentParam)
-    console.log("Creation Start Date : " + creationStartDateParam)
-    console.log("Creation End Date : " + creationEndDateParam)
-
+console.log(textFilter);
     const creationRangeDate: RangeDate = {
       startDate: creationStartDateParam,
       endDate: creationEndDateParam
@@ -108,12 +106,13 @@ const ViewAllTickets: NextPage<AllTicketsProps> = (props) => {
     const filterParameter: FilterParameter = {
       status: statusParam,
       title: titleContentParam,
+      keyword: textFilter,
       creationTimeRange: creationRangeDate
     };
-
     const length = await TicketService.getAllTicketLength(filterParameter);
     setCountData(length.data)
-
+    
+    console.log("length: " + length.data);
     const thePage = 1;
     setCurrPage(thePage-1);
     const paginate: PaginateTicketParameter = {
@@ -157,52 +156,62 @@ const ViewAllTickets: NextPage<AllTicketsProps> = (props) => {
 
           <div>
 
-          <DisclosureCard
-              defaultOpen={false}
-              className={'w-full h-min mb-2.5 rounded'}
-              title="Filter"
-          >
-            <form onSubmit={onSubmit}>
-            <select
-              className="border-2 border-gray-300 border-solid w-full max-w-sm px-2 py-2.5 rounded-md text-gray-500 my-3"
-              name=""
-              id=""
-              value={statusParam}
-              onChange={statusDropDownChange}
+          <form onSubmit={onSubmit}>
+            <Input
+                id="search-full-text"
+                name="search-full-text"
+                onChange={(e) => {
+                  setTextFilter(e.target.value);
+                }}
+                type="text"
+                className="border-2 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 border-gray-300 rounded-md hover:shadow-md focus:shadow-md focus:ring-0 focus:outline-none focus:border-slate-400 mr-2 w-full text-lg"
+                placeholder='Search...'
+                defaultValue={''}
+              />
+
+            <DisclosureCard
+                defaultOpen={false}
+                className={'w-full h-min mb-2.5 rounded'}
+                title="Filter"
             >
-              <option value="ALL STATUS">ALL STATUS</option>
-              <option value="CLOSED">CLOSED</option>
-              <option value="PENDING">PENDING</option>
-              <option value="ONGOING">ONGOING</option>
+              <select
+                className="border-2 border-gray-300 border-solid w-full max-w-sm px-2 py-2.5 rounded-md text-gray-500 my-3"
+                name=""
+                id=""
+                value={statusParam}
+                onChange={statusDropDownChange}
+              >
+                <option value="ALL STATUS">ALL STATUS</option>
+                <option value="CLOSED">CLOSED</option>
+                <option value="PENDING">PENDING</option>
+                <option value="ONGOING">ONGOING</option>
 
-            </select>
+              </select>
 
-            <Input
-              onChange={titleInputChange}
-              type="text"
-              placeholder="Title or Content"
-            />
+              <Input
+                onChange={titleInputChange}
+                type="text"
+                placeholder="Title or Content"
+              />
 
-            <p>Creation Time</p>
-            <Input
-              onChange={creationStartDateInputChange}
-              type="date"
-            />
-            -
-            <Input
-              onChange={creationEndDateInputChange}
-              type="date"
-            />
+              <p>Creation Time</p>
+              <Input
+                onChange={creationStartDateInputChange}
+                type="date"
+              />
+              -
+              <Input
+                onChange={creationEndDateInputChange}
+                type="date"
+              />
 
-            <Button
-                type="submit"
-                className={'hover:bg-sky-700 bg-sky-600 text-white'}>
-                Filter
-            </Button>
+              <Button
+                  type="submit"
+                  className={'hover:bg-sky-700 bg-sky-600 text-white'}>
+                  Filter
+              </Button>
+            </DisclosureCard>
           </form>
-            
-          </DisclosureCard>
-            
 
             <div className="flex flex-col md:flex-row md:space-x-8 space-y-8 justify-center">
               <TicketWithDetailsStack
@@ -230,8 +239,8 @@ export const getServerSideProps = withIronSessionSsr(
             allTickets: await TicketPresenter.getAllTickets({
               user: req.session.user,
               limit: 5,
-            }, 'ALL STATUS', '', '', ''),
-            allTicketsLength: await TicketPresenter.getAllTicketsLength('ALL STATUS', '', '', ''),
+            }, 'ALL STATUS', '', '', '', ''),
+            allTicketsLength: await TicketPresenter.getAllTicketsLength('ALL STATUS', '', '', '', ''),
           }
         : {},
     };

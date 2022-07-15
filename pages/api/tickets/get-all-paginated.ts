@@ -17,7 +17,7 @@ async function handleGetAllTicketsPaginated(
 ) {
   const paginate: PaginateTicketParameter = await req.body;
   const user = req.session.user;
-  console.log(user);
+
   if (user) {
     const tickets = await getAllTickets(user, paginate);
     res.json(tickets);

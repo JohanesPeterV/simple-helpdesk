@@ -20,6 +20,7 @@ model Admin{
     resignedAt  DateTime?
     ticketHeaders TicketHeader[]
 }
+
 model TicketHeader{
     id  String  @id @default(uuid())
     adminId String?
@@ -32,6 +33,7 @@ model TicketHeader{
     solveDetail String?
     ticketDetails TicketDetail[]
 }
+
 model TicketDetail{
     id  String @id @default(uuid())
     creatorEmail    String
@@ -43,6 +45,7 @@ model TicketDetail{
     createdAt   DateTime    @default(now())
     emailMessageId  String?
 }
+
 enum TicketStatus{
     PENDING
     ONGOING

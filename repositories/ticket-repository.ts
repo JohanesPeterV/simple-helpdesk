@@ -148,6 +148,7 @@ export default class TicketRepository {
     const skip = (paginate.page - 1) * paginate.dataPerPage;
     const status = paginate.filterParameter.status;
     const titleContent = paginate.filterParameter.title;
+    const keyword = paginate.filterParameter.keyword;
 
     const creationEndDateString = paginate.filterParameter.creationTimeRange.endDate;
     const creationStartDateString = paginate.filterParameter.creationTimeRange.startDate
@@ -157,56 +158,168 @@ export default class TicketRepository {
     
     creationEndDate.setDate(creationEndDate.getDate()+1);
 
+    const ticketStatus = status === 'ALL STATUS' ? {} : 
+    (status === 'CLOSED' ? TicketStatus.CLOSED : 
+      (status === 'ONGOING' ? TicketStatus.ONGOING : 
+        TicketStatus.PENDING));
+
+    const dateCondition = {
+      createdAt: {
+        lte: creationEndDateString === '' ? new Date() : creationEndDate,
+        gte: creationStartDateString === '' ? new Date('1970-01-01') : creationStartDate, 
+      },
+    }
+
     return TicketRepository.getAllWithDetails(user, {
-      OR:[
-        {
-          ticketStatus: status === 'ALL STATUS' ? {} : 
-          (status === 'CLOSED' ? TicketStatus.CLOSED : 
-            (status === 'ONGOING' ? TicketStatus.ONGOING : 
-              TicketStatus.PENDING)),
-          ticketDetails: {
-            some:{
-              title: {
-                contains: titleContent,
-                mode: 'insensitive'
+      AND: [{
+        OR: [
+          {
+            ticketStatus: ticketStatus,
+            ticketDetails: {
+              some: {
+                title: {
+                  contains: titleContent,
+                  mode: 'insensitive'
+                }
               }
-            }
-          },
-          createdAt: {
-            lte: creationEndDateString === '' ? new Date() : creationEndDate,
-            gte: creationStartDateString === '' ? new Date('1970-01-01') : creationStartDate, 
-          },
-        }, 
-        {
-          ticketStatus: status === 'ALL STATUS' ? {} : 
-          (status === 'CLOSED' ? TicketStatus.CLOSED : 
-            (status === 'ONGOING' ? TicketStatus.ONGOING : 
-              TicketStatus.PENDING)),
-          ticketDetails: {
-            some:{
-              content: {
-                contains: titleContent,
-                mode: 'insensitive'
+            },
+            ...dateCondition,
+          }, 
+          {
+            ticketStatus: ticketStatus,
+            ticketDetails: {
+              some: {
+                content: {
+                  contains: titleContent,
+                  mode: 'insensitive'
+                }
               }
-            }
+            },
+            ...dateCondition,
           },
-          createdAt: {
-            lte: creationEndDateString === '' ? new Date() : creationEndDate,
-            gte: creationStartDateString === '' ? new Date('1970-01-01') : creationStartDate, 
+          {
+            ticketStatus: ticketStatus,
+            ticketDetails: {
+              some: {
+                creatorEmail: {
+                  contains: keyword,
+                  mode: 'insensitive'
+                }
+              }
+            },
+            ...dateCondition,
+          },
+          {
+            ticketStatus: ticketStatus,
+            ticketDetails: {
+              some: {
+                creatorName: {
+                  contains: keyword,
+                  mode: 'insensitive'
+                }
+              }
+            },
+            ...dateCondition,
+          },
+          {
+            ticketStatus: ticketStatus,
+            creatorEmail: {
+              contains: keyword,
+              mode: 'insensitive'
+            },
+            ...dateCondition
+          },
+          {
+            ticketStatus: ticketStatus,
+            creatorName: {
+              contains: keyword,
+              mode: 'insensitive'
+            },
+            ...dateCondition
           }
-        }, 
-    ]
+        ]
+      },
+      {
+        OR: [
+          {
+            ticketStatus: ticketStatus,
+            ticketDetails: {
+              some: {                                                                                        
+                title: {
+                  contains: keyword,
+                  mode: 'insensitive'
+                }
+              }
+            },
+            ...dateCondition,
+          },
+          {
+            ticketStatus: ticketStatus,
+            ticketDetails: {
+              some: {
+                content: {
+                  contains: keyword,
+                  mode: 'insensitive'
+                }
+              }
+            },
+            ...dateCondition,
+          },
+          {
+            ticketStatus: ticketStatus,
+            ticketDetails: {
+              some: {
+                creatorEmail: {
+                  contains: keyword,
+                  mode: 'insensitive'
+                }
+              }
+            },
+            ...dateCondition,
+          },
+          {
+            ticketStatus: ticketStatus,
+            ticketDetails: {
+              some: {
+                creatorName: {
+                  contains: keyword,
+                  mode: 'insensitive'
+                }
+              }
+            },
+            ...dateCondition,
+          },
+          {
+            ticketStatus: ticketStatus,
+            creatorEmail: {
+              contains: keyword,
+              mode: 'insensitive'
+            },
+            ...dateCondition
+          },
+          {
+            ticketStatus: ticketStatus,
+            creatorName: {
+              contains: keyword,
+              mode: 'insensitive'
+            },
+            ...dateCondition
+          }
+        ],
+      },
+      ]
     }, limit, skip);
   };
+
   static getPending = async (user: User, limit?: number) =>
     TicketRepository.getAllWithOneDetail(user, {
       ticketStatus: TicketStatus.PENDING,
-    });
+  });
 
   static getOnGoing = async (user: User, limit?: number) =>
     TicketRepository.getAllWithOneDetail(user, {
       ticketStatus: TicketStatus.ONGOING,
-    });
+  });
 
   static getClosed = async (
     user: User,
@@ -244,6 +357,7 @@ export default class TicketRepository {
   static getAllTicketLength = async function (filterParameter: FilterParameter) {
     const status = filterParameter.status;
     const titleContent = filterParameter.title;
+    const keyword = filterParameter.keyword;
 
     const creationEndDateString = filterParameter.creationTimeRange.endDate;
     const creationStartDateString = filterParameter.creationTimeRange.startDate
@@ -251,49 +365,158 @@ export default class TicketRepository {
     let creationStartDate = new Date(creationStartDateString); 
     let creationEndDate = new Date(creationEndDateString);
 
-    creationEndDate.setDate(creationEndDate.getDate()+1);
+    creationEndDate.setDate(creationEndDate.getDate() + 1);
+
+    const ticketStatus = status === 'ALL STATUS' ? {} : 
+    (status === 'CLOSED' ? TicketStatus.CLOSED : 
+      (status === 'ONGOING' ? TicketStatus.ONGOING : 
+        TicketStatus.PENDING));
+
+    const dateCondition = {
+      createdAt: {
+        lte: creationEndDateString === '' ? new Date() : creationEndDate,
+        gte: creationStartDateString === '' ? new Date('1970-01-01') : creationStartDate, 
+      },
+    }
 
     return SCHEMA.count({
       where: {
-        OR:[
-          {
-            ticketStatus: status === 'ALL STATUS' ? {} : 
-            (status === 'CLOSED' ? TicketStatus.CLOSED : 
-              (status === 'ONGOING' ? TicketStatus.ONGOING : 
-                TicketStatus.PENDING)),
-            ticketDetails: {
-              some:{
-                title: {
-                  contains: titleContent,
-                  mode: 'insensitive'
+        AND: [{
+          OR: [
+            {
+              ticketStatus: ticketStatus,
+              ticketDetails: {
+                some: {
+                  title: {
+                    contains: titleContent,
+                    mode: 'insensitive'
+                  }
                 }
-              }
-            },
-            createdAt: {
-              lte: creationEndDateString === '' ? new Date() : creationEndDate,
-              gte: creationStartDateString === '' ? new Date('1970-01-01') : creationStartDate,            
-            }
-          }, 
-          {
-            ticketStatus: status === 'ALL STATUS' ? {} : 
-            (status === 'CLOSED' ? TicketStatus.CLOSED : 
-              (status === 'ONGOING' ? TicketStatus.ONGOING : 
-                TicketStatus.PENDING)),
-            ticketDetails: {
-              some:{
-                content: {
-                  contains: titleContent,
-                  mode: 'insensitive'
+              },
+              ...dateCondition,
+            }, 
+            {
+              ticketStatus: ticketStatus,
+              ticketDetails: {
+                some: {
+                  content: {
+                    contains: titleContent,
+                    mode: 'insensitive'
+                  }
                 }
-              }
+              },
+              ...dateCondition,
             },
-            createdAt: {
-              lte: creationEndDateString === '' ? new Date() : creationEndDate,
-              gte: creationStartDateString === '' ? new Date('1970-01-01') : creationStartDate, 
+            {
+              ticketStatus: ticketStatus,
+              ticketDetails: {
+                some: {
+                  creatorEmail: {
+                    contains: keyword,
+                    mode: 'insensitive'
+                  }
+                }
+              },
+              ...dateCondition,
+            },
+            {
+              ticketStatus: ticketStatus,
+              ticketDetails: {
+                some: {
+                  creatorName: {
+                    contains: keyword,
+                    mode: 'insensitive'
+                  }
+                }
+              },
+              ...dateCondition,
+            },
+            {
+              ticketStatus: ticketStatus,
+              creatorEmail: {
+                contains: keyword,
+                mode: 'insensitive'
+              },
+              ...dateCondition
+            },
+            {
+              ticketStatus: ticketStatus,
+              creatorName: {
+                contains: keyword,
+                mode: 'insensitive'
+              },
+              ...dateCondition
             }
-          }, 
-        ]
-        
+          ]
+        },
+        {
+          OR: [
+            {
+              ticketStatus: ticketStatus,
+              ticketDetails: {
+                some: {                                                                                        
+                  title: {
+                    contains: keyword,
+                    mode: 'insensitive'
+                  }
+                }
+              },
+              ...dateCondition,
+            },
+            {
+              ticketStatus: ticketStatus,
+              ticketDetails: {
+                some: {
+                  content: {
+                    contains: keyword,
+                    mode: 'insensitive'
+                  }
+                }
+              },
+              ...dateCondition,
+            },
+            {
+              ticketStatus: ticketStatus,
+              ticketDetails: {
+                some: {
+                  creatorEmail: {
+                    contains: keyword,
+                    mode: 'insensitive'
+                  }
+                }
+              },
+              ...dateCondition,
+            },
+            {
+              ticketStatus: ticketStatus,
+              ticketDetails: {
+                some: {
+                  creatorName: {
+                    contains: keyword,
+                    mode: 'insensitive'
+                  }
+                }
+              },
+              ...dateCondition,
+            },
+            {
+              ticketStatus: ticketStatus,
+              creatorEmail: {
+                contains: keyword,
+                mode: 'insensitive'
+              },
+              ...dateCondition
+            },
+            {
+              ticketStatus: ticketStatus,
+              creatorName: {
+                contains: keyword,
+                mode: 'insensitive'
+              },
+              ...dateCondition
+            }
+          ]
+        }]
       },
     });
   };

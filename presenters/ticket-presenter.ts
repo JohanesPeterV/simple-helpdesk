@@ -5,6 +5,7 @@ import { Ticket } from '../models/ticket/ticket';
 import { PaginateTicketFilteredByUserParams } from '../models/parameters/paginate-ticket-filtered-by-user-params';
 import { PaginateTicketParameter } from '../models/parameters/paginate-ticket-parameter';
 import { FilterParameter, RangeDate } from '../models/parameters/filter-parameter';
+import { createKeywordTypeNode } from 'typescript';
 
 export default class TicketPresenter {
   static async get(user: User, id: string) {
@@ -44,7 +45,7 @@ export default class TicketPresenter {
     return lengthTicket;
   }
 
-  static async getAllTicketsLength(status: string, title: string, creationStartDate: string, creationEndDate: string) {
+  static async getAllTicketsLength(status: string, title: string, keyword: string, creationStartDate: string, creationEndDate: string) {
     const creationRangeDate: RangeDate = {
       startDate: creationStartDate,
       endDate: creationEndDate
@@ -53,6 +54,7 @@ export default class TicketPresenter {
     const filter: FilterParameter = {
       status: status,
       title: title,
+      keyword: keyword,
       creationTimeRange: creationRangeDate
     };
     const lengthTicketString = superjson.stringify(
@@ -67,7 +69,7 @@ export default class TicketPresenter {
     limit,
     skip,
   }: PaginateTicketFilteredByUserParams, status: string,
-    title: string, creationStartDate: string, creationEndDate: string) {
+    title: string, keyword: string, creationStartDate: string, creationEndDate: string) {
     const creationRangeDate: RangeDate = {
       startDate: creationStartDate,
       endDate: creationEndDate
@@ -78,6 +80,7 @@ export default class TicketPresenter {
       filterParameter: {
         status: status,
         title: title,
+        keyword: keyword,
         creationTimeRange: creationRangeDate
       }
     };
