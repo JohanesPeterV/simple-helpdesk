@@ -191,23 +191,27 @@ const ViewAllTickets: NextPage<AllTicketsProps> = (props) => {
           <div>
 
           <form onSubmit={onSubmit}>
-            <Input
-                id="search-full-text"
-                name="search-full-text"
-                onChange={(e) => {
-                  setTextFilter(e.target.value);
-                }}
-                type="text"
-                className="border-2 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 border-gray-300 rounded-md hover:shadow-md focus:shadow-md focus:ring-0 focus:outline-none focus:border-slate-400 mr-2 w-full text-lg"
-                placeholder='Search...'
-                defaultValue={''}
-              />
 
             <DisclosureCard
                 defaultOpen={false}
                 className={'w-full h-min my-2.5 rounded'}
                 title="Filter"
             >
+              <div className = 'mt-2'>
+                <p>Full Text Filter</p>
+                <Input
+                    id="search-full-text"
+                    name="search-full-text"
+                    onChange={(e) => {
+                      setTextFilter(e.target.value);
+                    }}
+                    type="text"
+                    className="border-2 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 border-gray-300 rounded-md hover:shadow-md focus:shadow-md focus:ring-0 focus:outline-none focus:border-slate-400 mr-2 w-full text-lg mt-2"
+                    placeholder='Search...'
+                    defaultValue={''}
+                  />
+              </div>
+
               <div className='mt-2'>
                 <p>Ticket Status</p>
                 <select
@@ -225,22 +229,26 @@ const ViewAllTickets: NextPage<AllTicketsProps> = (props) => {
                 </select>
               </div>
               
-              <div className='mt-2'>
-                <p>Title</p>
-                <Input
-                  onChange={titleInputChange}
-                  type="text"
-                  placeholder="Input your title here"
-                />
-              </div>
+              <div className='flex'>
+                <div className='mt-2'>
+                  <p>Title</p>
+                  <Input
+                    onChange={titleInputChange}
+                    type="text"
+                    placeholder="Input your title here"
+                    className='border-2 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 border-gray-300 rounded-md hover:shadow-md focus:shadow-md focus:ring-0 focus:outline-none focus:border-slate-400 mr-2 text-lg mt-2'
+                  />
+                </div>
 
-              <div className='mt-2'>
-                <p>Content</p>
-                <Input
-                  onChange={contentInputChange}
-                  type="text"
-                  placeholder="Input your content here"
-                />
+                <div className='mt-2'>
+                  <p>Content</p>
+                  <Input
+                    onChange={contentInputChange}
+                    type="text"
+                    placeholder="Input your content here"
+                    className='border-2 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 border-gray-300 rounded-md hover:shadow-md focus:shadow-md focus:ring-0 focus:outline-none focus:border-slate-400 mr-2 text-lg mt-2'
+                  />
+                </div>
               </div>
               
 
@@ -273,7 +281,7 @@ const ViewAllTickets: NextPage<AllTicketsProps> = (props) => {
 
               <Button
                   type="submit"
-                  className={'hover:bg-sky-700 bg-sky-600 text-white'}>
+                  className={'hover:bg-sky-700 bg-sky-600 text-white w-20 mt-3'}>
                   Filter
               </Button>
             </DisclosureCard>

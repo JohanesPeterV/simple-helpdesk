@@ -29,6 +29,8 @@ export default class TicketHeaderRepository {
   };
 
   static closeTicket = async (closeTicketParameter: CloseTicketParameter) => {
+    const date = new Date();
+
     return await SCHEMA.update({
       where: {
         id: closeTicketParameter.ticketHeaderId,
@@ -36,6 +38,7 @@ export default class TicketHeaderRepository {
       data: {
         solveDetail: closeTicketParameter.solveDetail,
         ticketStatus: TicketStatus.CLOSED,
+        doneAt: date,
       },
     });
   };
