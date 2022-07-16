@@ -1,6 +1,7 @@
 export type FilterParameter = {
     status: string;
     title: string;
+    content: string;
     keyword: string;
     creationTimeRange: RangeDate;
     doneTimeRange: RangeDate;

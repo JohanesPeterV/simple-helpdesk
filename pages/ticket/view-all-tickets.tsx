@@ -33,7 +33,8 @@ const ViewAllTickets: NextPage<AllTicketsProps> = (props) => {
   const [currPage, setCurrPage] = useState(0);
 
   const [statusParam, setStatusParam] = useState('ALL STATUS');
-  const [titleContentParam, setTitleContentParam] = useState('');
+  const [titleParam, setTitleParam] = useState('');
+  const [contentParam, setContentParam] = useState('');
   const [creationStartDateParam, setCreationStartDateParam] = useState('');
   const [creationEndDateParam, setCreationEndDateParam] = useState('');
   const [doneStartDateParam, setDoneStartDateParam] = useState('');
@@ -68,7 +69,8 @@ const ViewAllTickets: NextPage<AllTicketsProps> = (props) => {
 
     const filterParameter: FilterParameter = {
       status: statusParam,
-      title: titleContentParam,
+      title: titleParam,
+      content: contentParam,
       keyword: textFilter,
       creationTimeRange: creationRangeDate,
       doneTimeRange: doneRangeDate
@@ -89,7 +91,11 @@ const ViewAllTickets: NextPage<AllTicketsProps> = (props) => {
   }
 
   function titleInputChange(data: any){
-    setTitleContentParam(data.target.value)
+    setTitleParam(data.target.value)
+  }
+
+  function contentInputChange(data: any){
+    setContentParam(data.target.value)
   }
 
   function creationStartDateInputChange(data: any){
@@ -131,7 +137,8 @@ const ViewAllTickets: NextPage<AllTicketsProps> = (props) => {
 
     const filterParameter: FilterParameter = {
       status: statusParam,
-      title: titleContentParam,
+      title: titleParam,
+      content: contentParam,
       keyword: textFilter,
       creationTimeRange: creationRangeDate,
       doneTimeRange: doneRangeDate
@@ -198,39 +205,71 @@ const ViewAllTickets: NextPage<AllTicketsProps> = (props) => {
 
             <DisclosureCard
                 defaultOpen={false}
-                className={'w-full h-min mb-2.5 rounded'}
+                className={'w-full h-min my-2.5 rounded'}
                 title="Filter"
             >
-              <select
-                className="border-2 border-gray-300 border-solid w-full max-w-sm px-2 py-2.5 rounded-md text-gray-500 my-3"
-                name=""
-                id=""
-                value={statusParam}
-                onChange={statusDropDownChange}
-              >
-                <option value="ALL STATUS">ALL STATUS</option>
-                <option value="CLOSED">CLOSED</option>
-                <option value="PENDING">PENDING</option>
-                <option value="ONGOING">ONGOING</option>
+              <div className='mt-2'>
+                <p>Ticket Status</p>
+                <select
+                  className="border-2 border-gray-300 border-solid w-full max-w-sm px-2 py-2.5 rounded-md text-gray-500 my-1"
+                  name=""
+                  id=""
+                  value={statusParam}
+                  onChange={statusDropDownChange}
+                >
+                  <option value="ALL STATUS">ALL STATUS</option>
+                  <option value="CLOSED">CLOSED</option>
+                  <option value="PENDING">PENDING</option>
+                  <option value="ONGOING">ONGOING</option>
 
-              </select>
+                </select>
+              </div>
+              
+              <div className='mt-2'>
+                <p>Title</p>
+                <Input
+                  onChange={titleInputChange}
+                  type="text"
+                  placeholder="Input your title here"
+                />
+              </div>
 
-              <Input
-                onChange={titleInputChange}
-                type="text"
-                placeholder="Title or Content"
-              />
+              <div className='mt-2'>
+                <p>Content</p>
+                <Input
+                  onChange={contentInputChange}
+                  type="text"
+                  placeholder="Input your content here"
+                />
+              </div>
+              
 
-              <p>Creation Time</p>
-              <Input
-                onChange={creationStartDateInputChange}
-                type="date"
-              />
-              -
-              <Input
-                onChange={creationEndDateInputChange}
-                type="date"
-              />
+              <div className='mt-2'>
+                <p>Creation Time</p>
+                <Input
+                  onChange={creationStartDateInputChange}
+                  type="date"
+                />
+                <span> - </span>
+                <Input
+                  onChange={creationEndDateInputChange}
+                  type="date"
+                />
+              </div>
+              
+              <div className='mt-2'>
+                <p>Done Time</p>
+                <Input
+                  onChange={doneStartDateInputChange}
+                  type="date"
+                />
+                <span> - </span>
+                <Input
+                  onChange={doneEndDateInputChange}
+                  type="date"
+                />
+              </div>
+              
 
               <Button
                   type="submit"
@@ -266,8 +305,8 @@ export const getServerSideProps = withIronSessionSsr(
             allTickets: await TicketPresenter.getAllTickets({
               user: req.session.user,
               limit: 5,
-            }, 'ALL STATUS', '', '', '', '', '', ''),
-            allTicketsLength: await TicketPresenter.getAllTicketsLength('ALL STATUS', '', '', '', '', '', ''),
+            }, 'ALL STATUS', '', '', '', '', '', '', ''),
+            allTicketsLength: await TicketPresenter.getAllTicketsLength('ALL STATUS', '', '', '', '', '', '', ''),
           }
         : {},
     };

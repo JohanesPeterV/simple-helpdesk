@@ -7,7 +7,6 @@ import { Ticket } from '../models/ticket/ticket';
 import { prisma } from '../lib/prisma';
 import { FilterParameter } from '../models/parameters/filter-parameter';
 import { PaginateTicketParameter } from '../models/parameters/paginate-ticket-parameter';
-import TicketDetail from '../components/ticket/ticket-detail';
 
 const SCHEMA = prisma.ticketHeader;
 const SCHEMA_CHILD = prisma.ticketDetail;
@@ -147,7 +146,8 @@ export default class TicketRepository {
     const limit = paginate.dataPerPage;
     const skip = (paginate.page - 1) * paginate.dataPerPage;
     const status = paginate.filterParameter.status;
-    const titleContent = paginate.filterParameter.title;
+    const title = paginate.filterParameter.title;
+    const content = paginate.filterParameter.content;
     const keyword = paginate.filterParameter.keyword;
 
     const creationEndDateString = paginate.filterParameter.creationTimeRange.endDate;
@@ -182,142 +182,92 @@ export default class TicketRepository {
     }
 
     return TicketRepository.getAllWithDetails(user, {
-      AND: [{
-        OR: [
-          {
-            ticketStatus: ticketStatus,
-            ticketDetails: {
-              some: {
-                title: {
-                  contains: titleContent,
-                  mode: 'insensitive'
-                }
+      AND: 
+      [
+        {
+          ticketStatus: ticketStatus,
+          ticketDetails: {
+            some: {
+              title: {
+                contains: title,
+                mode: 'insensitive'
+              },
+              content: {
+                contains: content,
+                mode: 'insensitive'
               }
-            },
-            ...dateCondition,
-          }, 
-          {
-            ticketStatus: ticketStatus,
-            ticketDetails: {
-              some: {
-                content: {
-                  contains: titleContent,
-                  mode: 'insensitive'
+            }
+          },
+          ...dateCondition,
+        },
+        {
+          OR: [
+            {
+              ticketStatus: ticketStatus,
+              ticketDetails: {
+                some: {                                                                                        
+                  title: {
+                    contains: keyword,
+                    mode: 'insensitive'
+                  }
                 }
-              }
+              },
+              ...dateCondition,
             },
-            ...dateCondition,
-          },
-          {
-            ticketStatus: ticketStatus,
-            ticketDetails: {
-              some: {
-                creatorEmail: {
-                  contains: keyword,
-                  mode: 'insensitive'
+            {
+              ticketStatus: ticketStatus,
+              ticketDetails: {
+                some: {
+                  content: {
+                    contains: keyword,
+                    mode: 'insensitive'
+                  }
                 }
-              }
+              },
+              ...dateCondition,
             },
-            ...dateCondition,
-          },
-          {
-            ticketStatus: ticketStatus,
-            ticketDetails: {
-              some: {
-                creatorName: {
-                  contains: keyword,
-                  mode: 'insensitive'
+            {
+              ticketStatus: ticketStatus,
+              ticketDetails: {
+                some: {
+                  creatorEmail: {
+                    contains: keyword,
+                    mode: 'insensitive'
+                  }
                 }
-              }
+              },
+              ...dateCondition,
             },
-            ...dateCondition,
-          },
-          {
-            ticketStatus: ticketStatus,
-            creatorEmail: {
-              contains: keyword,
-              mode: 'insensitive'
-            },
-            ...dateCondition
-          },
-          {
-            ticketStatus: ticketStatus,
-            creatorName: {
-              contains: keyword,
-              mode: 'insensitive'
-            },
-            ...dateCondition
-          }
-        ]
-      },
-      {
-        OR: [
-          {
-            ticketStatus: ticketStatus,
-            ticketDetails: {
-              some: {                                                                                        
-                title: {
-                  contains: keyword,
-                  mode: 'insensitive'
+            {
+              ticketStatus: ticketStatus,
+              ticketDetails: {
+                some: {
+                  creatorName: {
+                    contains: keyword,
+                    mode: 'insensitive'
+                  }
                 }
-              }
+              },
+              ...dateCondition,
             },
-            ...dateCondition,
-          },
-          {
-            ticketStatus: ticketStatus,
-            ticketDetails: {
-              some: {
-                content: {
-                  contains: keyword,
-                  mode: 'insensitive'
-                }
-              }
+            {
+              ticketStatus: ticketStatus,
+              creatorEmail: {
+                contains: keyword,
+                mode: 'insensitive'
+              },
+              ...dateCondition
             },
-            ...dateCondition,
-          },
-          {
-            ticketStatus: ticketStatus,
-            ticketDetails: {
-              some: {
-                creatorEmail: {
-                  contains: keyword,
-                  mode: 'insensitive'
-                }
-              }
-            },
-            ...dateCondition,
-          },
-          {
-            ticketStatus: ticketStatus,
-            ticketDetails: {
-              some: {
-                creatorName: {
-                  contains: keyword,
-                  mode: 'insensitive'
-                }
-              }
-            },
-            ...dateCondition,
-          },
-          {
-            ticketStatus: ticketStatus,
-            creatorEmail: {
-              contains: keyword,
-              mode: 'insensitive'
-            },
-            ...dateCondition
-          },
-          {
-            ticketStatus: ticketStatus,
-            creatorName: {
-              contains: keyword,
-              mode: 'insensitive'
-            },
-            ...dateCondition
-          }
-        ],
-      },
+            {
+              ticketStatus: ticketStatus,
+              creatorName: {
+                contains: keyword,
+                mode: 'insensitive'
+              },
+              ...dateCondition
+            }
+          ],
+        },
       ]
     }, limit, skip);
   };
@@ -367,7 +317,8 @@ export default class TicketRepository {
 
   static getAllTicketLength = async function (filterParameter: FilterParameter) {
     const status = filterParameter.status;
-    const titleContent = filterParameter.title;
+    const title = filterParameter.title;
+    const content = filterParameter.content;
     const keyword = filterParameter.keyword;
 
     const creationEndDateString = filterParameter.creationTimeRange.endDate;
@@ -403,74 +354,24 @@ export default class TicketRepository {
 
     return SCHEMA.count({
       where: {
-        AND: [{
-          OR: [
-            {
-              ticketStatus: ticketStatus,
-              ticketDetails: {
-                some: {
-                  title: {
-                    contains: titleContent,
-                    mode: 'insensitive'
-                  }
+        AND: 
+        [
+          {
+            ticketStatus: ticketStatus,
+            ticketDetails: {
+              some: {
+                title: {
+                  contains: title,
+                  mode: 'insensitive'
+                },
+                content: {
+                  contains: content,
+                  mode: 'insensitive'
                 }
-              },
-              ...dateCondition,
-            }, 
-            {
-              ticketStatus: ticketStatus,
-              ticketDetails: {
-                some: {
-                  content: {
-                    contains: titleContent,
-                    mode: 'insensitive'
-                  }
-                }
-              },
-              ...dateCondition,
+              }
             },
-            {
-              ticketStatus: ticketStatus,
-              ticketDetails: {
-                some: {
-                  creatorEmail: {
-                    contains: keyword,
-                    mode: 'insensitive'
-                  }
-                }
-              },
-              ...dateCondition,
-            },
-            {
-              ticketStatus: ticketStatus,
-              ticketDetails: {
-                some: {
-                  creatorName: {
-                    contains: keyword,
-                    mode: 'insensitive'
-                  }
-                }
-              },
-              ...dateCondition,
-            },
-            {
-              ticketStatus: ticketStatus,
-              creatorEmail: {
-                contains: keyword,
-                mode: 'insensitive'
-              },
-              ...dateCondition
-            },
-            {
-              ticketStatus: ticketStatus,
-              creatorName: {
-                contains: keyword,
-                mode: 'insensitive'
-              },
-              ...dateCondition
-            }
-          ]
-        },
+            ...dateCondition,
+          },
         {
           OR: [
             {
