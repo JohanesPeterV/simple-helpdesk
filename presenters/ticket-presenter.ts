@@ -49,34 +49,11 @@ export default class TicketPresenter {
   }
 
   static async getAllTicketsLength(
-    status: string,
-    title: string,
-    content: string,
-    keyword: string,
-    creationStartDate: string,
-    creationEndDate: string,
-    doneStartDate: string,
-    doneEndDate: string
+    user: User,
+    filterParameter: FilterParameter
   ) {
-    const creationRangeDate: RangeDate = {
-      startDate: creationStartDate,
-      endDate: creationEndDate,
-    };
-    const doneRangeDate: RangeDate = {
-      startDate: doneStartDate,
-      endDate: doneEndDate,
-    };
-
-    const filter: FilterParameter = {
-      status: status,
-      title: title,
-      content: content,
-      keyword: keyword,
-      creationTimeRange: creationRangeDate,
-      doneTimeRange: doneRangeDate,
-    };
     const lengthTicketString = superjson.stringify(
-      await TicketRepository.getFilteredTicketLength(filter)
+      await TicketRepository.getFilteredTicketLength(user, filterParameter)
     );
     const lengthTicket = superjson.parse<Ticket[]>(lengthTicketString);
     return lengthTicket;
@@ -84,34 +61,12 @@ export default class TicketPresenter {
 
   static async getAllTickets(
     { user, limit, skip }: PaginateTicketFilteredByUserParams,
-    status: string,
-    title: string,
-    content: string,
-    keyword: string,
-    creationStartDate: string,
-    creationEndDate: string,
-    doneStartDate: string,
-    doneEndDate: string
+    filterParameter: FilterParameter
   ) {
-    const creationRangeDate: RangeDate = {
-      startDate: creationStartDate,
-      endDate: creationEndDate,
-    };
-    const doneRangeDate: RangeDate = {
-      startDate: doneStartDate,
-      endDate: doneEndDate,
-    };
     const paginate: PaginateTicketParameter = {
       page: 1,
       dataPerPage: limit!,
-      filterParameter: {
-        status: status,
-        title: title,
-        content: content,
-        keyword: keyword,
-        creationTimeRange: creationRangeDate,
-        doneTimeRange: doneRangeDate,
-      },
+      filterParameter: filterParameter,
     };
     const ticketsString = superjson.stringify(
       await TicketRepository.getFilteredTickets(user, paginate)

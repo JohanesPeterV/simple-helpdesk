@@ -11,10 +11,14 @@ import { Ticket } from '../../models/ticket/ticket';
 import ReactPaginate from 'react-paginate';
 import TicketService from '../../services/ticket-service';
 import { PaginateTicketParameter } from '../../models/parameters/paginate-ticket-parameter';
-import { FilterParameter, RangeDate } from '../../models/parameters/filter-parameter';
+import DefaultFilterParameter, {
+  FilterParameter,
+  RangeDate,
+} from '../../models/parameters/filter-parameter';
 import Input from '../../components/input';
 import Button from '../../components/button';
 import DisclosureCard from '../../components/disclosure-card';
+import Card from '../../components/card';
 
 interface AllTicketsProps {
   allTickets: Ticket[];
@@ -40,7 +44,6 @@ const ViewAllTickets: NextPage<AllTicketsProps> = (props) => {
   const [doneStartDateParam, setDoneStartDateParam] = useState('');
   const [doneEndDateParam, setDoneEndDateParam] = useState('');
 
-
   useEffect(() => {
     setPage(Math.ceil(countData! / dataPerPage));
   }, [countData]);
@@ -59,13 +62,13 @@ const ViewAllTickets: NextPage<AllTicketsProps> = (props) => {
 
     const creationRangeDate: RangeDate = {
       startDate: creationStartDateParam,
-      endDate: creationEndDateParam
-    }
+      endDate: creationEndDateParam,
+    };
 
     const doneRangeDate: RangeDate = {
       startDate: doneStartDateParam,
-      endDate: doneEndDateParam
-    }
+      endDate: doneEndDateParam,
+    };
 
     const filterParameter: FilterParameter = {
       status: statusParam,
@@ -73,7 +76,7 @@ const ViewAllTickets: NextPage<AllTicketsProps> = (props) => {
       content: contentParam,
       keyword: textFilter,
       creationTimeRange: creationRangeDate,
-      doneTimeRange: doneRangeDate
+      doneTimeRange: doneRangeDate,
     };
 
     const paginate: PaginateTicketParameter = {
@@ -87,53 +90,57 @@ const ViewAllTickets: NextPage<AllTicketsProps> = (props) => {
 
   function statusDropDownChange(data: any) {
     const status = data.target.value;
-    setStatusParam(status)
+    setStatusParam(status);
   }
 
-  function titleInputChange(data: any){
-    setTitleParam(data.target.value)
+  function titleInputChange(data: any) {
+    setTitleParam(data.target.value);
   }
 
-  function contentInputChange(data: any){
-    setContentParam(data.target.value)
+  function contentInputChange(data: any) {
+    setContentParam(data.target.value);
   }
 
-  function creationStartDateInputChange(data: any){
+  function creationStartDateInputChange(data: any) {
     const date = data.target.value;
-    const ISOdate = date === '' ? '' : new Date(date).toISOString().substring(0, 10);
+    const ISOdate =
+      date === '' ? '' : new Date(date).toISOString().substring(0, 10);
     setCreationStartDateParam(ISOdate);
   }
 
-  function creationEndDateInputChange(data: any){
+  function creationEndDateInputChange(data: any) {
     const date = data.target.value;
-    const ISOdate = date === '' ? '' : new Date(date).toISOString().substring(0, 10);
+    const ISOdate =
+      date === '' ? '' : new Date(date).toISOString().substring(0, 10);
     setCreationEndDateParam(ISOdate);
   }
 
-  function doneStartDateInputChange(data: any){
+  function doneStartDateInputChange(data: any) {
     const date = data.target.value;
-    const ISOdate = date === '' ? '' : new Date(date).toISOString().substring(0, 10);
+    const ISOdate =
+      date === '' ? '' : new Date(date).toISOString().substring(0, 10);
     setDoneStartDateParam(ISOdate);
   }
 
-  function doneEndDateInputChange(data: any){
+  function doneEndDateInputChange(data: any) {
     const date = data.target.value;
-    const ISOdate = date === '' ? '' : new Date(date).toISOString().substring(0, 10);
+    const ISOdate =
+      date === '' ? '' : new Date(date).toISOString().substring(0, 10);
     setDoneEndDateParam(ISOdate);
   }
 
   const onSubmit: FormEventHandler = async (e) => {
     e.preventDefault();
-    
+
     const creationRangeDate: RangeDate = {
       startDate: creationStartDateParam,
-      endDate: creationEndDateParam
-    }
+      endDate: creationEndDateParam,
+    };
 
     const doneRangeDate: RangeDate = {
       startDate: doneStartDateParam,
-      endDate: doneEndDateParam
-    }
+      endDate: doneEndDateParam,
+    };
 
     const filterParameter: FilterParameter = {
       status: statusParam,
@@ -141,20 +148,20 @@ const ViewAllTickets: NextPage<AllTicketsProps> = (props) => {
       content: contentParam,
       keyword: textFilter,
       creationTimeRange: creationRangeDate,
-      doneTimeRange: doneRangeDate
+      doneTimeRange: doneRangeDate,
     };
     const length = await TicketService.getAllTicketLength(filterParameter);
-    setCountData(length.data)
-    
-    console.log("length: " + length.data);
+    setCountData(length.data);
+
+    console.log('length: ' + length.data);
     const thePage = 1;
-    setCurrPage(thePage-1);
+    setCurrPage(thePage - 1);
     const paginate: PaginateTicketParameter = {
       page: thePage,
       dataPerPage: dataPerPage,
-      filterParameter: filterParameter
+      filterParameter: filterParameter,
     };
-    
+
     const paginateData = await TicketService.viewAllTicketPaginate(paginate);
 
     setOutput(paginateData.data);
@@ -164,42 +171,16 @@ const ViewAllTickets: NextPage<AllTicketsProps> = (props) => {
     <Container className="">
       {output ? (
         <div>
-          <ReactPaginate
-            pageCount={page}
-            previousLabel={'<<'}
-            nextLabel={'>>'}
-            breakLabel={'...'}
-            marginPagesDisplayed={3}
-            onPageChange={handlePageClick}
-            forcePage={currPage}
-            containerClassName={'flex justify-center mb-5'}
-            pageClassName={
-              'bg-white border-gray-300 text-gray-500 hover:bg-gray-50 relative inline-flex items-center px-3 py-1 border text-base font-medium'
-            }
-            pageLinkClassName={''}
-            nextClassName={
-              'bg-white border-gray-300 text-gray-500 hover:bg-gray-50 relative inline-flex items-center px-3 py-1 border text-base font-medium'
-            }
-            previousClassName={
-              'bg-white border-gray-300 text-gray-500 hover:bg-border-50 relative inline-flex items-center px-3 py-1 border text-base font-medium'
-            }
-            activeClassName={
-              'z-10 bg-gray-200 text-indigo-600 relative inline-flex items-center px-3 py-1 border text-base font-medium'
-            }
-          />
-
-          <div>
-
-          <form onSubmit={onSubmit}>
-
-            <DisclosureCard
+          <div className="space-y-4">
+            <form onSubmit={onSubmit}>
+              <DisclosureCard
                 defaultOpen={false}
                 className={'w-full h-min my-2.5 rounded'}
                 title="Filter"
-            >
-              <div className = 'mt-2'>
-                <p>Full Text Filter</p>
-                <Input
+              >
+                <div className="mt-2">
+                  <p>Full Text Filter</p>
+                  <Input
                     id="search-full-text"
                     name="search-full-text"
                     onChange={(e) => {
@@ -207,93 +188,101 @@ const ViewAllTickets: NextPage<AllTicketsProps> = (props) => {
                     }}
                     type="text"
                     className="border-2 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 border-gray-300 rounded-md hover:shadow-md focus:shadow-md focus:ring-0 focus:outline-none focus:border-slate-400 mr-2 w-full text-lg mt-2"
-                    placeholder='Search...'
+                    placeholder="Search..."
                     defaultValue={''}
                   />
-              </div>
-
-              <div className='mt-2'>
-                <p>Ticket Status</p>
-                <select
-                  className="border-2 border-gray-300 border-solid w-full max-w-sm px-2 py-2.5 rounded-md text-gray-500 my-1"
-                  name=""
-                  id=""
-                  value={statusParam}
-                  onChange={statusDropDownChange}
-                >
-                  <option value="ALL STATUS">ALL STATUS</option>
-                  <option value="CLOSED">CLOSED</option>
-                  <option value="PENDING">PENDING</option>
-                  <option value="ONGOING">ONGOING</option>
-
-                </select>
-              </div>
-              
-              <div className='flex'>
-                <div className='mt-2'>
-                  <p>Title</p>
-                  <Input
-                    onChange={titleInputChange}
-                    type="text"
-                    placeholder="Input your title here"
-                    className='border-2 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 border-gray-300 rounded-md hover:shadow-md focus:shadow-md focus:ring-0 focus:outline-none focus:border-slate-400 mr-2 text-lg mt-2'
-                  />
                 </div>
 
-                <div className='mt-2'>
-                  <p>Content</p>
-                  <Input
-                    onChange={contentInputChange}
-                    type="text"
-                    placeholder="Input your content here"
-                    className='border-2 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 border-gray-300 rounded-md hover:shadow-md focus:shadow-md focus:ring-0 focus:outline-none focus:border-slate-400 mr-2 text-lg mt-2'
-                  />
+                <div className="mt-2">
+                  <p>Ticket Status</p>
+                  <select
+                    className="border-2 border-gray-300 border-solid w-full max-w-sm px-2 py-2.5 rounded-md text-gray-500 my-1"
+                    name=""
+                    id=""
+                    value={statusParam}
+                    onChange={statusDropDownChange}
+                  >
+                    <option value="ALL STATUS">ALL STATUS</option>
+                    <option value="CLOSED">CLOSED</option>
+                    <option value="PENDING">PENDING</option>
+                    <option value="ONGOING">ONGOING</option>
+                  </select>
                 </div>
-              </div>
-              
 
-              <div className='mt-2'>
-                <p>Creation Time</p>
-                <Input
-                  onChange={creationStartDateInputChange}
-                  type="date"
-                />
-                <span> - </span>
-                <Input
-                  onChange={creationEndDateInputChange}
-                  type="date"
-                />
-              </div>
-              
-              <div className='mt-2'>
-                <p>Done Time</p>
-                <Input
-                  onChange={doneStartDateInputChange}
-                  type="date"
-                />
-                <span> - </span>
-                <Input
-                  onChange={doneEndDateInputChange}
-                  type="date"
-                />
-              </div>
-              
+                <div className="flex">
+                  <div className="mt-2">
+                    <p>Title</p>
+                    <Input
+                      onChange={titleInputChange}
+                      type="text"
+                      placeholder="Input your title here"
+                      className="border-2 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 border-gray-300 rounded-md hover:shadow-md focus:shadow-md focus:ring-0 focus:outline-none focus:border-slate-400 mr-2 text-lg mt-2"
+                    />
+                  </div>
 
-              <Button
+                  <div className="mt-2">
+                    <p>Content</p>
+                    <Input
+                      onChange={contentInputChange}
+                      type="text"
+                      placeholder="Input your content here"
+                      className="border-2 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 border-gray-300 rounded-md hover:shadow-md focus:shadow-md focus:ring-0 focus:outline-none focus:border-slate-400 mr-2 text-lg mt-2"
+                    />
+                  </div>
+                </div>
+
+                <div className="mt-2">
+                  <p>Creation Time</p>
+                  <Input onChange={creationStartDateInputChange} type="date" />
+                  <span> - </span>
+                  <Input onChange={creationEndDateInputChange} type="date" />
+                </div>
+
+                <div className="mt-2">
+                  <p>Done Time</p>
+                  <Input onChange={doneStartDateInputChange} type="date" />
+                  <span> - </span>
+                  <Input onChange={doneEndDateInputChange} type="date" />
+                </div>
+
+                <Button
                   type="submit"
-                  className={'hover:bg-sky-700 bg-sky-600 text-white w-20 mt-3'}>
+                  className={'hover:bg-sky-700 bg-sky-600 text-white w-20 mt-3'}
+                >
                   Filter
-              </Button>
-            </DisclosureCard>
-          </form>
-
-            <div className="flex flex-col md:flex-row md:space-x-8 space-y-8 justify-center">
+                </Button>
+              </DisclosureCard>
+            </form>
+            <Card className="flex flex-col md:space-x-8 space-y-8 justify-center">
               <TicketWithDetailsStack
                 title={'Ticket History'}
                 tickets={output}
                 className={'w-full'}
               />
-            </div>
+              <ReactPaginate
+                pageCount={page}
+                previousLabel={'<<'}
+                nextLabel={'>>'}
+                breakLabel={'...'}
+                marginPagesDisplayed={3}
+                onPageChange={handlePageClick}
+                forcePage={currPage}
+                containerClassName={'flex justify-center mb-5'}
+                pageClassName={
+                  'bg-white border-gray-300 text-gray-500 hover:bg-gray-50 relative inline-flex items-center px-3 py-1 border text-base font-medium'
+                }
+                pageLinkClassName={''}
+                nextClassName={
+                  'bg-white border-gray-300 text-gray-500 hover:bg-gray-50 relative inline-flex items-center px-3 py-1 border text-base font-medium'
+                }
+                previousClassName={
+                  'bg-white border-gray-300 text-gray-500 hover:bg-border-50 relative inline-flex items-center px-3 py-1 border text-base font-medium'
+                }
+                activeClassName={
+                  'z-10 bg-gray-200 text-indigo-600 relative inline-flex items-center px-3 py-1 border text-base font-medium'
+                }
+              />
+            </Card>
           </div>
         </div>
       ) : (
@@ -310,11 +299,17 @@ export const getServerSideProps = withIronSessionSsr(
     return {
       props: req.session.user
         ? {
-            allTickets: await TicketPresenter.getAllTickets({
-              user: req.session.user,
-              limit: 5,
-            }, 'ALL STATUS', '', '', '', '', '', '', ''),
-            allTicketsLength: await TicketPresenter.getAllTicketsLength('ALL STATUS', '', '', '', '', '', '', ''),
+            allTickets: await TicketPresenter.getAllTickets(
+              {
+                user: req.session.user,
+                limit: 5,
+              },
+              DefaultFilterParameter
+            ),
+            allTicketsLength: await TicketPresenter.getAllTicketsLength(
+              req.session.user,
+              DefaultFilterParameter
+            ),
           }
         : {},
     };
