@@ -46,7 +46,7 @@ const Navbar: FunctionComponent<HTMLAttributes<HTMLDivElement>> = () => {
                   </Popover.Button>
                 </div>
                 <div className="hidden px-16 z-10 md:flex-1 md:flex md:items-center md:justify-between">
-                  <nav className="flex space-x-10 ">
+                  <nav className="flex space-x-10 cursor-pointer">
                     {navigations.map((nav) => {
                       if (nav.child) {
                         const isCurrPath = nav.child.some((currNav) => {

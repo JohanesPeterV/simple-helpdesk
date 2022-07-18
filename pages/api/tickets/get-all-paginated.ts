@@ -5,7 +5,6 @@ import { ironSessionOptions } from '../../../lib/session';
 import TicketRepository from '../../../repositories/ticket-repository';
 import { PaginateTicketParameter } from '../../../models/parameters/paginate-ticket-parameter';
 
-
 export default withIronSessionApiRoute(
   handleGetAllTicketsPaginated,
   ironSessionOptions
@@ -17,7 +16,7 @@ async function handleGetAllTicketsPaginated(
 ) {
   const paginate: PaginateTicketParameter = await req.body;
   const user = req.session.user;
-  console.log(user);
+
   if (user) {
     const tickets = await getAllTickets(user, paginate);
     res.json(tickets);
@@ -26,5 +25,5 @@ async function handleGetAllTicketsPaginated(
 }
 
 async function getAllTickets(user: User, paginate: PaginateTicketParameter) {
-  return await TicketRepository.getAllTickets(user, paginate);
+  return await TicketRepository.getFilteredTickets(user, paginate);
 }

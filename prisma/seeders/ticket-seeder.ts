@@ -182,6 +182,38 @@ const ticketList: TicketSeed[] = [
       },
     ],
   },
+  {
+    ticketStatus: TicketStatus.PENDING,
+    solveDetail: 'Pending Ticket 1.',
+    creatorEmail: 'johanes.vincentius@binus.ac.id',
+    creatorName: 'Johanes Peter Vincentius',
+    doneAt: null,
+    ticketDetails: [
+      {
+        title: 'Pending Ticket 1',
+        content: 'Pending Ticket Dummy Data',
+        creatorName: 'rdt',
+        creatorEmail: 'rdt@gmail.com',
+        emailMessageId: null,
+      },
+    ],
+  },
+  {
+    ticketStatus: TicketStatus.CLOSED,
+    solveDetail: 'Closed Ticket 1.',
+    creatorEmail: 'johanes.vincentius@binus.ac.id',
+    creatorName: 'Johanes Peter Vincentius',
+    doneAt: null,
+    ticketDetails: [
+      {
+        title: 'Closed Ticket 1',
+        content: 'Pending Ticket Dummy Data',
+        creatorName: 'rdt',
+        creatorEmail: 'rdt@gmail.com',
+        emailMessageId: null,
+      },
+    ],
+  },
 ];
 
 async function insertHeader(ticket: TicketSeed) {
@@ -195,7 +227,7 @@ async function insertHeader(ticket: TicketSeed) {
       creatorEmail: ticket.creatorEmail,
       creatorName: ticket.creatorName,
       ticketStatus: ticket.ticketStatus,
-      doneAt: ticket.doneAt
+      doneAt: ticket.doneAt,
     },
   });
   return ticketHeader;

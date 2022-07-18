@@ -24,6 +24,7 @@ interface AllTicketsProps {
 const ViewAllTickets: NextPage<AllTicketsProps> = (props) => {
   const [allTickets, setAllTickets] = useState<Ticket[]>();
   const [input, setInput] = useState('');
+  const [textFilter, setTextFilter] = useState('');
   const [output, setOutput] = useState<Ticket[] | undefined>();
 
   const [countData, setCountData] = useState<number>();
@@ -32,9 +33,13 @@ const ViewAllTickets: NextPage<AllTicketsProps> = (props) => {
   const [currPage, setCurrPage] = useState(0);
 
   const [statusParam, setStatusParam] = useState('ALL STATUS');
-  const [titleContentParam, setTitleContentParam] = useState('');
+  const [titleParam, setTitleParam] = useState('');
+  const [contentParam, setContentParam] = useState('');
   const [creationStartDateParam, setCreationStartDateParam] = useState('');
   const [creationEndDateParam, setCreationEndDateParam] = useState('');
+  const [doneStartDateParam, setDoneStartDateParam] = useState('');
+  const [doneEndDateParam, setDoneEndDateParam] = useState('');
+
 
   useEffect(() => {
     setPage(Math.ceil(countData! / dataPerPage));
@@ -57,10 +62,18 @@ const ViewAllTickets: NextPage<AllTicketsProps> = (props) => {
       endDate: creationEndDateParam
     }
 
+    const doneRangeDate: RangeDate = {
+      startDate: doneStartDateParam,
+      endDate: doneEndDateParam
+    }
+
     const filterParameter: FilterParameter = {
       status: statusParam,
-      title: titleContentParam,
-      creationTimeRange: creationRangeDate
+      title: titleParam,
+      content: contentParam,
+      keyword: textFilter,
+      creationTimeRange: creationRangeDate,
+      doneTimeRange: doneRangeDate
     };
 
     const paginate: PaginateTicketParameter = {
@@ -78,7 +91,11 @@ const ViewAllTickets: NextPage<AllTicketsProps> = (props) => {
   }
 
   function titleInputChange(data: any){
-    setTitleContentParam(data.target.value)
+    setTitleParam(data.target.value)
+  }
+
+  function contentInputChange(data: any){
+    setContentParam(data.target.value)
   }
 
   function creationStartDateInputChange(data: any){
@@ -93,27 +110,43 @@ const ViewAllTickets: NextPage<AllTicketsProps> = (props) => {
     setCreationEndDateParam(ISOdate);
   }
 
+  function doneStartDateInputChange(data: any){
+    const date = data.target.value;
+    const ISOdate = date === '' ? '' : new Date(date).toISOString().substring(0, 10);
+    setDoneStartDateParam(ISOdate);
+  }
+
+  function doneEndDateInputChange(data: any){
+    const date = data.target.value;
+    const ISOdate = date === '' ? '' : new Date(date).toISOString().substring(0, 10);
+    setDoneEndDateParam(ISOdate);
+  }
+
   const onSubmit: FormEventHandler = async (e) => {
     e.preventDefault();
-    console.log("Status : " + statusParam)
-    console.log("Title / Content : " + titleContentParam)
-    console.log("Creation Start Date : " + creationStartDateParam)
-    console.log("Creation End Date : " + creationEndDateParam)
-
+    
     const creationRangeDate: RangeDate = {
       startDate: creationStartDateParam,
       endDate: creationEndDateParam
     }
 
+    const doneRangeDate: RangeDate = {
+      startDate: doneStartDateParam,
+      endDate: doneEndDateParam
+    }
+
     const filterParameter: FilterParameter = {
       status: statusParam,
-      title: titleContentParam,
-      creationTimeRange: creationRangeDate
+      title: titleParam,
+      content: contentParam,
+      keyword: textFilter,
+      creationTimeRange: creationRangeDate,
+      doneTimeRange: doneRangeDate
     };
-
     const length = await TicketService.getAllTicketLength(filterParameter);
     setCountData(length.data)
-
+    
+    console.log("length: " + length.data);
     const thePage = 1;
     setCurrPage(thePage-1);
     const paginate: PaginateTicketParameter = {
@@ -157,52 +190,102 @@ const ViewAllTickets: NextPage<AllTicketsProps> = (props) => {
 
           <div>
 
-          <DisclosureCard
-              defaultOpen={false}
-              className={'w-full h-min mb-2.5 rounded'}
-              title="Filter"
-          >
-            <form onSubmit={onSubmit}>
-            <select
-              className="border-2 border-gray-300 border-solid w-full max-w-sm px-2 py-2.5 rounded-md text-gray-500 my-3"
-              name=""
-              id=""
-              value={statusParam}
-              onChange={statusDropDownChange}
+          <form onSubmit={onSubmit}>
+
+            <DisclosureCard
+                defaultOpen={false}
+                className={'w-full h-min my-2.5 rounded'}
+                title="Filter"
             >
-              <option value="ALL STATUS">ALL STATUS</option>
-              <option value="CLOSED">CLOSED</option>
-              <option value="PENDING">PENDING</option>
-              <option value="ONGOING">ONGOING</option>
+              <div className = 'mt-2'>
+                <p>Full Text Filter</p>
+                <Input
+                    id="search-full-text"
+                    name="search-full-text"
+                    onChange={(e) => {
+                      setTextFilter(e.target.value);
+                    }}
+                    type="text"
+                    className="border-2 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 border-gray-300 rounded-md hover:shadow-md focus:shadow-md focus:ring-0 focus:outline-none focus:border-slate-400 mr-2 w-full text-lg mt-2"
+                    placeholder='Search...'
+                    defaultValue={''}
+                  />
+              </div>
 
-            </select>
+              <div className='mt-2'>
+                <p>Ticket Status</p>
+                <select
+                  className="border-2 border-gray-300 border-solid w-full max-w-sm px-2 py-2.5 rounded-md text-gray-500 my-1"
+                  name=""
+                  id=""
+                  value={statusParam}
+                  onChange={statusDropDownChange}
+                >
+                  <option value="ALL STATUS">ALL STATUS</option>
+                  <option value="CLOSED">CLOSED</option>
+                  <option value="PENDING">PENDING</option>
+                  <option value="ONGOING">ONGOING</option>
 
-            <Input
-              onChange={titleInputChange}
-              type="text"
-              placeholder="Title or Content"
-            />
+                </select>
+              </div>
+              
+              <div className='flex'>
+                <div className='mt-2'>
+                  <p>Title</p>
+                  <Input
+                    onChange={titleInputChange}
+                    type="text"
+                    placeholder="Input your title here"
+                    className='border-2 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 border-gray-300 rounded-md hover:shadow-md focus:shadow-md focus:ring-0 focus:outline-none focus:border-slate-400 mr-2 text-lg mt-2'
+                  />
+                </div>
 
-            <p>Creation Time</p>
-            <Input
-              onChange={creationStartDateInputChange}
-              type="date"
-            />
-            -
-            <Input
-              onChange={creationEndDateInputChange}
-              type="date"
-            />
+                <div className='mt-2'>
+                  <p>Content</p>
+                  <Input
+                    onChange={contentInputChange}
+                    type="text"
+                    placeholder="Input your content here"
+                    className='border-2 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 border-gray-300 rounded-md hover:shadow-md focus:shadow-md focus:ring-0 focus:outline-none focus:border-slate-400 mr-2 text-lg mt-2'
+                  />
+                </div>
+              </div>
+              
 
-            <Button
-                type="submit"
-                className={'hover:bg-sky-700 bg-sky-600 text-white'}>
-                Filter
-            </Button>
+              <div className='mt-2'>
+                <p>Creation Time</p>
+                <Input
+                  onChange={creationStartDateInputChange}
+                  type="date"
+                />
+                <span> - </span>
+                <Input
+                  onChange={creationEndDateInputChange}
+                  type="date"
+                />
+              </div>
+              
+              <div className='mt-2'>
+                <p>Done Time</p>
+                <Input
+                  onChange={doneStartDateInputChange}
+                  type="date"
+                />
+                <span> - </span>
+                <Input
+                  onChange={doneEndDateInputChange}
+                  type="date"
+                />
+              </div>
+              
+
+              <Button
+                  type="submit"
+                  className={'hover:bg-sky-700 bg-sky-600 text-white w-20 mt-3'}>
+                  Filter
+              </Button>
+            </DisclosureCard>
           </form>
-            
-          </DisclosureCard>
-            
 
             <div className="flex flex-col md:flex-row md:space-x-8 space-y-8 justify-center">
               <TicketWithDetailsStack
@@ -230,8 +313,8 @@ export const getServerSideProps = withIronSessionSsr(
             allTickets: await TicketPresenter.getAllTickets({
               user: req.session.user,
               limit: 5,
-            }, 'ALL STATUS', '', '', ''),
-            allTicketsLength: await TicketPresenter.getAllTicketsLength('ALL STATUS', '', '', ''),
+            }, 'ALL STATUS', '', '', '', '', '', '', ''),
+            allTicketsLength: await TicketPresenter.getAllTicketsLength('ALL STATUS', '', '', '', '', '', '', ''),
           }
         : {},
     };

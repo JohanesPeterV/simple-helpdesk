@@ -18,7 +18,7 @@ const ConfirmationButton: FunctionComponent<
   return (
     <>
       <Button
-        type="submit"
+        type="button"
         className={className}
         onClick={() => {
           setShowModal(true);

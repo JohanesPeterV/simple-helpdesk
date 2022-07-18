@@ -38,7 +38,6 @@ export default class TicketService {
       ticketId: ticket.id,
     });
   }
-
   static viewAllTicketPaginate(paginate: PaginateTicketParameter) {
     return axios.post('/api/' + SERVICE_NAME + '/get-all-paginated', paginate);
   }

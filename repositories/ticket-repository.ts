@@ -121,7 +121,6 @@ export default class TicketRepository {
       ...conditions,
       ...authCondition,
     };
-    //TODO: consider limiting the included details
     return await SCHEMA.findMany({
       where: queryCondition,
       include: {
@@ -140,95 +139,178 @@ export default class TicketRepository {
       ],
     });
   };
+  private static getLength = async (user: User, conditions: Object) => {
+    const authCondition =
+      user.role === 'admin' ? {} : { creatorEmail: user.email };
+    const queryCondition = {
+      ...conditions,
+      ...authCondition,
+    };
+    return await SCHEMA.count({
+      where: queryCondition,
+    });
+  };
+  static getFilteredCondition = (filterParameter: FilterParameter) => {
+    const status = filterParameter.status;
+    const title = filterParameter.title;
+    const content = filterParameter.content;
+    const keyword = filterParameter.keyword;
 
-  static getAllTickets = async (
-    user: User,
-    paginate: PaginateTicketParameter
-  ) => {
-    const limit = paginate.dataPerPage;
-    const skip = (paginate.page - 1) * paginate.dataPerPage;
-    const status = paginate.filterParameter.status;
-    const titleContent = paginate.filterParameter.title;
+    const creationEndDateString = filterParameter.creationTimeRange.endDate;
+    const creationStartDateString = filterParameter.creationTimeRange.startDate;
 
-    const creationEndDateString =
-      paginate.filterParameter.creationTimeRange.endDate;
-    const creationStartDateString =
-      paginate.filterParameter.creationTimeRange.startDate;
+    const doneEndDateString = filterParameter.doneTimeRange.endDate;
+    const doneStartDateString = filterParameter.doneTimeRange.startDate;
 
     let creationStartDate = new Date(creationStartDateString);
     let creationEndDate = new Date(creationEndDateString);
 
+    let doneStartDate = new Date(doneStartDateString);
+    let doneEndDate = new Date(doneEndDateString);
+
     creationEndDate.setDate(creationEndDate.getDate() + 1);
+    doneEndDate.setDate(doneEndDate.getDate() + 1);
+
+    const ticketStatus =
+      status === 'ALL STATUS'
+        ? {}
+        : status === 'CLOSED'
+        ? TicketStatus.CLOSED
+        : status === 'ONGOING'
+        ? TicketStatus.ONGOING
+        : TicketStatus.PENDING;
+    const dateCondition = {
+      createdAt: {
+        lte: creationEndDateString === '' ? new Date() : creationEndDate,
+        gte:
+          creationStartDateString === ''
+            ? new Date('1970-01-01')
+            : creationStartDate,
+      },
+      doneAt: {
+        lte: doneEndDateString === '' ? undefined : doneEndDate,
+        gte: doneStartDateString === '' ? undefined : doneStartDate,
+      },
+    };
+    const condition = {
+      ticketStatus: ticketStatus,
+      OR: [
+        {
+          ticketDetails: {
+            some: {
+              title: {
+                contains: title,
+                mode: 'insensitive',
+              },
+              content: {
+                contains: content,
+                mode: 'insensitive',
+              },
+            },
+          },
+        },
+        {
+          OR: [
+            {
+              ticketDetails: {
+                some: {
+                  title: {
+                    contains: keyword,
+                    mode: 'insensitive',
+                  },
+                },
+              },
+            },
+            {
+              ticketStatus: ticketStatus,
+              ticketDetails: {
+                some: {
+                  content: {
+                    contains: keyword,
+                    mode: 'insensitive',
+                  },
+                },
+              },
+            },
+            {
+              ticketStatus: ticketStatus,
+              ticketDetails: {
+                some: {
+                  creatorEmail: {
+                    contains: keyword,
+                    mode: 'insensitive',
+                  },
+                },
+              },
+            },
+            {
+              ticketStatus: ticketStatus,
+              ticketDetails: {
+                some: {
+                  creatorName: {
+                    contains: keyword,
+                    mode: 'insensitive',
+                  },
+                },
+              },
+            },
+            {
+              ticketStatus: ticketStatus,
+              creatorEmail: {
+                contains: keyword,
+                mode: 'insensitive',
+              },
+            },
+            {
+              ticketStatus: ticketStatus,
+              creatorName: {
+                contains: keyword,
+                mode: 'insensitive',
+              },
+            },
+          ],
+        },
+      ],
+      ...dateCondition,
+    };
+    return condition;
+  };
+
+  static getFilteredTickets = async (
+    user: User,
+    paginateTicketParameter: PaginateTicketParameter
+  ) => {
+    const limit = paginateTicketParameter.dataPerPage;
+    const skip =
+      (paginateTicketParameter.page - 1) * paginateTicketParameter.dataPerPage;
 
     return TicketRepository.getAllWithDetails(
       user,
-      {
-        OR: [
-          {
-            ticketStatus:
-              status === 'ALL STATUS'
-                ? {}
-                : status === 'CLOSED'
-                ? TicketStatus.CLOSED
-                : status === 'ONGOING'
-                ? TicketStatus.ONGOING
-                : TicketStatus.PENDING,
-            ticketDetails: {
-              some: {
-                title: {
-                  contains: titleContent,
-                  mode: 'insensitive',
-                },
-              },
-            },
-            createdAt: {
-              lte: creationEndDateString === '' ? new Date() : creationEndDate,
-              gte:
-                creationStartDateString === ''
-                  ? new Date('1970-01-01')
-                  : creationStartDate,
-            },
-          },
-          {
-            ticketStatus:
-              status === 'ALL STATUS'
-                ? {}
-                : status === 'CLOSED'
-                ? TicketStatus.CLOSED
-                : status === 'ONGOING'
-                ? TicketStatus.ONGOING
-                : TicketStatus.PENDING,
-            ticketDetails: {
-              some: {
-                content: {
-                  contains: titleContent,
-                  mode: 'insensitive',
-                },
-              },
-            },
-            createdAt: {
-              lte: creationEndDateString === '' ? new Date() : creationEndDate,
-              gte:
-                creationStartDateString === ''
-                  ? new Date('1970-01-01')
-                  : creationStartDate,
-            },
-          },
-        ],
-      },
+      TicketRepository.getFilteredCondition(
+        paginateTicketParameter.filterParameter
+      ),
       limit,
       skip
     );
   };
+
   static getPending = async (user: User, limit?: number) =>
-    TicketRepository.getAllWithOneDetail(user, {
-      ticketStatus: TicketStatus.PENDING,
-    });
+    TicketRepository.getAllWithOneDetail(
+      user,
+      {
+        ticketStatus: TicketStatus.PENDING,
+      },
+      limit
+    );
 
   static getOnGoing = async (user: User, limit?: number) =>
-    TicketRepository.getAllWithOneDetail(user, {
-      ticketStatus: TicketStatus.ONGOING,
-    });
+    TicketRepository.getAllWithOneDetail(
+      user,
+      {
+        ticketStatus: TicketStatus.ONGOING,
+      },
+      limit
+    );
 
   static getClosed = async (
     user: User,
@@ -263,75 +345,13 @@ export default class TicketRepository {
     });
   };
 
-  static getAllTicketLength = async function (
+  static getFilteredTicketLength = async function (
+    user: User,
     filterParameter: FilterParameter
   ) {
-    const status = filterParameter.status;
-    const titleContent = filterParameter.title;
-
-    const creationEndDateString = filterParameter.creationTimeRange.endDate;
-    const creationStartDateString = filterParameter.creationTimeRange.startDate;
-
-    let creationStartDate = new Date(creationStartDateString);
-    let creationEndDate = new Date(creationEndDateString);
-
-    creationEndDate.setDate(creationEndDate.getDate() + 1);
-
-    return SCHEMA.count({
-      where: {
-        OR: [
-          {
-            ticketStatus:
-              status === 'ALL STATUS'
-                ? {}
-                : status === 'CLOSED'
-                ? TicketStatus.CLOSED
-                : status === 'ONGOING'
-                ? TicketStatus.ONGOING
-                : TicketStatus.PENDING,
-            ticketDetails: {
-              some: {
-                title: {
-                  contains: titleContent,
-                  mode: 'insensitive',
-                },
-              },
-            },
-            createdAt: {
-              lte: creationEndDateString === '' ? new Date() : creationEndDate,
-              gte:
-                creationStartDateString === ''
-                  ? new Date('1970-01-01')
-                  : creationStartDate,
-            },
-          },
-          {
-            ticketStatus:
-              status === 'ALL STATUS'
-                ? {}
-                : status === 'CLOSED'
-                ? TicketStatus.CLOSED
-                : status === 'ONGOING'
-                ? TicketStatus.ONGOING
-                : TicketStatus.PENDING,
-            ticketDetails: {
-              some: {
-                content: {
-                  contains: titleContent,
-                  mode: 'insensitive',
-                },
-              },
-            },
-            createdAt: {
-              lte: creationEndDateString === '' ? new Date() : creationEndDate,
-              gte:
-                creationStartDateString === ''
-                  ? new Date('1970-01-01')
-                  : creationStartDate,
-            },
-          },
-        ],
-      },
-    });
+    return TicketRepository.getLength(
+      user,
+      TicketRepository.getFilteredCondition(filterParameter)
+    );
   };
 }
