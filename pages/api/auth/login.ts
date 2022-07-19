@@ -1,6 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
 import User from '../../../models/auth/user';
-import { Admin, PrismaClient } from '@prisma/client';
+import { Admin } from '@prisma/client';
 import { withIronSessionApiRoute } from 'iron-session/next';
 import { ironSessionOptions } from '../../../lib/session';
 import axios from 'axios';

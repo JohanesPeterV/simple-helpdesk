@@ -22,7 +22,7 @@ const Input: FunctionComponent<
     'font-medium',
   ].join(' ');
 
-  const { children, className, type, value, ...rest } = props;
+  const { children, className, type, value } = props;
 
   switch (type) {
     case 'select':

@@ -192,7 +192,7 @@ export default class TicketRepository {
         gte: doneStartDateString === '' ? undefined : doneStartDate,
       },
     };
-    const condition = {
+    return {
       ticketStatus: ticketStatus,
       OR: [
         {
@@ -273,7 +273,6 @@ export default class TicketRepository {
       ],
       ...dateCondition,
     };
-    return condition;
   };
 
   static getFilteredTickets = async (

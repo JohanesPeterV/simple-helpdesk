@@ -1,8 +1,8 @@
-import { FunctionComponent, HTMLAttributes, ReactNode } from 'react';
+import { FunctionComponent, HTMLAttributes } from 'react';
 
 const ConditionComponent: FunctionComponent<
   HTMLAttributes<HTMLDivElement> & { condition: boolean }
-> = ({ condition, children, ...rest }) => {
+> = ({ condition, children }) => {
   if (condition) {
     return <div>{children}</div>;
   }

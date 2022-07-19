@@ -1,6 +1,4 @@
-import { truncate } from 'fs';
 import { withIronSessionSsr } from 'iron-session/next';
-import { useRouter } from 'next/router';
 import { NextPage } from 'next';
 import { FormEventHandler, useEffect, useState } from 'react';
 import Container from '../../components/container';
@@ -26,8 +24,6 @@ interface AllTicketsProps {
 }
 
 const ViewAllTickets: NextPage<AllTicketsProps> = (props) => {
-  const [allTickets, setAllTickets] = useState<Ticket[]>();
-  const [input, setInput] = useState('');
   const [textFilter, setTextFilter] = useState('');
   const [output, setOutput] = useState<Ticket[] | undefined>();
 
@@ -49,12 +45,9 @@ const ViewAllTickets: NextPage<AllTicketsProps> = (props) => {
   }, [countData]);
 
   useEffect(() => {
-    setAllTickets(props.allTickets);
     setOutput(props.allTickets);
     setCountData(props.allTicketsLength);
-
-    console.log(props.allTickets);
-  }, [allTickets]);
+  }, [props.allTickets, props.allTicketsLength]);
 
   async function handlePageClick(data: any) {
     const currPage = data.selected + 1;
@@ -153,7 +146,6 @@ const ViewAllTickets: NextPage<AllTicketsProps> = (props) => {
     const length = await TicketService.getAllTicketLength(filterParameter);
     setCountData(length.data);
 
-    console.log('length: ' + length.data);
     const thePage = 1;
     setCurrPage(thePage - 1);
     const paginate: PaginateTicketParameter = {

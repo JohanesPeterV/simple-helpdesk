@@ -28,10 +28,10 @@ const Header: FunctionComponent<HTMLAttributes<HTMLDivElement>> = () => {
           className="flex w-36 md:w-48 space-x-2"
         >
           <div className="w-1/5">
-            <Image src={ribbonPicture} />
+            <Image alt="Ribbon" src={ribbonPicture} />
           </div>
           <div className="w-11/12">
-            <Image src={binusPicture} />
+            <Image alt="Binus Logo" src={binusPicture} />
           </div>
         </button>
         <div className="flex font-semibold text-lg md:text-2xl text-gray-500">

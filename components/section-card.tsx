@@ -1,7 +1,4 @@
-import { FunctionComponent, HTMLAttributes, ReactElement } from 'react';
-import { Disclosure, Transition } from '@headlessui/react';
-import { Else, If, Then } from 'react-if';
-import { ChevronDownIcon, ChevronRightIcon } from '@heroicons/react/solid';
+import { FunctionComponent, HTMLAttributes } from 'react';
 import Card from './card';
 
 type SectionCardProp = {

@@ -7,7 +7,6 @@ import { TicketGrouping } from '../models/ticket/ticket-grouping';
 import TicketPresenter from '../presenters/ticket-presenter';
 import TicketStack from '../components/ticket/ticket-stack';
 import DisclosureCard from '../components/disclosure-card';
-import SectionCard from '../components/section-card';
 
 interface TicketGroupingProp {
   ticketGrouping: TicketGrouping;
@@ -18,35 +17,12 @@ const Home: NextPage<TicketGroupingProp> = (props) => {
 
   useEffect(() => {
     setTicketGrouping(props.ticketGrouping);
-  }, []);
+  }, [props.ticketGrouping]);
 
   return (
     <Container>
       {ticketGrouping ? (
         <div className="flex flex-col space-y-8  justify-start">
-          {/*<DisclosureCard*/}
-          {/*  title={'Ongoing Tickets'}*/}
-          {/*  titleClassName=""*/}
-          {/*  defaultOpen={true}*/}
-          {/*  className="h-fit "*/}
-          {/*>*/}
-          {/*  <TicketStack*/}
-          {/*    title="Ongoing Tickets"*/}
-          {/*    tickets={ticketGrouping.ongoingTickets}*/}
-          {/*  />*/}
-          {/*</DisclosureCard>*/}
-          {/*<DisclosureCard*/}
-          {/*  title={'Pending Tickets'}*/}
-          {/*  titleClassName=""*/}
-          {/*  defaultOpen={true}*/}
-          {/*  className="h-fit "*/}
-          {/*>*/}
-          {/*  <TicketStack*/}
-          {/*    title="Pending Tickets"*/}
-          {/*    tickets={ticketGrouping.pendingTickets}*/}
-          {/*  />*/}
-          {/*</DisclosureCard>*/}
-
           <div className="flex flex-col lg:flex-row w-full justify-start space-y-4 lg:space-y-0 lg:space-x-4">
             <DisclosureCard
               defaultOpen={true}

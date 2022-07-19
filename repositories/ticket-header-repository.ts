@@ -42,19 +42,4 @@ export default class TicketHeaderRepository {
       },
     });
   };
-
-  private static getAll = async (user: User, conditions: Object) => {
-    return user.role === 'Admin'
-      ? await SCHEMA.findMany({
-          where: conditions,
-        })
-      : await SCHEMA.findMany({
-          where: {
-            ...{
-              creatorEmail: user.email,
-            },
-            ...conditions,
-          },
-        });
-  };
 }

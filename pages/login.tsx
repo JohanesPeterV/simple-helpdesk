@@ -38,10 +38,10 @@ const Login: NextPage = ({}) => {
           <div className="flex items-start justify-start pl-2">
             <div className="w-9/12 flex flex-row space-x-3 space-y-2.5">
               <div className="w-1/5">
-                <Image src={ribbonPicture} />
+                <Image alt="Ribbon" src={ribbonPicture} />
               </div>
               <div className="w-11/12">
-                <Image src={binusPicture} />
+                <Image alt="Binus Logo" src={binusPicture} />
               </div>
             </div>
           </div>

@@ -4,11 +4,7 @@ import superjson from 'superjson';
 import { Ticket } from '../models/ticket/ticket';
 import { PaginateTicketFilteredByUserParams } from '../models/parameters/paginate-ticket-filtered-by-user-params';
 import { PaginateTicketParameter } from '../models/parameters/paginate-ticket-parameter';
-import {
-  FilterParameter,
-  RangeDate,
-} from '../models/parameters/filter-parameter';
-import { createKeywordTypeNode } from 'typescript';
+import { FilterParameter } from '../models/parameters/filter-parameter';
 
 export default class TicketPresenter {
   static async get(user: User, id: string) {

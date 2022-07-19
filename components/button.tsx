@@ -8,8 +8,6 @@ import {
 const Button: FunctionComponent<
   ButtonHTMLAttributes<HTMLButtonElement> & Props
 > = ({ children, className, disabled, iconType, onClick, ...rest }) => {
-  let Icon: ComponentType<ComponentProps<'svg'>> = () => <></>;
-
   return (
     <button
       {...rest}

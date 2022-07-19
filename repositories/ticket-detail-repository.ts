@@ -27,11 +27,4 @@ export default class TicketDetailRepository {
       },
     });
   };
-  static getByHeader = (ticketHeaderId: string) => {
-    return SCHEMA.findFirst({
-      where: {
-        ticketHeaderId: ticketHeaderId,
-      },
-    });
-  };
 }

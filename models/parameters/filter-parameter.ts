@@ -7,7 +7,7 @@ export type FilterParameter = {
   doneTimeRange: RangeDate;
 };
 const DefaultFilterParameter: FilterParameter = {
-  status: 'All Status',
+  status: 'ALL STATUS',
   title: '',
   content: '',
   keyword: '',

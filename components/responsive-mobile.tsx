@@ -1,12 +1,4 @@
-import {
-  Fragment,
-  FunctionComponent,
-  HTMLAttributes,
-  ReactElement,
-} from 'react';
-import { Admin } from '@prisma/client';
-import { Ticket } from '../models/ticket/ticket';
-
+import { FunctionComponent, ReactElement } from 'react';
 interface ResponsiveMobileProps {
   desktopChild: ReactElement;
   mobileChild: ReactElement;

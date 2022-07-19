@@ -19,7 +19,7 @@ const TicketCard: FunctionComponent<
       >
         <div className="min-w-0 flex flex-col py-4 px-6">
           <div className="pb-1">
-            <p className="flex items-center text-md font-semibold h-8">
+            <div className="flex items-center text-md font-semibold h-8">
               {ticket.ticketStatus}
               {ticket.admin ? (
                 <div className="flex items-center text-sm w-min bg-sky-600 text-white ml-2 px-2 py-1 rounded-md">
@@ -28,7 +28,7 @@ const TicketCard: FunctionComponent<
               ) : (
                 <></>
               )}
-            </p>
+            </div>
 
             <p className="text-lg font-thin">{ticket.ticketDetails[0].title}</p>
           </div>
@@ -38,29 +38,29 @@ const TicketCard: FunctionComponent<
                 {ticket.creatorEmail}
                 {', '}
                 <span>
-                {typeof ticket.createdAt === 'string'
-                  ? new Date(ticket.createdAt).toLocaleString('en-GB', {
-                      year: 'numeric',
-                      month: 'long',
-                      day: 'numeric',
-                    })
-                  : ticket.createdAt.toLocaleString('en-GB', {
-                      year: 'numeric',
-                      month: 'long',
-                      day: 'numeric',
-                    })}
-                <span> - </span>
-                {typeof ticket.doneAt === 'string'
-                  ? new Date(ticket.doneAt).toLocaleString('en-GB', {
-                      year: 'numeric',
-                      month: 'long',
-                      day: 'numeric',
-                    })
-                  : ticket.doneAt?.toLocaleString('en-GB', {
-                      year: 'numeric',
-                      month: 'long',
-                      day: 'numeric',
-                    })?? ' Not done yet'}
+                  {typeof ticket.createdAt === 'string'
+                    ? new Date(ticket.createdAt).toLocaleString('en-GB', {
+                        year: 'numeric',
+                        month: 'long',
+                        day: 'numeric',
+                      })
+                    : ticket.createdAt.toLocaleString('en-GB', {
+                        year: 'numeric',
+                        month: 'long',
+                        day: 'numeric',
+                      })}
+                  <span> - </span>
+                  {typeof ticket.doneAt === 'string'
+                    ? new Date(ticket.doneAt).toLocaleString('en-GB', {
+                        year: 'numeric',
+                        month: 'long',
+                        day: 'numeric',
+                      })
+                    : ticket.doneAt?.toLocaleString('en-GB', {
+                        year: 'numeric',
+                        month: 'long',
+                        day: 'numeric',
+                      }) ?? ' Not done yet'}
                 </span>
               </span>
             </div>

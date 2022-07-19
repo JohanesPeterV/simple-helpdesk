@@ -1,5 +1,4 @@
 import { NextApiRequest, NextApiResponse } from 'next';
-import { CreateTicketDTO } from '../../models/dto/create-ticket-dto';
 
 export default function requireAdmin(handle: Function) {
   return async (req: NextApiRequest, res: NextApiResponse): Promise<void> => {

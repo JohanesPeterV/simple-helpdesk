@@ -36,13 +36,16 @@ const History: NextPage<HistoryProps> = (props) => {
   }, [countData]);
 
   useEffect(() => {
-    
     setAdmins(props.admins);
     setClosedTickets(props.closedTickets);
     setOutput(closedTickets);
-
     setCountData(props.closedTicketsLength);
-  }, [closedTickets]);
+  }, [
+    props.admins,
+    props.closedTickets,
+    closedTickets,
+    props.closedTicketsLength,
+  ]);
 
   async function handlePageClick(data: any) {
     const currPage = data.selected + 1;
@@ -68,7 +71,7 @@ const History: NextPage<HistoryProps> = (props) => {
     setCountData(length.data);
 
     const currPage = 1;
-    setCurrPage(currPage-1);
+    setCurrPage(currPage - 1);
     const paginate: PaginateClosedTicketParameter = {
       page: currPage,
       dataPerPage: dataPerPage,
