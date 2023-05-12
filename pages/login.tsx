@@ -8,7 +8,7 @@ import { FormEventHandler, useState } from 'react';
 import Router from 'next/router';
 import AuthService from '../services/auth-service';
 import { toast } from 'react-hot-toast';
-import binusPicture from '../public/images/binus.png';
+import binusPicture from '../public/images/simple_helpdesk.png';
 import ribbonPicture from '../public/images/ribbon.png';
 import LoginParticleBackground from '../components/login-particle-background';
 const Login: NextPage = ({}) => {
@@ -35,14 +35,9 @@ const Login: NextPage = ({}) => {
       </div>
       <Card className="w-80 pt-0 z-20 backdrop-blur-sm border-none shadow-md shadow hover:shadow-xl">
         <form onSubmit={onSubmit} className="grid grid-cols-1 gap-4">
-          <div className="flex items-start justify-start pl-2">
-            <div className="w-9/12 flex flex-row space-x-3 space-y-2.5">
-              <div className="w-1/5">
-                <Image alt="Ribbon" src={ribbonPicture} />
-              </div>
-              <div className="w-11/12">
+          <div className="flex items-center justify-center pt-2">
+            <div className="  flex flex-row justify-center items-center w-11/12">
                 <Image alt="Binus Logo" src={binusPicture} />
-              </div>
             </div>
           </div>
           <Input
@@ -67,12 +62,10 @@ const Login: NextPage = ({}) => {
       </Card>
       <footer className="z-50 group sm:text-lg text-xs fixed inset-x-0 bottom-3 text-center text-white">
         <p className="block group-hover:hidden">
-          Copyright &copy; 2022 - Research and Development - SLC - Binus
-          University
+          Copyright &copy; 2022 - SLC - Binus University
         </p>
         <p className="hidden group-hover:block">
-          Copyright &copy; 2022 - <b>JP20-2 GA20-2 VN20-2</b> - SLC - Binus
-          University
+          Copyright &copy; 2022 - Gabriella, Johanes, Vincent - SLC - Binus University
         </p>
       </footer>
     </Container>

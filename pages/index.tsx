@@ -65,7 +65,7 @@ export const getServerSideProps = withIronSessionSsr(
                 req.session.user,
                 10
               ),
-          }
+        }
         : {},
     };
   },

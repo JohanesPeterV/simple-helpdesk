@@ -6,6 +6,7 @@ import Header from './web-structure/header';
 const AuthLayout: FunctionComponent<HTMLAttributes<HTMLDivElement>> = ({
   children,
 }) => (
+  
   <BaseLayout>
     <Header />
     <Navbar />

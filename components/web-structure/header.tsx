@@ -1,9 +1,7 @@
 import { FunctionComponent, HTMLAttributes, useEffect, useState } from 'react';
 import Image from 'next/image';
 import ribbonPicture from '../../public/images/ribbon.png';
-import binusPicture from '../../public/images/binus.png';
-import { NextPage } from 'next';
-import { UserProp } from '../../models/props/user-prop';
+import binusPicture from '../../public/images/simple_helpdesk.png';
 import AuthService from '../../services/auth-service';
 import User from '../../models/auth/user';
 import Router from 'next/router';
@@ -27,10 +25,7 @@ const Header: FunctionComponent<HTMLAttributes<HTMLDivElement>> = () => {
           }}
           className="flex w-36 md:w-48 space-x-2"
         >
-          <div className="w-1/5">
-            <Image alt="Ribbon" src={ribbonPicture} />
-          </div>
-          <div className="w-11/12">
+          <div className="w-96">
             <Image alt="Binus Logo" src={binusPicture} />
           </div>
         </button>
